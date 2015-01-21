@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de" >
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"/>
+	<meta name="HandheldFriendly" content="true"/>
+        <title>Erw&auml;hnenswert</title>
+	<link rel="stylesheet" href="/css/201407230018.min.css"/>
+	<link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+    </head>
+    <body>
+	
+	<div class="row" id="header">
+		<h2 class="title"><a href="/">Erw&auml;hnenswert</a></h2>
+	</div>
+
+	<div class="site">
+		<div class="row">
+			<div class="col-md-8 content">
+				
+					
+					<article>
+						<time datetime="2013-02-16T20:32:51Z" pubdate class="date">16 Feb 2013</time>
+					  <header>
+						<h1><a href="/clean/code/java/sonar/2013/02/16/Clean-Code-Regel-f%C3%BCr-Sonar.html">Clean Code Regel für Sonar</a></h1>
+					  </header>
+					
+					
+					  <div>
+					    
+						<div>
+						Diese Woche habe ich das <b>'Clean Code: A Handbook of Agile Software Craftsmanship'</b> noch einmal gelesen. Nach einem weiteren Jahr Praxis, sieht man viele Sachen schon wieder erstaunlich anders. <br />Ich mußte dann doch gleich auf der Sonar-Mailingliste nachfragen, ob es schon eine Regel für 'G15 Selector Arguments' gibt. Gibt es wohl nicht.<br /><br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://3.bp.blogspot.com/-wU8VGcbGxLo/UR_TACPHHoI/AAAAAAAACbs/aKJBnuwJQKI/s1600/SelectorArgumentsRule.png" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="158" src="http://3.bp.blogspot.com/-wU8VGcbGxLo/UR_TACPHHoI/AAAAAAAACbs/aKJBnuwJQKI/s200/SelectorArgumentsRule.png" width="200" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Kleine Vorschau</td></tr></tbody></table>Hier nun mein Beitrag dazu: <a href="https://github.com/lkwg82/sonar-java/commit/9dcb5e1864d9deb6ce77c4f5e9c32e856b5a5505">commit</a>. Bin mal gespannt, ob und wenn in welcher Form die Regel aufgenommen wird.
+						</div>
+					    
+					  </div>					  
+					</article>
+					
+					<article>
+						<time datetime="2013-02-11T15:38:00Z" pubdate class="date">11 Feb 2013</time>
+					  <header>
+						<h1><a href="/linux/server/2013/02/11/Datenschutz-auf-dem-Blocklevel-bei-Rootservern.html">Datenschutz auf dem Blocklevel bei Rootservern</a></h1>
+					  </header>
+					
+					
+					  <div>
+					    
+						<div>
+						Ich habe vor kurzem meinen Server umgezogen, wie in <a href="http://blog.lgohlke.de/2013/01/serverborse-bei-hetzner.html">Serverbörse bei Hetzner</a> angekündigt. Dabei ging es mir vorallem um mehr Speicherplatz. Die Kapazität ohne monatliche Mehrkosten konnte ich von 750GB auf 3TB erhöhen.</p> So ein Umzug ist auch immer ein Neuanfang. Ja, so pathetisch wie es klingt, so denkt man auch ... ganz kurz. Ich habe mir vorgenommen einige Sachen besser zu machen.<p/> Bei meinem letzten Umzug waren die großen Veränderungen, dass ich die einzelnen Dienste in autonome virtuelle Maschine portiert. Diese VMs laufen nun in einem virtuellen Netz auf dem Server, mittels Virtualbox. Läuft alles wunderbar und man kann schnell mal experimentieren und neue VMs dazupacken.<p/> Bei <i>diesem</i> Umzug war mir Datensicherheit sehr wichtig. Zeitgleich ist mir zuhause eine 2TB Platte peu-à-peu kaputt gegangen. Beim Dumpen der Daten ist mir dann wieder bewußt geworden, dass auch lokal bei 100MB/s immer noch knappe 6h zum Kopieren notwendig sind. Ich versuche meine kaputten Platten vor dem Verschrotten meistens noch einige Runden zu shreddern.<br/>Bei meinem neuen Rootserver habe ich mir überlegt mit einer Basisverschlüsselung, kann ich mir das Shreddern sparen. Dank AES und schnellen Prozessoren ist der Leistungsabfall recht gering und verschmerzbar.<p/> <strong>Ziel: Absicherung bei Server-/Festplattentausch</strong> <h3>Vorgehensweise:</h3> Aufbauend auf diesen Anleitungen <a href="http://www.andreas-janssen.de/cryptodisk.html">Festplattenverschlüsselung mit Debian GNU/Linux</a> und <a href="https://systemausfall.org/wikis/howto/CryptoPartitionHowTo">CryptoPartitionHowTo</a> habe ich <tt>cryptsetup</tt> eingesetzt.   Die Formatierung, wie in den Anleitungen angegeben (mit luks) und dann ...<p/> <tt>/etc/crypttab</tt><pre class="brush:bash;gutter: false;"><br />...<br />crypted-md2     /dev/md2        /etc/disk.key   luks<br />...<br /></pre> <tt>lvm config</tt><pre class="brush:bash;gutter: false;"><br /># lvs<br />  LV         VG          Attr     LSize   Pool Origin Data%  Move Log Copy%  Convert<br />  vm         raid1       -wi-ao-- 400.00g<br />...<br /></pre>  <tt>/etc/fstab</tt><pre class="brush:bash;gutter: false;"><br />...<br />/dev/raid1/vm                   /vm             ext4 defaults 0 0<br />...<br /></pre> <h3>kleines Benchmark</h3> Zuerst von der &quot;rohen&quot; Festplatte, dann vom verschlüsselten Gerät. Der Arbeitspeicher hat die Größe von 12GB, daher nehme ich zum Test mehr, dass mir kein Caching dazwischen kommt.  <pre class="brush:bash;gutter: false;"><br />root@wirt2:~# hdparm -t /dev/sda<br /><br />/dev/sda:<br /> Timing buffered disk reads: 356 MB in  3.00 seconds = 118.53 MB/sec<br /></pre> von der Festplatte <tt>/dev/sda</tt><pre class="brush:bash; gutter:false;"><br />root@wirt2:/vm# time dd if=/dev/sda bs=1M count=10k  > /dev/null<br />10240+0 records in<br />10240+0 records out<br />10737418240 bytes (11 GB) copied, 82.7227 s, 130 MB/s<br /><br />real 1m22.725s<br />user 0m0.404s<br />sys 0m22.109s<br /></pre>  aus der Datei <tt>/vm/x</tt><pre class="brush:bash; gutter:false;"><br />root@wirt2:/vm# time dd if=x bs=1M count=10k > /dev/null<br />10240+0 records in<br />10240+0 records out<br />10737418240 bytes (11 GB) copied, 80.9839 s, 133 MB/s<br /><br />real 1m20.986s<br />user 0m0.248s<br />sys 0m16.261s<br /></pre> Aufgrund der Zahlen läßt sich abschätzen, dass die Grundverschlüsselung bei heutigen Prozessoren durchaus tragbar ist, sofern die Last niedrig bis mittel ist. Mit <a href="http://datacenteroverlords.com/2011/09/07/aes-ni-pimp-your-aes/">AES-NI</a> sollte es dann weiter im Grundrauschen versinken. (Auf diesem Server ist ein i7 CPU 975 @ 3.33GHz.)
+						</div>
+					    
+					  </div>					  
+					</article>
+					
+					<article>
+						<time datetime="2013-02-10T23:05:00Z" pubdate class="date">10 Feb 2013</time>
+					  <header>
+						<h1><a href="/literatur/2013/02/10/Buch%3A-Sch%C3%B6ner-wird-es-nicht.html">Buch&colon; Schöner wird es nicht</a></h1>
+					  </header>
+					
+					
+					  <div>
+					    
+						<div>
+						Ich möchte hier einfach mal anfangen zu erwähnen, welche Bücher mich einfach nur geschlaucht haben, mir Spaß gemacht haben und ich weiterempfehlen kann, oder auch nicht. <p/><h2>"Schöner wird's nicht"</h2> von David Sedaris<p/> Punkte: 3 von 5</p> Ich fand schlecht rein und mußte mich erst an die Banalität gewöhnen. Nachher hat mich das Buch dann aber auch nicht mehr losgelassen. Ich würde es am ehesten mit einer Seifenoper vergleichen ... eigentlich nichts was einen interessiert aber nach 15 Minuten Langeweile, wird es doch auf ganz magische Weise interessant und man ist abhängig ;).
+						</div>
+					    
+					  </div>					  
+					</article>
+					
+					<article>
+						<time datetime="2013-02-09T21:23:07Z" pubdate class="date">09 Feb 2013</time>
+					  <header>
+						<h1><a href="/2013/02/09/Undeleting-opened-files-on-ext4.html">Undeleting opened files on ext4</a></h1>
+					  </header>
+					
+					
+					  <div>
+					    
+						<div>
+						Mich lässt das Thema nicht los:  Hier nun die kurze Anleitung, wie man gelöschte Dateien wiederherstellt, wenn sie noch von Prozessen geöffnet sind: <ol>  <li>pid finden</li>  <li>filehandle finden : /proc/&lt;pid&gt;/fd </li>  <li>mit cp dieses filehandle kopieren</li></ol> Ausführliche Anleitung hier: http://glandium.org/blog/?p=87
+						</div>
+					    
+					  </div>					  
+					</article>
+					
+					<article>
+						<time datetime="2013-02-06T22:45:27Z" pubdate class="date">06 Feb 2013</time>
+					  <header>
+						<h1><a href="/2013/02/06/Organspende.html">Organspende</a></h1>
+					  </header>
+					
+					
+					  <div>
+					    
+						<div>
+						Ich fand den Comic von Xkcd ziemlich interessant, meiner Meinung steckt da ziemlich viel drin, wenn man länger darüber nachdenkt.  <div class="separator" style="clear: both; text-align: center;"><a href="http://imgs.xkcd.com/comics/lego.png" imageanchor="1" style="margin-left:1em; margin-right:1em"><img border="0" height="474" width="548" src="http://imgs.xkcd.com/comics/lego.png" /></a></div>   Gefunden bei Telepolis: <a href="http://www.heise.de/tp/artikel/38/38321/1.html">Organspende: Für und Wider</a> 
+						</div>
+					    
+					  </div>					  
+					</article>
+					
+
+					<!-- Pagination links -->
+					<div class="pagination">
+					  
+					    <a href="/page6" class="previous">Previous</a>
+					  
+					  <span class="page_number ">Page: 7 of 7</span>
+					  
+					</div>
+				
+			</div>
+			<div class="col-md-4 recent">
+				<h3>recent posts</h3>
+				
+				<ul>
+				
+					
+						
+							<li><a href="/spam/phishing/funny/mails/2014/09/06/best-of-spam-part-I.html">BestOfSpam - +++Geheimdienst ermittelt+++</a></li>
+						
+					
+						
+							<li><a href="/sonarqube/plugin/sonar-mojobridge/2014/05/25/sonarqube-plugin-mojobridge-supports-sonarqube-4.2-and-above.html">SonarQube Mojo Bridge now supports Sonarqube 4.2 and above</a></li>
+						
+					
+						
+							<li><a href="/backup/system/perl/2014/05/18/clever-backup-compatibility-with-ubuntu-14.04.html">new release of clever-backup fixed compatibility issue with ubuntu 14.04</a></li>
+						
+					
+						
+							<li><a href="/ssh/security/hijacking/2014/05/18/SSH-Agent-Forwarding-Is-a-Bug.html">SSH Agent Forwarding Is a Bug</a></li>
+						
+					
+						
+							<li><a href="/multimedia/2014/04/11/convert-and-rotate-videos-automatically-to-h264.html">Rotate and convert videos automatically to h264 in the shell</a></li>
+						
+					
+						
+							<li><a href="/security/privacy/2014/04/10/truecrypt-with-keyfiles-and-pam.html">Truecrypt mit Keyfiles und pam_exec automatisch mounten</a></li>
+						
+					
+						
+							<li><a href="/linux/2014/04/06/hibernate-and-resume-with-dm-crypt.html">hibernate and resume with dm-crypt under ubuntu</a></li>
+						
+					
+						
+							<li><a href="/2014/02/09/babyphone-mit-dem-raspberry-pi.html">Howto Babyphone mit dem Raspberry PI</a></li>
+						
+					
+						
+							<li><a href="/2014/02/04/thoughtworks-technology-radar-2014.html">Thoughtworks Technology Radar</a></li>
+						
+					
+						
+							<li><a href="/2014/01/31/Blog-Relaunch-mit-jekyll.html">Blog relaunched mit Jekyll</a></li>
+						
+					
+						
+							<li><a href="/2013/12/09/%22Leading-Change%22-in-einer-Agile-Company.html">Leading Change in einer Agile Company</a></li>
+						
+					
+				
+				
+				</ul>
+				
+
+
+			</div>
+		</div>	
+	</div>	
+	<div id="footer">
+	<div class="row contact" itemscope itemtype="http://schema.org/Person">
+		<div class="col-xs-4">
+			<span itemprop="name">Lars K.W. Gohlke</span>
+		</div>
+		<div class="col-xs-4">
+			<a href="http://www.lgohlke.de/#impressum" itemprop="url" rel="prefetch">impressum</a>
+		</div>
+		<div class="col-xs-4">
+			<a href="https://github.com/lkwg82">github.com/lkwg82</a><br />
+		</div>
+		
+		<span class="version">last changed 2014-09-06 18:00:18 +0200 bd2c017539652abb7084e6a9ea47853b985fbdfd</span>
+	</div>
+	
+</div>
+	<script src="/js/ga.js" async></script>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </body>
+</html>

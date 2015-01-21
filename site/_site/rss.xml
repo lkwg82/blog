@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+  xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+  <channel>
+    <title>Erw&amp;auml;hnenswert</title>
+    <link>http://blog.lgohlke.de</link>
+    <description>RSS feed for Erw&amp;auml;hnenswert</description>
+    <pubDate>Sat, 06 Sep 2014 18:23:07 -0000</pubDate>
+    <item>
+      <title>BestOfSpam - +++Geheimdienst ermittelt+++</title>
+      <link>http://blog.lgohlke.de/spam/phishing/funny/mails/2014/09/06/best-of-spam-part-I.html</link>
+      <description>&lt;p&gt;Wenn mein Spamfilter mal wieder nicht anspringt, kommt mir auch die eine oder andere Phishing-mail unter die Augen. Diese fand ich schon &amp;quot;sehr gut&amp;quot;:&lt;tt&gt;&lt;/p&gt;
+
+</description>
+      <pubDate>Sat, 06 Sep 2014 18:23:07 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/spam/phishing/funny/mails/2014/09/06/best-of-spam-part-I.html</guid>
+      <dc:date>2014-09-06T18:23:07Z</dc:date>
+    </item>
+    <item>
+      <title>SonarQube Mojo Bridge now supports Sonarqube 4.2 and above</title>
+      <link>http://blog.lgohlke.de/sonarqube/plugin/sonar-mojobridge/2014/05/25/sonarqube-plugin-mojobridge-supports-sonarqube-4.2-and-above.html</link>
+      <description>&lt;p&gt;I released a new version of &lt;a href=&quot;http://docs.codehaus.org/display/SONAR/SonarQube+Mojo+Bridge&quot;&gt;SonarQube Mojo Bridge&lt;/a&gt; which adds support for &lt;a href=&quot;http://www.sonarqube.org/downloads/&quot;&gt;sonarqube 4.2&lt;/a&gt; and above.&lt;/p&gt;
+
+</description>
+      <pubDate>Sun, 25 May 2014 21:23:07 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/sonarqube/plugin/sonar-mojobridge/2014/05/25/sonarqube-plugin-mojobridge-supports-sonarqube-4.2-and-above.html</guid>
+      <dc:date>2014-05-25T21:23:07Z</dc:date>
+    </item>
+    <item>
+      <title>new release of clever-backup fixed compatibility issue with ubuntu 14.04</title>
+      <link>http://blog.lgohlke.de/backup/system/perl/2014/05/18/clever-backup-compatibility-with-ubuntu-14.04.html</link>
+      <description>&lt;p&gt;I released a new version of &lt;a href=&quot;https://github.com/lkwg82/clever-backup&quot;&gt;clever-backup&lt;/a&gt; which fixes incompatibility with ubuntu 14.04 available from &lt;a href=&quot;https://launchpad.net/~lkwg82/+archive/clever-backup&quot;&gt;ppa:lkwg82/clever-backup&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+      <pubDate>Sun, 18 May 2014 21:23:07 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/backup/system/perl/2014/05/18/clever-backup-compatibility-with-ubuntu-14.04.html</guid>
+      <dc:date>2014-05-18T21:23:07Z</dc:date>
+    </item>
+    <item>
+      <title>SSH Agent Forwarding Is a Bug</title>
+      <link>http://blog.lgohlke.de/ssh/security/hijacking/2014/05/18/SSH-Agent-Forwarding-Is-a-Bug.html</link>
+      <description>&lt;p&gt;SSH &lt;tt&gt;Proxycommand&lt;/tt&gt; sollte dem &lt;tt&gt;Forward Agent&lt;/tt&gt; vorgezogen werden:&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://blog.lyte.id.au/2012/03/19/ssh-agent-forwarding-is-a-bug/&quot;&gt;SSH Agent Forwarding Is a Bug&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;http://www.clockwork.net/blog/2012/09/28/602/ssh_agent_hijacking&quot;&gt;SSH AGENT HIJACKING&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+
+</description>
+      <pubDate>Sun, 18 May 2014 21:23:07 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/ssh/security/hijacking/2014/05/18/SSH-Agent-Forwarding-Is-a-Bug.html</guid>
+      <dc:date>2014-05-18T21:23:07Z</dc:date>
+    </item>
+    <item>
+      <title>Rotate and convert videos automatically to h264 in the shell</title>
+      <link>http://blog.lgohlke.de/multimedia/2014/04/11/convert-and-rotate-videos-automatically-to-h264.html</link>
+      <description>&lt;p&gt;Recently I had the luck to welcome my daughter on earth. I almost welcomed her with my smartphone in my hand recording a video. Actually I did not! But later I did a lot of videos.&lt;/p&gt;
+
+</description>
+      <pubDate>Fri, 11 Apr 2014 21:23:07 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/multimedia/2014/04/11/convert-and-rotate-videos-automatically-to-h264.html</guid>
+      <dc:date>2014-04-11T21:23:07Z</dc:date>
+    </item>
+    <item>
+      <title>Truecrypt mit Keyfiles und pam_exec automatisch mounten</title>
+      <link>http://blog.lgohlke.de/security/privacy/2014/04/10/truecrypt-with-keyfiles-and-pam.html</link>
+      <description>&lt;p&gt;Nachdem ich in im letzten &lt;a href=&quot;/linux/2014/04/06/hibernate-and-resume-with-dm-crypt.html&quot;&gt;Artikel&lt;/a&gt; kurz beschrieben habe, warum ich mich f&amp;uuml;r &lt;a href=&quot;http://ww.truecrypt.org&quot;&gt;truecrypt&lt;/a&gt; entschieden habe, m&amp;ouml;chte ich nun kurz zeigen, wie man mit Hilfe von &lt;a href=&quot;http://www.linux-pam.org/Linux-PAM-html/sag-pam_exec.html&quot;&gt;pam_exec&lt;/a&gt; verschl&amp;uuml;sselte Datentr&amp;auml;ger mit &lt;a href=&quot;http://www.truecrypt.org/docs/keyfiles&quot;&gt;Schl&amp;uuml;sseldateien&lt;/a&gt; einbindet.&lt;/p&gt;
+
+</description>
+      <pubDate>Thu, 10 Apr 2014 21:23:07 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/security/privacy/2014/04/10/truecrypt-with-keyfiles-and-pam.html</guid>
+      <dc:date>2014-04-10T21:23:07Z</dc:date>
+    </item>
+    <item>
+      <title>hibernate and resume with dm-crypt under ubuntu</title>
+      <link>http://blog.lgohlke.de/linux/2014/04/06/hibernate-and-resume-with-dm-crypt.html</link>
+      <description>&lt;p&gt;I could conclude there is no way out-of-the-box with ubuntu and I now use truecrypt.&lt;/p&gt;
+
+</description>
+      <pubDate>Sun, 06 Apr 2014 18:08:00 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/linux/2014/04/06/hibernate-and-resume-with-dm-crypt.html</guid>
+      <dc:date>2014-04-06T18:08:00Z</dc:date>
+    </item>
+    <item>
+      <title>Howto Babyphone mit dem Raspberry PI</title>
+      <link>http://blog.lgohlke.de/2014/02/09/babyphone-mit-dem-raspberry-pi.html</link>
+      <description>&lt;p&gt;Bald ist es soweit und das Babyphone muss eingerichtet werden. Dazu habe ich mir die Webcam &lt;a href=&quot;http://www.logitech.com/de-de/product/hd-pro-webcam-c920&quot;&gt;Logitech C920&lt;/a&gt; und &lt;a href=&quot;http://de.wikipedia.org/wiki/Raspberry_Pi#Spezifikationen&quot;&gt;Raspberry Pi Modell B&lt;/a&gt; gekauft.&lt;/p&gt;
+&lt;p&gt;Hier nun meine kleine Anleitung um auf dem Handy Bild und Ton zu haben.&lt;/p&gt;
+
+</description>
+      <pubDate>Sun, 09 Feb 2014 13:08:00 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2014/02/09/babyphone-mit-dem-raspberry-pi.html</guid>
+      <dc:date>2014-02-09T13:08:00Z</dc:date>
+    </item>
+    <item>
+      <title>Thoughtworks Technology Radar</title>
+      <link>http://blog.lgohlke.de/2014/02/04/thoughtworks-technology-radar-2014.html</link>
+      <description>&lt;p&gt;Letzte Woche ist wieder eine neue Ausgabe des &amp;quot;&lt;a href=&quot;http://www.thoughtworks.com/de/radar/&quot;&gt;Technology Radar&lt;/a&gt;&amp;quot; von &lt;a href=&quot;http://www.thoughtworks.com/&quot;&gt;ThoughtWorks&lt;/a&gt; erschienen&lt;/p&gt;
+&lt;p style=&quot;max-width:100%;&quot;&gt;
+	&lt;img src=&quot;/img/posts/technology-radar.jpg&quot; alt=&quot;technology-radar&quot; style=&quot;width:100%&quot;/&gt;
+&lt;/p&gt;
+Da sind Dinge erw&amp;auml;hnt, die man so nicht bemerken w&amp;uuml;rde ;).
+
+</description>
+      <pubDate>Tue, 04 Feb 2014 00:08:00 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2014/02/04/thoughtworks-technology-radar-2014.html</guid>
+      <dc:date>2014-02-04T00:08:00Z</dc:date>
+    </item>
+    <item>
+      <title>Blog relaunched mit Jekyll</title>
+      <link>http://blog.lgohlke.de/2014/01/31/Blog-Relaunch-mit-jekyll.html</link>
+      <description>&lt;p&gt;Habe diesen Blog von &lt;a href=&quot;http://spassmitit.blogspot.de/&quot;&gt;blogger.com&lt;/a&gt; auf self-hosted mit &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;jekyll&lt;/a&gt; umgestellt.&lt;/p&gt;
+&lt;p style=&quot;max-width:100%;&quot;&gt;
+	&lt;img src=&quot;/img/posts/logo-2x.png&quot; alt=&quot;jekyll&quot; style=&quot;width:50%&quot;/&gt;
+&lt;/p&gt;
+&lt;p&gt;Nach den ersten holprigen Schritten f&amp;uuml;hlt es sich richtig gut an.&lt;/p&gt;
+
+</description>
+      <pubDate>Fri, 31 Jan 2014 00:08:00 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2014/01/31/Blog-Relaunch-mit-jekyll.html</guid>
+      <dc:date>2014-01-31T00:08:00Z</dc:date>
+    </item>
+    <item>
+      <title>Leading Change in einer Agile Company</title>
+      <link>http://blog.lgohlke.de/2013/12/09/%22Leading-Change%22-in-einer-Agile-Company.html</link>
+      <description>&lt;p&gt;Wie kann ich erfolgreich mein Umfeld verändern? Welche Hebel muss ich in Bewegung setzen, um Ideen umzusetzen? Wie kann ich meinen Chef überzeugen? Diesen oder ähnliche lautenden Fragen werden in dem Artikel von&amp;nbsp;&lt;a href=&quot;http://de.wikipedia.org/wiki/John_P._Kotter&quot;&gt;John P. Kotter&lt;/a&gt; in&amp;nbsp;&lt;a href=&quot;http://leading%20change/&quot;&gt;Leading Change - Why Transformation Efforts Fail&lt;/a&gt;&amp;nbsp;eine Methodik zur Lösung angeboten.&lt;p/&gt;
+
+</description>
+      <pubDate>Mon, 09 Dec 2013 23:08:00 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/12/09/%22Leading-Change%22-in-einer-Agile-Company.html</guid>
+      <dc:date>2013-12-09T23:08:00Z</dc:date>
+    </item>
+    <item>
+      <title>CLD - als ich noch nicht wußte, was das heißt</title>
+      <link>http://blog.lgohlke.de/2013/12/05/CLD---als-ich-noch-nicht-wu%C3%9Fte%2C-was-das-hei%C3%9Ft.html</link>
+      <description>&lt;p&gt;Im letzten Artikel über meinen Alltag DevOps&amp;nbsp;&lt;a href=&quot;http://blog.lgohlke.de/2013/12/alltag-eines-devops-wie-ich-das.html&quot;&gt;Wie ich das Monitoring kaputt machte&lt;/a&gt;&amp;nbsp;habe ich CLD angesprochen. Dabei ist mir eine Geschichte aus meiner Anfangszeit bei meinem jetzigen Arbeitgeber eingefallen. Im Nachhinein lustig, damals etwas verunsichernd.&lt;/p&gt;
+
+</description>
+      <pubDate>Thu, 05 Dec 2013 22:39:00 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/12/05/CLD---als-ich-noch-nicht-wu%C3%9Fte%2C-was-das-hei%C3%9Ft.html</guid>
+      <dc:date>2013-12-05T22:39:00Z</dc:date>
+    </item>
+    <item>
+      <title>Alltag eines DevOps - wie ich das produktive Monitoring kaputt machte</title>
+      <link>http://blog.lgohlke.de/2013/12/03/Alltag-eines-DevOps---wie-ich-das-produktive-Monitoring-kaputt-machte.html</link>
+      <description>&lt;p&gt;Ich arbeite in einer (wirklich tollen) Firma, die sich vielen modernen Themen annimmt und diese versucht &lt;i&gt;zu leben&lt;/i&gt;.&lt;br /&gt;&lt;br /&gt;&lt;i&gt;zu leben&lt;/i&gt;&lt;/p&gt;
+
+</description>
+      <pubDate>Tue, 03 Dec 2013 22:14:08 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/12/03/Alltag-eines-DevOps---wie-ich-das-produktive-Monitoring-kaputt-machte.html</guid>
+      <dc:date>2013-12-03T22:14:08Z</dc:date>
+    </item>
+    <item>
+      <title>Fast visual frontend prototyping - divshot.com</title>
+      <link>http://blog.lgohlke.de/2013/11/14/Fast-visual-frontend-prototyping---divshot.com.html</link>
+      <description>Ich habe es am Samstag  ausprobiert und bin etwas begeistert ;)&lt;p/&gt; &lt;p&gt;Aussagen der Website, die ich so übernehme:&lt;/p&gt;
+&lt;div class=&quot;cite&quot;&gt;
+&lt;p&gt;Fast, visual front-end development.&lt;/p&gt;&lt;p&gt; &lt;/p&gt;&lt;p&gt;As simple as a mockup tool. As powerful as a text editor.&lt;/p&gt; &lt;p&gt;Prototyping with Bootstrap and beyond&lt;/p&gt;
+&lt;p&gt;&lt;/div&gt;&lt;p/&gt;
+Quelle: &lt;a href=&quot;http://www.divshot.com/&quot;&gt;http://www.divshot.com/&lt;/a&gt;
+
+</description>
+      <pubDate>Thu, 14 Nov 2013 19:02:00 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/11/14/Fast-visual-frontend-prototyping---divshot.com.html</guid>
+      <dc:date>2013-11-14T19:02:00Z</dc:date>
+    </item>
+    <item>
+      <title>Technologieradar Mai/2013</title>
+      <link>http://blog.lgohlke.de/2013/11/10/Technologieradar-Mai2013.html</link>
+      <description>&lt;p&gt;Auf der vergangenen &lt;a href=&quot;http://gotocon.com/berlin-2013/&quot;&gt;Goto in Berlin&lt;/a&gt; wurde von ThoughtWorks das &lt;a href=&quot;http://thoughtworks.fileburst.com/assets/technology-radar-may-2013.pdf&quot;&gt;Technology Radar&lt;/a&gt; erw&amp;auml;hnt.&lt;p/&gt; 
+
+</description>
+      <pubDate>Sun, 10 Nov 2013 18:58:04 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/11/10/Technologieradar-Mai2013.html</guid>
+      <dc:date>2013-11-10T18:58:04Z</dc:date>
+    </item>
+    <item>
+      <title>secure alternative to ssh-agent</title>
+      <link>http://blog.lgohlke.de/2013/11/06/secure-alternative-to-ssh-agent.html</link>
+      <description>I'm really impressed by this &lt;a href=&quot;http://blog.lyte.id.au/2012/03/19/ssh-agent-forwarding-is-a-bug/&quot;&gt;blog post&lt;/a&gt;. It sums up why the use of ssh-agent is a security threat.&lt;p/&gt; Not only warning it shows a very comfortable way with the inbuilt &lt;tt&gt;ProxyCommand&lt;/tt&gt; to circumvent the threat.
+
+</description>
+      <pubDate>Wed, 06 Nov 2013 10:30:00 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/11/06/secure-alternative-to-ssh-agent.html</guid>
+      <dc:date>2013-11-06T10:30:00Z</dc:date>
+    </item>
+    <item>
+      <title>lint-maven-plugin - check your pom.xml</title>
+      <link>http://blog.lgohlke.de/2013/09/09/lint-maven-plugin---check-your-pom.xml.html</link>
+      <description>We know for each and everything there are some &lt;i&gt;Do's&lt;/i&gt; and many &lt;i&gt;Don'ts&lt;/i&gt;. This is about recommendations on your &lt;a href=&quot;http://maven.apache.org/guides/introduction/introduction-to-the-pom.html&quot;&gt;pom.xml&lt;/a&gt; of your maven project.&lt;p/&gt;
+
+</description>
+      <pubDate>Mon, 09 Sep 2013 14:00:02 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/09/09/lint-maven-plugin---check-your-pom.xml.html</guid>
+      <dc:date>2013-09-09T14:00:02Z</dc:date>
+    </item>
+    <item>
+      <title>Howto&amp;colon; Duplikate mit rdfind finden und mit einem Hardlink ersetzen</title>
+      <link>http://blog.lgohlke.de/2013/08/20/Howto%3A-Duplikate-mit-rdfind-finden-und-mit-einem-Hardlink-ersetzen.html</link>
+      <description>Am Wochenende habe ich mir wieder mein lokales Backup angeschaut, um es dann wie jeden Monat auf die externe Platte zu spiegeln. Dabei ist aufgefallen, dass&amp;nbsp;
+&lt;a href=&quot;http://backintime.le-web.org/&quot;&gt;
+  backintime
+&lt;/a&gt;
+&amp;nbsp;sehr intelligent nur die geänderten oder neuen Dateien übernimmt. Allerdings sind fallen Umbenennungen bzw. verschobene Dateien jedes Mal mit der vollen Größe ins Gewicht.
+&lt;br /&gt;
+
+</description>
+      <pubDate>Tue, 20 Aug 2013 21:10:32 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/08/20/Howto%3A-Duplikate-mit-rdfind-finden-und-mit-einem-Hardlink-ersetzen.html</guid>
+      <dc:date>2013-08-20T21:10:32Z</dc:date>
+    </item>
+    <item>
+      <title>Learning from mistakes and talk about</title>
+      <link>http://blog.lgohlke.de/2013/06/22/Learning-from-mistakes-and-talk-about.html</link>
+      <description>I just found a video when etsy talks on &lt;a href=&quot;http://www.softdevtube.com/&quot;&gt;softdevtube.com&lt;/a&gt; about &lt;a href=&quot;http://www.softdevtube.com/2013/06/18/scaling-etsy-what-went-wrong-what-went-right/&quot;&gt;What went right, what went wrong&lt;/a&gt;.&lt;p/&gt; Alternatively you can watch the slides of that presentation.&lt;p/&gt;&lt;iframe src=&quot;http://de.slideshare.net/slideshow/embed_code/9561138?rel=0&quot; width=&quot;597&quot; height=&quot;486&quot; frameborder=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; scrolling=&quot;no&quot; style=&quot;border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px&quot; allowfullscreen webkitallowfullscreen mozallowfullscreen&gt; &lt;/iframe&gt; &lt;div style=&quot;margin-bottom:5px&quot;&gt; &lt;strong&gt; &lt;a href=&quot;http://de.slideshare.net/beamrider9/scaling-etsy-what-went-wrong-what-went-right&quot; title=&quot;Scaling Etsy: What Went Wrong, What Went Right&quot; target=&quot;_blank&quot;&gt;Scaling Etsy: What Went Wrong, What Went Right&lt;/a&gt; &lt;/strong&gt; from &lt;strong&gt;&lt;a href=&quot;http://de.slideshare.net/beamrider9&quot; target=&quot;_blank&quot;&gt;Ross Snyder&lt;/a&gt;&lt;/strong&gt; &lt;/div&gt; &lt;p&gt;What makes me thinking it is worth mentioning these slides is, that I  believe in the same principles (transparency, cross functional teams, talking about mistakes, reevaluate former decisions, ... ) written in there&lt;p/&gt; Enjoy!
+
+</description>
+      <pubDate>Sat, 22 Jun 2013 22:25:08 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/06/22/Learning-from-mistakes-and-talk-about.html</guid>
+      <dc:date>2013-06-22T22:25:08Z</dc:date>
+    </item>
+    <item>
+      <title>opensource community collaboration at it's best</title>
+      <link>http://blog.lgohlke.de/2013/06/10/opensource-community-collaboration-at-it%27s-best.html</link>
+      <description>Today I had a great experience with contributing to an opensource project &lt;a href=&quot;https://github.com/craigwblake/redline&quot;&gt;redline&lt;/a&gt; (Redline is a pure Java library for manipulating RPM Package Manager packages). Actually it was last week and today I had this pleasure.&lt;p/&gt; Last week I fixed some lines in code and pulled a &lt;a href=&quot;https://github.com/craigwblake/redline/pull/24&quot;&gt;merge request&lt;/a&gt;. The same day, just 2 hours later, it was merged.&lt;p/&gt; Today I asked for a release to benefit from these changes without publishing an separate inhouse version. I offered some additional refactorings to justify a release, however &lt;a href=&quot;https://github.com/craigwblake&quot;&gt;Craig W. Blake&lt;/a&gt; did not discussed or requested some more changes. An new &lt;a href=&quot;http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22redline%22&quot;&gt;release&lt;/a&gt; is already online.&lt;p/&gt; I really appreciate that kind of cooperation. That's why I love opensource and my company &lt;a href=&quot;http://www.immobilienscout24.de&quot;&gt;Immobilienscout24&lt;/a&gt; is sharing and contributing to the opensource world.&lt;p/&gt; See our projects at &lt;a href=&quot;https://github.com/ImmobilienScout24&quot;&gt;github.com/ImmobilienScout24&lt;/a&gt;. Feel free to use it, to contribute or just report bugs!  &lt;p/&gt;&lt;b&gt;update&lt;/b&gt;&lt;p&gt;German version is available at &lt;a href=&quot;http://developer.immobilienscout24.de/2013/05/opensource-zusammenarbeit-von-seiner-besten-seite/&quot;&gt;http://developer.immobilienscout24.de/2013/05/opensource-zusammenarbeit-von-seiner-besten-seite/&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+      <pubDate>Mon, 10 Jun 2013 18:56:00 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/06/10/opensource-community-collaboration-at-it%27s-best.html</guid>
+      <dc:date>2013-06-10T18:56:00Z</dc:date>
+    </item>
+    <item>
+      <title>The Battle we didn't choose - blog on cancer</title>
+      <link>http://blog.lgohlke.de/2013/05/08/The-Battle-we-didn%27t-choose---blog-on-cancer.html</link>
+      <description>&lt;table align=&quot;center&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; class=&quot;tr-caption-container&quot; style=&quot;margin-left: auto; margin-right: auto; text-align: center;&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;http://3.bp.blogspot.com/-HN5jgtclOu8/UYdV0_wT6DI/AAAAAAAACqE/u2iMbjMtPow/s1600/885100_470652359675257_565674413_o.jpg&quot; imageanchor=&quot;1&quot; style=&quot;margin-left: auto; margin-right: auto;&quot;&gt;&lt;img border=&quot;0&quot; height=&quot;265&quot; src=&quot;http://3.bp.blogspot.com/-HN5jgtclOu8/UYdV0_wT6DI/AAAAAAAACqE/u2iMbjMtPow/s400/885100_470652359675257_565674413_o.jpg&quot; width=&quot;400&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;tr-caption&quot; style=&quot;text-align: center;&quot;&gt;remarkable photo blog&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;See &lt;a href=&quot;http://mywifesfightwithbreastcancer.com/&quot;&gt;http://mywifesfightwithbreastcancer.com/&lt;/a&gt;&lt;p/&gt; Found on &lt;a href=&quot;http://www.zeit.de/2013/19/blog-merendino-krebs-abschied&quot;&gt;Zeit.de&lt;/a&gt;
+
+</description>
+      <pubDate>Wed, 08 May 2013 05:00:11 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/05/08/The-Battle-we-didn%27t-choose---blog-on-cancer.html</guid>
+      <dc:date>2013-05-08T05:00:11Z</dc:date>
+    </item>
+    <item>
+      <title>easily exploring Java AbstractSyntaxTree</title>
+      <link>http://blog.lgohlke.de/2013/05/01/easily-exploring-Java-AbstractSyntaxTree.html</link>
+      <description>If you ever need to deal with the AST in java here I'd like to this small tool I've found some time ago.&lt;br /&gt;&lt;p/&gt; start it with 
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;java  -cp checkstyle-5.6-all.jar com.puppycrawl.tools.checkstyle.gui.Main PomSourceImporter.java
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+</description>
+      <pubDate>Wed, 01 May 2013 13:36:53 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/05/01/easily-exploring-Java-AbstractSyntaxTree.html</guid>
+      <dc:date>2013-05-01T13:36:53Z</dc:date>
+    </item>
+    <item>
+      <title>Do you dare to dream - Mut zum Träumen?</title>
+      <link>http://blog.lgohlke.de/2013/04/24/Do-you-dare-to-dream---Mut-zum-Tr%C3%A4umen%3F.html</link>
+      <description>Ich habe heute von einem Kollegen dieses, wie ich finde, schöne Video empfohlen bekommen:&lt;p/&gt; &lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;http://www.youtube.com/embed/NQTU_NjZRIE&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;
+
+</description>
+      <pubDate>Wed, 24 Apr 2013 18:44:11 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/04/24/Do-you-dare-to-dream---Mut-zum-Tr%C3%A4umen%3F.html</guid>
+      <dc:date>2013-04-24T18:44:11Z</dc:date>
+    </item>
+    <item>
+      <title>Erster Follower ;)</title>
+      <link>http://blog.lgohlke.de/2013/04/17/Erster-Follower-%3B%29.html</link>
+      <description>Hiermit möchte ich meinen ersten regelmäßigen Leser begrüßen.&lt;p/&gt; &lt;i&gt;Hallo Jonas ;)&lt;/i&gt; &lt;p/&gt; Diese Ehre ist nur dem ersten vorbehalten! Aber auch nur, weil er mich darauf hingewiesen hat.^^
+
+</description>
+      <pubDate>Wed, 17 Apr 2013 17:02:36 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/04/17/Erster-Follower-%3B%29.html</guid>
+      <dc:date>2013-04-17T17:02:36Z</dc:date>
+    </item>
+    <item>
+      <title>Github page</title>
+      <link>http://blog.lgohlke.de/2013/04/09/Github-page.html</link>
+      <description>&lt;p&gt;Ich muss sagen &lt;a href=&quot;https://github.com&quot;&gt;github.com&lt;/a&gt; ist schon eine tolle Sache.&lt;/p&gt; &lt;p&gt;Gerade habe ich mir eine Website angelegt (&lt;a href=&quot;http://lkwg82.github.io/&quot;&gt;lkwg82.github.io&lt;/a&gt;) und dort auch meine &lt;a href=&quot;http://lkwg82.github.io/projects/2013.04.08-is24-sonar-maven-checks/&quot;&gt;Präsentation&lt;/a&gt; zum Sonar-Plugin &lt;a href=&quot;http://docs.codehaus.org/display/SONAR/SonarQube+Mojo+Bridge&quot;&gt;Sonar+Mojo+Bridge&lt;/a&gt; hinterlegt. &lt;/p&gt; Alles super einfach, toll!
+
+</description>
+      <pubDate>Tue, 09 Apr 2013 20:37:20 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/04/09/Github-page.html</guid>
+      <dc:date>2013-04-09T20:37:20Z</dc:date>
+    </item>
+    <item>
+      <title>Sicheres und einfaches Backup mit Encfs in die Cloud</title>
+      <link>http://blog.lgohlke.de/2013/04/08/Sicheres-und-einfaches-Backup-mit-Encfs-in-die-Cloud.html</link>
+      <description>&lt;p&gt;Wie in &lt;a href=&quot;http://blog.lgohlke.de/2013/02/encfs-reverse.html&quot;&gt;encfs --reverse&lt;/a&gt; schon angekündigt, stellt  &lt;a href=&quot;http://www.arg0.net/encfs&quot;&gt;encfs&lt;/a&gt; eine einfache praktikable Lösung bereit, Klartext-Verzeichnise on-the-fly als verschlüsselte Verzeichnisse zu mounten.&lt;/p&gt; &lt;h2 style=&quot;&quot;&gt; Übersicht &lt;/h2&gt;  Dazu bedarf es nur weniger Zeilen (1) und der Information zur Verschlüsselung im Klartextverzeichnis (2) &lt;ol&gt;&lt;li&gt;&lt;pre class=&quot;brush:bash&quot;&gt; &lt;br /&gt;encfs --reverse clear-text-directory directory-to-show-as-encrypted &lt;br /&gt;&lt;/pre&gt;&lt;/li&gt;&lt;li&gt; &lt;pre class=&quot;brush:bash&quot;&gt;&lt;br /&gt;$ ls -al&lt;br /&gt;insgesamt 2768&lt;br /&gt;drwxr-xr-x 10 lars lars    4096 Mär 15 15:18 .&lt;br /&gt;drwxr-xr-x  3 lars lars    4096 Dez 17 23:46 ..&lt;br /&gt;...&lt;br /&gt;-rw-r--r--  1 lars lars    1090 Feb 13 10:39 .encfs6.xml&lt;br /&gt;...&lt;br /&gt;&lt;/pre&gt;&lt;/li&gt;&lt;/ol&gt; Die Datei aus (2) bekommt man durch den klassischen Weg (Anlegen eines verschlüsselten Verzeichnisses) &lt;pre class=&quot;brush:bash&quot;&gt; &lt;br /&gt;encfs clear-text-directory directory-to-show-as-encrypted &lt;br /&gt;...&lt;br /&gt;&lt;/pre&gt; Das Ganze mal in ein Skript verpackt, welches aus dem aktuellsten &lt;a href=&quot;http://wiki.ubuntuusers.de/Back_In_Time&quot;&gt;backintime&lt;/a&gt; Verzeichnis meine Bilder in die Cloud sichert. (Die Cloud ist hier jetzt mein Server ;)) &lt;p/&gt; &lt;h2&gt;Praxisbeispiel&lt;/h2&gt; Sie sieht die Ausführung aus: &lt;pre class=&quot;brush:bash&quot;&gt;&lt;br /&gt;$ ./bilder_backup.sh &lt;br /&gt;Give pw for encView&lt;br /&gt;EncFS-Passwort: &lt;br /&gt;insgesamt 3,1M&lt;br /&gt;4,0K dr-xr-xr-x 10 lars lars 4,0K Mär 15 15:18 .&lt;br /&gt;328K drwxrwxrwt 21 root root 324K Apr  8 22:20 ..&lt;br /&gt;1,4M -r--r--r-- 14 lars lars 1,3M Sep  9  2012 72EM,II1&lt;br /&gt;4,0K -r--r----- 17 lars lars  407 Jun 26  2006 8HFavTtakwyTC-&lt;br /&gt;4,0K -r--r--r--  8 lars lars 1,1K Feb 13 10:39 cZcEr1j6cPnLRha10,&lt;br /&gt;292K -r--r----- 17 lars lars 292K Jun  7  2005 gbrODCTZU3wCc9JgQsusQz-5&lt;br /&gt;4,0K dr-xr-xr-x  7 lars lars 4,0K Sep  9  2012 Ki4-qaws1mXW&lt;br /&gt;4,0K dr-xr-xr-x 24 lars lars 4,0K Mär 14 17:25 KW,cCDCPQgQA&lt;br /&gt;388K -r--r----- 17 lars lars 386K Jan  2  2005 kykBT6MBxWsN7Rs4usZjBZyOKITWbBC&lt;br /&gt;4,0K dr-xr-x---  3 lars lars 4,0K Nov  9  2009 loVuTdSv6Rcx1vRqzXMMDFaFF-j-32OmZo7&lt;br /&gt;4,0K -r-xr-xr-x 17 lars lars  233 Jun 26  2006 meqPWsFAIhi1&lt;br /&gt;4,0K dr-xr-x---  3 lars lars 4,0K Jan 12  2010 ny8KaOyd0hQ8S0&lt;br /&gt;4,0K dr-xr-x---  2 lars lars 4,0K Okt 23  2009 teUPxPhzK3bXr1&lt;br /&gt;4,0K dr-xr-xr-x 12 lars lars 4,0K Sep 15  2010 twep7Wbbb1uN&lt;br /&gt;4,0K dr-x------  8 lars lars 4,0K Okt 21 15:19 v4ZC-SmXGf3&lt;br /&gt;352K -r--r----- 17 lars lars 351K Apr  3  2005 XL7z8lqo0OqMpZlx91&lt;br /&gt;4,0K dr-xr-xr-x  7 lars lars 4,0K Apr  9  2008 xP-CpRIY9YcqybC,HOLNkWqW&lt;br /&gt;352K -r--r----- 17 lars lars 351K Aug 30  2006 xqI6SUadWF9PR-556ChJF6-VWVM0eCB&lt;br /&gt;building file list ... &lt;br /&gt;20080 files to consider&lt;br /&gt;Ki4-qaws1mXW/wNovM37-LeKdn00/ErfqKTMMk4r0dFPCqxGX-sv9fLNX/&lt;br /&gt;Ki4-qaws1mXW/wNovM37-LeKdn00/ErfqKTMMk4r0dFPCqxGX-sv9fLNX/hz0wj1FP6JLTDeC/&lt;br /&gt;Ki4-qaws1mXW/wNovM37-LeKdn00/ErfqKTMMk4r0dFPCqxGX-sv9fLNX/hz0wj1FP6JLTDeC/2sTxd26gZ1fkEACTyEkga3KuEGGm4m2UElmRF5knNre1YZyutl2nKsf,VwEuYX8&lt;br /&gt;         262 100%    0.00kB/s    0:00:00 (xfer#1, to-check=11491/20080)&lt;br /&gt;&lt;br /&gt;Number of files: 20080&lt;br /&gt;Number of files transferred: 1&lt;br /&gt;Total file size: 96218876503 bytes&lt;br /&gt;Total transferred file size: 262 bytes&lt;br /&gt;Literal data: 262 bytes&lt;br /&gt;Matched data: 0 bytes&lt;br /&gt;File list size: 687638&lt;br /&gt;File list generation time: 3.391 seconds&lt;br /&gt;File list transfer time: 0.000 seconds&lt;br /&gt;Total bytes sent: 687964&lt;br /&gt;Total bytes received: 41&lt;br /&gt;&lt;br /&gt;sent 687964 bytes  received 41 bytes  65524.29 bytes/sec&lt;br /&gt;total size is 96218876503  speedup is 139852.00&lt;br /&gt;&lt;/pre&gt; und so das Skript dazu: &lt;pre class=&quot;brush:bash&quot;&gt;&lt;br /&gt;#!/bin/bash&lt;br /&gt;&lt;br /&gt;set -e&lt;br /&gt;#set -x &lt;br /&gt;&lt;br /&gt;pathToImages=home/lars/remote/lars/volume_i/bilder/&lt;br /&gt;lastBackup=$(find /backup/backintime/lars-G33-DS3R/lars/1 -maxdepth 1 -type d |  sort -n | tail -n1)&lt;br /&gt;&lt;br /&gt;path=$lastBackup/backup/$pathToImages&lt;br /&gt;&lt;br /&gt;pathToEncView=$(tempfile).d&lt;br /&gt;mkdir $pathToEncView&lt;br /&gt;&lt;br /&gt;echo Give pw for encView&lt;br /&gt;encfs --reverse $path $pathToEncView&lt;br /&gt;&lt;br /&gt;ls -alsh $pathToEncView&lt;br /&gt;&lt;br /&gt;continue=1&lt;br /&gt;while( [ $continue == 1 ] );&lt;br /&gt;do&lt;br /&gt;        rsync -v --stats --progress -e ssh  --partial --archive --delete-after --log-file=log  $pathToEncView/* wirt2.lgohlke.de:/backup/uploaded/Bilder/.backend &amp;&amp; continue=0 || sleep 1&lt;br /&gt;done&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;sudo umount $pathToEncView&lt;br /&gt;rmdir $pathToEncView&lt;br /&gt;&lt;/pre&gt; Das Skript mounted die Sicht auf das verschlüsselte Verzeichnis in ein temporäres Verzeichnis (Zeile 11) und löscht dieses wieder (Zeile 27).&lt;br/&gt;Das Hochladen der Bilder erfolgt über rsync+ssh und wird so lange wiederholt, bis das Backup erfolgreich war und nicht zwischendurch abgebrochen ist.&lt;p/&gt; &lt;h2&gt;Fazit&lt;/h2&gt;&lt;ol&gt;&lt;li&gt;Mit ausreichender Verschlüsselung sind die Daten sicher!&lt;/li&gt;&lt;li&gt;Damit kann nun auch Dropbox o.ä. genutzt werden. Dorthinein mounten und hochladen lassen.&lt;/li&gt;&lt;/ol&gt;
+
+</description>
+      <pubDate>Mon, 08 Apr 2013 21:53:04 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/04/08/Sicheres-und-einfaches-Backup-mit-Encfs-in-die-Cloud.html</guid>
+      <dc:date>2013-04-08T21:53:04Z</dc:date>
+    </item>
+    <item>
+      <title>Vncserver nur von lokal erreichbar starten</title>
+      <link>http://blog.lgohlke.de/2013/04/01/Vncserver-nur-von-lokal-erreichbar-starten.html</link>
+      <description>&lt;pre class=&quot;brush:bash&quot;&gt;&lt;br /&gt;$ vncserver :1 -depth 8 -geometry 1600x900 -localhost -nolisten tcp&lt;br /&gt;&lt;/pre&gt; prüfen mit   &lt;pre class=&quot;brush:bash&quot;&gt;&lt;br /&gt;$ netstat -tulpen | grep vnc&lt;br /&gt;(Not all processes could be identified, non-owned process info&lt;br /&gt; will not be shown, you would have to be root to see it all.)&lt;br /&gt;tcp        0      0 127.0.0.1:5901          0.0.0.0:*               LISTEN      1000       19697       11916/Xtightvnc&lt;br /&gt;&lt;/pre&gt;
+
+</description>
+      <pubDate>Mon, 01 Apr 2013 14:54:55 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/04/01/Vncserver-nur-von-lokal-erreichbar-starten.html</guid>
+      <dc:date>2013-04-01T14:54:55Z</dc:date>
+    </item>
+    <item>
+      <title>line coverage per test by Jacoco</title>
+      <link>http://blog.lgohlke.de/2013/02/28/line-coverage-per-test-by-Jacoco.html</link>
+      <description>Nach einem &lt;a href=&quot;http://markmail.org/search/?q=list%3Aorg.codehaus.sonar.dev+release+candidate+3.5#query:list%3Aorg.codehaus.sonar.dev%20release%20candidate%203.5+page:1+mid:r6yn2l5jnu6gfdl3+state:results&quot;&gt;Eintrag in der Mailingliste&lt;/a&gt; von Sonar wird Jacoco demnächst auch die Coverage von einzelnen Tests unterscheiden können. Siehe auch &lt;a href=&quot;https://jira.codehaus.org/browse/SONAR-2501&quot;&gt;Sonar Issue&lt;/a&gt;.&lt;p/&gt; Damit könnte man dann ähnlich wie hier beim &lt;a href=&quot;https://code.google.com/p/metricanalyzer/&quot;&gt;metricanalyzer&lt;/a&gt; eine qualitative Einschätzung der Tests vornehmen. Wird noch richtig interessant!&lt;p/&gt; Nun stellen sich mir nur noch die Fagen, ob ... &lt;ul&gt;&lt;li&gt;...auch Branch-Coverage möglich wird?&lt;/li&gt;&lt;li&gt;... das auch bei parallelen Tests geht?&lt;/li&gt;&lt;/ul&gt;
+
+</description>
+      <pubDate>Thu, 28 Feb 2013 20:14:25 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/02/28/line-coverage-per-test-by-Jacoco.html</guid>
+      <dc:date>2013-02-28T20:14:25Z</dc:date>
+    </item>
+    <item>
+      <title>360° Videos</title>
+      <link>http://blog.lgohlke.de/2013/02/26/360%C2%B0-Videos.html</link>
+      <description>Schon mal über einen rauchenden Vulkan geflogen?   &lt;a href=&quot;360Degree-VideoTour.php?3D=video_360_heli_tolbachik_volcano&quot; title=&quot;AirPano.com • 360 Degree Aerial Panorama • 3D Virtual Tours Around the World&quot;&gt;         &lt;div class=&quot;play360video&quot;&gt;&lt;/div&gt;                                                 &lt;img src=&quot;http://www.airpano.com/files/kamchatka_volcano_video.jpg&quot; alt=&quot;360 video, Plosky Tolbachik Volcano, Kamchatka, Russia, 2012 • AirPano.com • 360 Degree Aerial Panorama • 3D Virtual Tours Around the World&quot; width=&quot;523&quot; height=&quot;186&quot; border=&quot;0&quot;&gt;                  &lt;span&gt;                &lt;p&gt;360 video, Plosky Tolbachik Volcano Eruption&lt;/p&gt;&lt;/span&gt;                &lt;/a&gt;  Quelle: &lt;a href=&quot;http://www.airpano.com&quot; title=&quot;AirPano.com • 360° Aerial Panorama • 3D Virtual Tours Around the World&quot; target=&quot;_blank&quot;&gt;AirPano.com&lt;/a&gt;,  gefunden über &lt;a href=&quot;http://www.airpano.com/files/kamchatka_volcano_video.jpg&quot;&gt;http://www.boredpanda.com/central-park-from-above-sergey-semenov&lt;/a&gt; 
+
+</description>
+      <pubDate>Tue, 26 Feb 2013 19:33:11 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/02/26/360%C2%B0-Videos.html</guid>
+      <dc:date>2013-02-26T19:33:11Z</dc:date>
+    </item>
+    <item>
+      <title>EncFS --reverse</title>
+      <link>http://blog.lgohlke.de/backup/rsync/server/2013/02/17/EncFS---reverse.html</link>
+      <description>Gerade habe ich in der Manpage von EncFS eine sehr schöne Lösung für ein sicheres Backup in der Cloud gefunden.&lt;p/&gt; Encfs ist ein Dateisystem im Userspace und bietet eine Sicht auf Verzeichnisse an. Ursprünglich ging es darum verschlüsselte Verzeichnisse entschlüsselt anzuzeigen. Der &lt;i&gt;Reverse&lt;/i&gt; Modus bietet genau den umgekehrten Weg an. Somit können beliebige (unverschlüsselte) Verzeichnisse mittels &lt;tt&gt;EncFs&lt;/tt&gt; als verschlüsselte Verzeichnisse angezeigt werden.&lt;p/&gt; &quot;Wow. Wtf?&quot; Werden sich gerade einige fragen. Aber mit dieser umgekehrten Sicht, kann man einfach mit einem Synchronisationswerkzeug das Ganze an syncronisieren. &quot;Wow!&quot; &lt;p/&gt; Ich verweise einfach nur auf den Artikel: &lt;a href=&quot;http://dbudwm.wordpress.com/tag/encfs/&quot;&gt;Daten sicher in der Synchro-Wolke dank encfs&lt;/a&gt;.&lt;p/&gt; Habe leider keine Ahnung, ob dieser Modus auch für Mac bzw. auch für Windows via dokan verfügbar ist. :|&lt;p/&gt; P.S. Python WrapperSkript &lt;a href=&quot;http://blog.fealdia.org/2012/12/06/encfs-reverse-rsync-encrb/&quot;&gt;encfs –reverse + rsync = encrb&lt;/a&gt;
+
+</description>
+      <pubDate>Sun, 17 Feb 2013 22:42:00 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/backup/rsync/server/2013/02/17/EncFS---reverse.html</guid>
+      <dc:date>2013-02-17T22:42:00Z</dc:date>
+    </item>
+    <item>
+      <title>Clean Code Regel für Sonar</title>
+      <link>http://blog.lgohlke.de/clean/code/java/sonar/2013/02/16/Clean-Code-Regel-f%C3%BCr-Sonar.html</link>
+      <description>Diese Woche habe ich das &lt;b&gt;'Clean Code: A Handbook of Agile Software Craftsmanship'&lt;/b&gt; noch einmal gelesen. Nach einem weiteren Jahr Praxis, sieht man viele Sachen schon wieder erstaunlich anders. &lt;br /&gt;Ich mußte dann doch gleich auf der Sonar-Mailingliste nachfragen, ob es schon eine Regel für 'G15 Selector Arguments' gibt. Gibt es wohl nicht.&lt;br /&gt;&lt;br /&gt;&lt;table align=&quot;center&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; class=&quot;tr-caption-container&quot; style=&quot;margin-left: auto; margin-right: auto; text-align: center;&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;http://3.bp.blogspot.com/-wU8VGcbGxLo/UR_TACPHHoI/AAAAAAAACbs/aKJBnuwJQKI/s1600/SelectorArgumentsRule.png&quot; imageanchor=&quot;1&quot; style=&quot;margin-left: auto; margin-right: auto;&quot;&gt;&lt;img border=&quot;0&quot; height=&quot;158&quot; src=&quot;http://3.bp.blogspot.com/-wU8VGcbGxLo/UR_TACPHHoI/AAAAAAAACbs/aKJBnuwJQKI/s200/SelectorArgumentsRule.png&quot; width=&quot;200&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;tr-caption&quot; style=&quot;text-align: center;&quot;&gt;Kleine Vorschau&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;Hier nun mein Beitrag dazu: &lt;a href=&quot;https://github.com/lkwg82/sonar-java/commit/9dcb5e1864d9deb6ce77c4f5e9c32e856b5a5505&quot;&gt;commit&lt;/a&gt;. Bin mal gespannt, ob und wenn in welcher Form die Regel aufgenommen wird.
+
+</description>
+      <pubDate>Sat, 16 Feb 2013 20:32:51 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/clean/code/java/sonar/2013/02/16/Clean-Code-Regel-f%C3%BCr-Sonar.html</guid>
+      <dc:date>2013-02-16T20:32:51Z</dc:date>
+    </item>
+    <item>
+      <title>Datenschutz auf dem Blocklevel bei Rootservern</title>
+      <link>http://blog.lgohlke.de/linux/server/2013/02/11/Datenschutz-auf-dem-Blocklevel-bei-Rootservern.html</link>
+      <description>Ich habe vor kurzem meinen Server umgezogen, wie in &lt;a href=&quot;http://blog.lgohlke.de/2013/01/serverborse-bei-hetzner.html&quot;&gt;Serverbörse bei Hetzner&lt;/a&gt; angekündigt. Dabei ging es mir vorallem um mehr Speicherplatz. Die Kapazität ohne monatliche Mehrkosten konnte ich von 750GB auf 3TB erhöhen.&lt;/p&gt; So ein Umzug ist auch immer ein Neuanfang. Ja, so pathetisch wie es klingt, so denkt man auch ... ganz kurz. Ich habe mir vorgenommen einige Sachen besser zu machen.&lt;p/&gt; Bei meinem letzten Umzug waren die großen Veränderungen, dass ich die einzelnen Dienste in autonome virtuelle Maschine portiert. Diese VMs laufen nun in einem virtuellen Netz auf dem Server, mittels Virtualbox. Läuft alles wunderbar und man kann schnell mal experimentieren und neue VMs dazupacken.&lt;p/&gt; Bei &lt;i&gt;diesem&lt;/i&gt; Umzug war mir Datensicherheit sehr wichtig. Zeitgleich ist mir zuhause eine 2TB Platte peu-à-peu kaputt gegangen. Beim Dumpen der Daten ist mir dann wieder bewußt geworden, dass auch lokal bei 100MB/s immer noch knappe 6h zum Kopieren notwendig sind. Ich versuche meine kaputten Platten vor dem Verschrotten meistens noch einige Runden zu shreddern.&lt;br/&gt;Bei meinem neuen Rootserver habe ich mir überlegt mit einer Basisverschlüsselung, kann ich mir das Shreddern sparen. Dank AES und schnellen Prozessoren ist der Leistungsabfall recht gering und verschmerzbar.&lt;p/&gt; &lt;strong&gt;Ziel: Absicherung bei Server-/Festplattentausch&lt;/strong&gt; &lt;h3&gt;Vorgehensweise:&lt;/h3&gt; Aufbauend auf diesen Anleitungen &lt;a href=&quot;http://www.andreas-janssen.de/cryptodisk.html&quot;&gt;Festplattenverschlüsselung mit Debian GNU/Linux&lt;/a&gt; und &lt;a href=&quot;https://systemausfall.org/wikis/howto/CryptoPartitionHowTo&quot;&gt;CryptoPartitionHowTo&lt;/a&gt; habe ich &lt;tt&gt;cryptsetup&lt;/tt&gt; eingesetzt.   Die Formatierung, wie in den Anleitungen angegeben (mit luks) und dann ...&lt;p/&gt; &lt;tt&gt;/etc/crypttab&lt;/tt&gt;&lt;pre class=&quot;brush:bash;gutter: false;&quot;&gt;&lt;br /&gt;...&lt;br /&gt;crypted-md2     /dev/md2        /etc/disk.key   luks&lt;br /&gt;...&lt;br /&gt;&lt;/pre&gt; &lt;tt&gt;lvm config&lt;/tt&gt;&lt;pre class=&quot;brush:bash;gutter: false;&quot;&gt;&lt;br /&gt;# lvs&lt;br /&gt;  LV         VG          Attr     LSize   Pool Origin Data%  Move Log Copy%  Convert&lt;br /&gt;  vm         raid1       -wi-ao-- 400.00g&lt;br /&gt;...&lt;br /&gt;&lt;/pre&gt;  &lt;tt&gt;/etc/fstab&lt;/tt&gt;&lt;pre class=&quot;brush:bash;gutter: false;&quot;&gt;&lt;br /&gt;...&lt;br /&gt;/dev/raid1/vm                   /vm             ext4 defaults 0 0&lt;br /&gt;...&lt;br /&gt;&lt;/pre&gt; &lt;h3&gt;kleines Benchmark&lt;/h3&gt; Zuerst von der &amp;quot;rohen&amp;quot; Festplatte, dann vom verschlüsselten Gerät. Der Arbeitspeicher hat die Größe von 12GB, daher nehme ich zum Test mehr, dass mir kein Caching dazwischen kommt.  &lt;pre class=&quot;brush:bash;gutter: false;&quot;&gt;&lt;br /&gt;root@wirt2:~# hdparm -t /dev/sda&lt;br /&gt;&lt;br /&gt;/dev/sda:&lt;br /&gt; Timing buffered disk reads: 356 MB in  3.00 seconds = 118.53 MB/sec&lt;br /&gt;&lt;/pre&gt; von der Festplatte &lt;tt&gt;/dev/sda&lt;/tt&gt;&lt;pre class=&quot;brush:bash; gutter:false;&quot;&gt;&lt;br /&gt;root@wirt2:/vm# time dd if=/dev/sda bs=1M count=10k  &gt; /dev/null&lt;br /&gt;10240+0 records in&lt;br /&gt;10240+0 records out&lt;br /&gt;10737418240 bytes (11 GB) copied, 82.7227 s, 130 MB/s&lt;br /&gt;&lt;br /&gt;real 1m22.725s&lt;br /&gt;user 0m0.404s&lt;br /&gt;sys 0m22.109s&lt;br /&gt;&lt;/pre&gt;  aus der Datei &lt;tt&gt;/vm/x&lt;/tt&gt;&lt;pre class=&quot;brush:bash; gutter:false;&quot;&gt;&lt;br /&gt;root@wirt2:/vm# time dd if=x bs=1M count=10k &gt; /dev/null&lt;br /&gt;10240+0 records in&lt;br /&gt;10240+0 records out&lt;br /&gt;10737418240 bytes (11 GB) copied, 80.9839 s, 133 MB/s&lt;br /&gt;&lt;br /&gt;real 1m20.986s&lt;br /&gt;user 0m0.248s&lt;br /&gt;sys 0m16.261s&lt;br /&gt;&lt;/pre&gt; Aufgrund der Zahlen läßt sich abschätzen, dass die Grundverschlüsselung bei heutigen Prozessoren durchaus tragbar ist, sofern die Last niedrig bis mittel ist. Mit &lt;a href=&quot;http://datacenteroverlords.com/2011/09/07/aes-ni-pimp-your-aes/&quot;&gt;AES-NI&lt;/a&gt; sollte es dann weiter im Grundrauschen versinken. (Auf diesem Server ist ein i7 CPU 975 @ 3.33GHz.)
+
+</description>
+      <pubDate>Mon, 11 Feb 2013 15:38:00 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/linux/server/2013/02/11/Datenschutz-auf-dem-Blocklevel-bei-Rootservern.html</guid>
+      <dc:date>2013-02-11T15:38:00Z</dc:date>
+    </item>
+    <item>
+      <title>Buch&amp;colon; Schöner wird es nicht</title>
+      <link>http://blog.lgohlke.de/literatur/2013/02/10/Buch%3A-Sch%C3%B6ner-wird-es-nicht.html</link>
+      <description>Ich möchte hier einfach mal anfangen zu erwähnen, welche Bücher mich einfach nur geschlaucht haben, mir Spaß gemacht haben und ich weiterempfehlen kann, oder auch nicht. &lt;p/&gt;&lt;h2&gt;&quot;Schöner wird's nicht&quot;&lt;/h2&gt; von David Sedaris&lt;p/&gt; Punkte: 3 von 5&lt;/p&gt; Ich fand schlecht rein und mußte mich erst an die Banalität gewöhnen. Nachher hat mich das Buch dann aber auch nicht mehr losgelassen. Ich würde es am ehesten mit einer Seifenoper vergleichen ... eigentlich nichts was einen interessiert aber nach 15 Minuten Langeweile, wird es doch auf ganz magische Weise interessant und man ist abhängig ;).
+
+</description>
+      <pubDate>Sun, 10 Feb 2013 23:05:00 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/literatur/2013/02/10/Buch%3A-Sch%C3%B6ner-wird-es-nicht.html</guid>
+      <dc:date>2013-02-10T23:05:00Z</dc:date>
+    </item>
+    <item>
+      <title>Undeleting opened files on ext4</title>
+      <link>http://blog.lgohlke.de/2013/02/09/Undeleting-opened-files-on-ext4.html</link>
+      <description>Mich lässt das Thema nicht los:  Hier nun die kurze Anleitung, wie man gelöschte Dateien wiederherstellt, wenn sie noch von Prozessen geöffnet sind: &lt;ol&gt;  &lt;li&gt;pid finden&lt;/li&gt;  &lt;li&gt;filehandle finden : /proc/&amp;lt;pid&amp;gt;/fd &lt;/li&gt;  &lt;li&gt;mit cp dieses filehandle kopieren&lt;/li&gt;&lt;/ol&gt; Ausführliche Anleitung hier: http://glandium.org/blog/?p=87
+
+</description>
+      <pubDate>Sat, 09 Feb 2013 21:23:07 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/02/09/Undeleting-opened-files-on-ext4.html</guid>
+      <dc:date>2013-02-09T21:23:07Z</dc:date>
+    </item>
+    <item>
+      <title>Organspende</title>
+      <link>http://blog.lgohlke.de/2013/02/06/Organspende.html</link>
+      <description>Ich fand den Comic von Xkcd ziemlich interessant, meiner Meinung steckt da ziemlich viel drin, wenn man länger darüber nachdenkt.  &lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;&lt;a href=&quot;http://imgs.xkcd.com/comics/lego.png&quot; imageanchor=&quot;1&quot; style=&quot;margin-left:1em; margin-right:1em&quot;&gt;&lt;img border=&quot;0&quot; height=&quot;474&quot; width=&quot;548&quot; src=&quot;http://imgs.xkcd.com/comics/lego.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;   Gefunden bei Telepolis: &lt;a href=&quot;http://www.heise.de/tp/artikel/38/38321/1.html&quot;&gt;Organspende: Für und Wider&lt;/a&gt; 
+
+</description>
+      <pubDate>Wed, 06 Feb 2013 22:45:27 -0000</pubDate>
+      <guid>http://blog.lgohlke.de/2013/02/06/Organspende.html</guid>
+      <dc:date>2013-02-06T22:45:27Z</dc:date>
+    </item>
+    <dc:date>2014-09-06T18:23:07Z</dc:date>
+  </channel>
+</rss>

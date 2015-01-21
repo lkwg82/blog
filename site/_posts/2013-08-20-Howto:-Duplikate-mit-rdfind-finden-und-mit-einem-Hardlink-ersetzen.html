@@ -1,0 +1,283 @@
+---           
+layout: post
+title: Howto&colon; Duplikate mit rdfind finden und mit einem Hardlink ersetzen
+date: 2013-08-20 21:10:32 UTC
+updated: 2013-08-20 21:10:32 UTC
+comments: true
+categories: 
+---
+
+
+Am Wochenende habe ich mir wieder mein lokales Backup angeschaut, um es dann wie jeden Monat auf die externe Platte zu spiegeln. Dabei ist aufgefallen, dass&nbsp;
+<a href="http://backintime.le-web.org/">
+  backintime
+</a>
+&nbsp;sehr intelligent nur die geänderten oder neuen Dateien übernimmt. Allerdings sind fallen Umbenennungen bzw. verschobene Dateien jedes Mal mit der vollen Größe ins Gewicht.
+<br />
+
+<p>
+  Nun kommt 
+  <a href="http://rdfind.pauldreik.se/" title="rdfind">
+    rdfind
+  </a>
+  ins Spiel.
+</p>
+Mit dem Paketmanager installieren:  
+{% highlight bash %}
+$ sudo apt-get install rdfind
+{% endhighlight %}
+
+<h1>
+  Step-by-Step Demo
+</h1>
+
+{% highlight bash %}
+# emuliere eine Backupverzeichnisstruktur in /tmp
+$ cd /tmp/
+$ mkdir backup
+$ cd backup/
+$ mkdir -p 2013/{01..08}/home/lars
+# in jedem Verzeichnis 'lars' eine 100M Datei erstellen
+$ find -type d -name lars -exec dd if=/dev/zero bs=1M count=100 of={}/x \;
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,326316 s, 321 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,274126 s, 383 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,24677 s, 425 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,243897 s, 430 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,301347 s, 348 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,268799 s, 390 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,325733 s, 322 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,248939 s, 421 MB/s
+# aktuelle Platzverbrauch
+$ du -sh 
+801M    .
+
+$ rdfind -makehardlinks true *
+Now scanning "2013", found 8 files.
+Now have 8 files in total.
+Removed 0 files due to nonunique device and inode.
+Now removing files with zero size from list...removed 0 files
+Total size is 838860800 bytes or 800 Mib
+Now sorting on size:removed 0 files due to unique sizes from list.8 files left.
+Now eliminating candidates based on first bytes:removed 0 files from list.8 files left.
+Now eliminating candidates based on last bytes:removed 0 files from list.8 files left.
+Now eliminating candidates based on md5 checksum:removed 0 files from list.8 files left.
+It seems like you have 8 files that are not unique
+Totally, 700 Mib can be reduced.
+Now making results file results.txt
+Now making hard links.
+Making 7 links.
+
+$ du -sh 
+101M .
+{% endhighlight %}
+
+Das wurde hier an einer Datei demonstriert die in all ihren Kopien identisch ist, weil sie aus '0' besteht.  
+{% highlight bash %}
+# nun das ganze mit wild verstreuten Dateien
+# alte wegräumen
+$ find -type f -name x -exec rm {} \;
+# in jedem Verzeichnis eine 'x' 1MB groß
+$ find -type d -exec dd if=/dev/zero bs=1M count=1 of={}/x \;
+
+$ find
+.
+./2013
+./2013/01
+./2013/01/x
+./2013/01/home
+./2013/01/home/lars
+./2013/01/home/lars/x
+./2013/01/home/x
+./2013/03
+./2013/03/home/lars
+./2013/03/home/lars/x
+./2013/03/home/x
+./2013/07
+./2013/07/x
+./2013/07/home
+./2013/07/home/lars
+./2013/07/home/lars/x
+./2013/07/home/x
+./2013/08
+./2013/08/x
+./2013/08/home
+./2013/08/home/lars
+./2013/08/home/lars/x
+./2013/08/home/x
+./2013/06
+./2013/06/x
+./2013/06/home
+./2013/06/home/lars
+./2013/06/home/lars/x
+./2013/04/x
+./2013/04/home
+./2013/04/home/lars
+./2013/04/home/lars/x
+./2013/04/home/x
+./2013/02
+./2013/02/x
+./2013/02/home
+./2013/02/home/lars
+./2013/02/home/lars/x
+./2013/02/home/x
+./2013/05
+./2013/05/x
+./2013/05/home
+./2013/05/home/lars
+./2013/05/home/lars/x
+./2013/05/home/x
+./x
+
+# vorher
+$ du -sh 
+27M .
+
+$ rdfind -makehardlinks true *
+Now scanning "2013", found 25 files.
+Now scanning "x", found 1 files.
+Now have 26 files in total.
+Removed 0 files due to nonunique device and inode.
+Now removing files with zero size from list...removed 0 files
+Total size is 27262976 bytes or 26 Mib
+Now sorting on size:removed 0 files due to unique sizes from list.26 files left.
+Now eliminating candidates based on first bytes:removed 0 files from list.26 files left.
+Now eliminating candidates based on last bytes:removed 0 files from list.26 files left.
+Now eliminating candidates based on md5 checksum:removed 0 files from list.26 files left.
+It seems like you have 26 files that are not unique
+Totally, 25 Mib can be reduced.
+Now making results file results.txt
+Now making hard links.
+Making 25 links.
+
+# nachher
+$ du -sh 
+1,2M .
+{% endhighlight %}
+<p>
+  Auf der Homepage 
+  <a href="http://rdfind.pauldreik.se/">
+    rdfind
+  </a>
+  ist der Algorithmus einfach dargestellt.  
+  <div style="border:1px solid;padding:45px;">
+    <H2 CLASS="western">
+      <A NAME="g0.5">
+      </A>
+      Algorithm
+    </H2>
+    <P>
+      Rdfind uses the following algorithm. If N is the number of files to search through, the effort required is in worst case O(Nlog(N)). Because it sorts files on inodes prior to disk reading, it is quite fast. It also only reads from disk when it is needed.
+    </P>
+    <OL>
+      
+      <LI>
+        <P>
+          Loop over each argument on the command line. Assign each  argument a priority number, in increasing order.
+        </P>
+        
+        <LI>
+          <P>
+            For each argument, list the directory contents recursively  and assign it to the file list. Assign a directory depth number,  starting at 0 for every argument.
+          </P>
+          
+          <LI>
+            <P>
+              If the input argument is a file, add it to the file list.
+            </P>
+            
+            <LI>
+              <P>
+                Loop over the list, and find out the sizes of all files.
+              </P>
+              
+              <LI>
+                <P>
+                  If flag -removeidentinode true: Remove items from the list  which already are added, based on the combination of inode and  device number. A group of files that are hardlinked to the same file  are collapsed to one entry. Also see the comment on hardlinks under  ”caveats below”!
+                </P>
+                
+                <LI>
+                  <P>
+                    Sort files on size. Remove files from the list, which have  unique sizes.
+                  </P>
+                  
+                  <LI>
+                    <P>
+                      Sort on device and inode(speeds up file reading). Read a few  bytes from the beginning of each file (first bytes).
+                    </P>
+                    
+                    <LI>
+                      <P>
+                        Remove files from list that have the same size but different  first bytes.
+                      </P>
+                      
+                      <LI>
+                        <P>
+                          Sort on device and inode(speeds up file reading). Read a few  bytes from the end of each file (last bytes).
+                        </P>
+                        
+                        <LI>
+                          <P>
+                            Remove files from list that have the same size but different  last bytes.
+                          </P>
+                          
+                          <LI>
+                            <P>
+                              Sort on device and inode(speeds up file reading). Perform a  checksum calculation for each file.
+                            </P>
+                            
+                            <LI>
+                              <P>
+                                Only keep files on the list with the same size and checksum.  These are duplicates.
+                              </P>
+                              
+                              <LI>
+                                <P>
+                                  Sort list on size, priority number, and depth. The first file  for every set of duplicates is considered to be the original.
+                                </P>
+                                
+                                <LI>
+                                  <P>
+                                    If flag ”-makeresultsfile true”, then print results file  (default). Exit.(?)
+                                  </P>
+                                  
+                                  <LI>
+                                    <P>
+                                      If flag ”-deleteduplicates true”, then delete (unlink)  duplicate files. Exit.
+                                    </P>
+                                    
+                                    <LI>
+                                      <P>
+                                        If flag ”-makesymlinks true”, then replace duplicates  with a symbolic link to the original. Exit.
+                                      </P>
+                                      
+                                      <LI>
+                                        <P>
+                                          If flag ”-makehardlinks true”, then replace duplicates  with a hard link to the original. Exit.
+                                        </P>
+      </OL>
+</diV>
+
+<h1>
+  Fazit
+</h1>
+Einfach zu lernen. Ich hatte eine sehr gute 
+<i>
+  user experience
+</i>
+;).

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="de" >
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"/>
+	<meta name="HandheldFriendly" content="true"/>
+        <title>Sicheres und einfaches Backup mit Encfs in die Cloud</title>
+	<link rel="stylesheet" href="/css/201407230018.min.css"/>
+	<link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+    </head>
+    <body>
+	
+	<div class="row" id="header">
+		<h2 class="title"><a href="/">Erw&auml;hnenswert</a></h2>
+	</div>
+
+	<div class="site">
+		<div class="row">
+			<div class="col-md-8 content">
+				
+					<div class="post">
+	<article itemscope itemtype="http://schema.org/Article">
+		<header>
+			<time datetime="2013-04-08T21:53:04Z" pubdate  class="date">08 Apr 2013</time>
+			<h1 itemprop="headline">Sicheres und einfaches Backup mit Encfs in die Cloud</h1>
+		</header>
+		<text itemprop="text">
+		<p>Wie in <a href="http://blog.lgohlke.de/2013/02/encfs-reverse.html">encfs --reverse</a> schon angekündigt, stellt  <a href="http://www.arg0.net/encfs">encfs</a> eine einfache praktikable Lösung bereit, Klartext-Verzeichnise on-the-fly als verschlüsselte Verzeichnisse zu mounten.</p> <h2 style=""> Übersicht </h2>  Dazu bedarf es nur weniger Zeilen (1) und der Information zur Verschlüsselung im Klartextverzeichnis (2) <ol><li><pre class="brush:bash"> <br />encfs --reverse clear-text-directory directory-to-show-as-encrypted <br /></pre></li><li> <pre class="brush:bash"><br />$ ls -al<br />insgesamt 2768<br />drwxr-xr-x 10 lars lars    4096 Mär 15 15:18 .<br />drwxr-xr-x  3 lars lars    4096 Dez 17 23:46 ..<br />...<br />-rw-r--r--  1 lars lars    1090 Feb 13 10:39 .encfs6.xml<br />...<br /></pre></li></ol> Die Datei aus (2) bekommt man durch den klassischen Weg (Anlegen eines verschlüsselten Verzeichnisses) <pre class="brush:bash"> <br />encfs clear-text-directory directory-to-show-as-encrypted <br />...<br /></pre> Das Ganze mal in ein Skript verpackt, welches aus dem aktuellsten <a href="http://wiki.ubuntuusers.de/Back_In_Time">backintime</a> Verzeichnis meine Bilder in die Cloud sichert. (Die Cloud ist hier jetzt mein Server ;)) <p/> <h2>Praxisbeispiel</h2> Sie sieht die Ausführung aus: <pre class="brush:bash"><br />$ ./bilder_backup.sh <br />Give pw for encView<br />EncFS-Passwort: <br />insgesamt 3,1M<br />4,0K dr-xr-xr-x 10 lars lars 4,0K Mär 15 15:18 .<br />328K drwxrwxrwt 21 root root 324K Apr  8 22:20 ..<br />1,4M -r--r--r-- 14 lars lars 1,3M Sep  9  2012 72EM,II1<br />4,0K -r--r----- 17 lars lars  407 Jun 26  2006 8HFavTtakwyTC-<br />4,0K -r--r--r--  8 lars lars 1,1K Feb 13 10:39 cZcEr1j6cPnLRha10,<br />292K -r--r----- 17 lars lars 292K Jun  7  2005 gbrODCTZU3wCc9JgQsusQz-5<br />4,0K dr-xr-xr-x  7 lars lars 4,0K Sep  9  2012 Ki4-qaws1mXW<br />4,0K dr-xr-xr-x 24 lars lars 4,0K Mär 14 17:25 KW,cCDCPQgQA<br />388K -r--r----- 17 lars lars 386K Jan  2  2005 kykBT6MBxWsN7Rs4usZjBZyOKITWbBC<br />4,0K dr-xr-x---  3 lars lars 4,0K Nov  9  2009 loVuTdSv6Rcx1vRqzXMMDFaFF-j-32OmZo7<br />4,0K -r-xr-xr-x 17 lars lars  233 Jun 26  2006 meqPWsFAIhi1<br />4,0K dr-xr-x---  3 lars lars 4,0K Jan 12  2010 ny8KaOyd0hQ8S0<br />4,0K dr-xr-x---  2 lars lars 4,0K Okt 23  2009 teUPxPhzK3bXr1<br />4,0K dr-xr-xr-x 12 lars lars 4,0K Sep 15  2010 twep7Wbbb1uN<br />4,0K dr-x------  8 lars lars 4,0K Okt 21 15:19 v4ZC-SmXGf3<br />352K -r--r----- 17 lars lars 351K Apr  3  2005 XL7z8lqo0OqMpZlx91<br />4,0K dr-xr-xr-x  7 lars lars 4,0K Apr  9  2008 xP-CpRIY9YcqybC,HOLNkWqW<br />352K -r--r----- 17 lars lars 351K Aug 30  2006 xqI6SUadWF9PR-556ChJF6-VWVM0eCB<br />building file list ... <br />20080 files to consider<br />Ki4-qaws1mXW/wNovM37-LeKdn00/ErfqKTMMk4r0dFPCqxGX-sv9fLNX/<br />Ki4-qaws1mXW/wNovM37-LeKdn00/ErfqKTMMk4r0dFPCqxGX-sv9fLNX/hz0wj1FP6JLTDeC/<br />Ki4-qaws1mXW/wNovM37-LeKdn00/ErfqKTMMk4r0dFPCqxGX-sv9fLNX/hz0wj1FP6JLTDeC/2sTxd26gZ1fkEACTyEkga3KuEGGm4m2UElmRF5knNre1YZyutl2nKsf,VwEuYX8<br />         262 100%    0.00kB/s    0:00:00 (xfer#1, to-check=11491/20080)<br /><br />Number of files: 20080<br />Number of files transferred: 1<br />Total file size: 96218876503 bytes<br />Total transferred file size: 262 bytes<br />Literal data: 262 bytes<br />Matched data: 0 bytes<br />File list size: 687638<br />File list generation time: 3.391 seconds<br />File list transfer time: 0.000 seconds<br />Total bytes sent: 687964<br />Total bytes received: 41<br /><br />sent 687964 bytes  received 41 bytes  65524.29 bytes/sec<br />total size is 96218876503  speedup is 139852.00<br /></pre> und so das Skript dazu: <pre class="brush:bash"><br />#!/bin/bash<br /><br />set -e<br />#set -x <br /><br />pathToImages=home/lars/remote/lars/volume_i/bilder/<br />lastBackup=$(find /backup/backintime/lars-G33-DS3R/lars/1 -maxdepth 1 -type d |  sort -n | tail -n1)<br /><br />path=$lastBackup/backup/$pathToImages<br /><br />pathToEncView=$(tempfile).d<br />mkdir $pathToEncView<br /><br />echo Give pw for encView<br />encfs --reverse $path $pathToEncView<br /><br />ls -alsh $pathToEncView<br /><br />continue=1<br />while( [ $continue == 1 ] );<br />do<br />        rsync -v --stats --progress -e ssh  --partial --archive --delete-after --log-file=log  $pathToEncView/* wirt2.lgohlke.de:/backup/uploaded/Bilder/.backend && continue=0 || sleep 1<br />done<br /><br /><br />sudo umount $pathToEncView<br />rmdir $pathToEncView<br /></pre> Das Skript mounted die Sicht auf das verschlüsselte Verzeichnis in ein temporäres Verzeichnis (Zeile 11) und löscht dieses wieder (Zeile 27).<br/>Das Hochladen der Bilder erfolgt über rsync+ssh und wird so lange wiederholt, bis das Backup erfolgreich war und nicht zwischendurch abgebrochen ist.<p/> <h2>Fazit</h2><ol><li>Mit ausreichender Verschlüsselung sind die Daten sicher!</li><li>Damit kann nun auch Dropbox o.ä. genutzt werden. Dorthinein mounten und hochladen lassen.</li></ol>
+		</text>
+	</article>
+	
+	<div class="row" id="neighbors">
+		<div class="col-xs-6 prev">			
+			 
+				<a href="/2013/04/01/Vncserver-nur-von-lokal-erreichbar-starten.html" rel="prev" title="Vncserver nur von lokal erreichbar starten">&laquo; previous</a> 
+			 
+		</div>
+		<div class="col-xs-6 next">			
+			 
+				<a href="/2013/04/09/Github-page.html" rel="next" title="Github page">next &raquo;</a> 
+			 
+		</div>
+	</div>
+</div>
+
+
+   <div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'lgohlke'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+
+ 
+
+				
+			</div>
+			<div class="col-md-4 recent">
+				<h3>recent posts</h3>
+				
+				<ul>
+				
+					
+						
+							<li><a href="/spam/phishing/funny/mails/2014/09/06/best-of-spam-part-I.html">BestOfSpam - +++Geheimdienst ermittelt+++</a></li>
+						
+					
+						
+							<li><a href="/sonarqube/plugin/sonar-mojobridge/2014/05/25/sonarqube-plugin-mojobridge-supports-sonarqube-4.2-and-above.html">SonarQube Mojo Bridge now supports Sonarqube 4.2 and above</a></li>
+						
+					
+						
+							<li><a href="/backup/system/perl/2014/05/18/clever-backup-compatibility-with-ubuntu-14.04.html">new release of clever-backup fixed compatibility issue with ubuntu 14.04</a></li>
+						
+					
+						
+							<li><a href="/ssh/security/hijacking/2014/05/18/SSH-Agent-Forwarding-Is-a-Bug.html">SSH Agent Forwarding Is a Bug</a></li>
+						
+					
+						
+							<li><a href="/multimedia/2014/04/11/convert-and-rotate-videos-automatically-to-h264.html">Rotate and convert videos automatically to h264 in the shell</a></li>
+						
+					
+						
+							<li><a href="/security/privacy/2014/04/10/truecrypt-with-keyfiles-and-pam.html">Truecrypt mit Keyfiles und pam_exec automatisch mounten</a></li>
+						
+					
+						
+							<li><a href="/linux/2014/04/06/hibernate-and-resume-with-dm-crypt.html">hibernate and resume with dm-crypt under ubuntu</a></li>
+						
+					
+						
+							<li><a href="/2014/02/09/babyphone-mit-dem-raspberry-pi.html">Howto Babyphone mit dem Raspberry PI</a></li>
+						
+					
+						
+							<li><a href="/2014/02/04/thoughtworks-technology-radar-2014.html">Thoughtworks Technology Radar</a></li>
+						
+					
+						
+							<li><a href="/2014/01/31/Blog-Relaunch-mit-jekyll.html">Blog relaunched mit Jekyll</a></li>
+						
+					
+						
+							<li><a href="/2013/12/09/%22Leading-Change%22-in-einer-Agile-Company.html">Leading Change in einer Agile Company</a></li>
+						
+					
+				
+				
+				</ul>
+				
+
+
+
+
+<div class="share42init" data-path="/img/">
+	<span id="share42">
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -0px 0 no-repeat" href="https://www.evernote.com/clip.action?url=http://blog.lgohlke.de/2013/04/08/Sicheres-und-einfaches-Backup-mit-Encfs-in-die-Cloud.html&amp;title=Sicheres%20und%20einfaches%20Backup%20mit%20Encfs%20in%20die%20Cloud" title="Share on Evernote" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -32px 0 no-repeat" href="#" data-count="fb" onclick="window.open('http://www.facebook.com/sharer.php?u=http://blog.lgohlke.de/2013/04/08/Sicheres-und-einfaches-Backup-mit-Encfs-in-die-Cloud.html', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Facebook" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -64px 0 no-repeat" href="#" onclick="window.open('https://plus.google.com/share?url=http://blog.lgohlke.de/2013/04/08/Sicheres-und-einfaches-Backup-mit-Encfs-in-die-Cloud.html', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Google+" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -96px 0 no-repeat" href="#" data-count="pin" onclick="window.open('http://pinterest.com/pin/create/button/?url=http://blog.lgohlke.de/2013/04/08/Sicheres-und-einfaches-Backup-mit-Encfs-in-die-Cloud.html&amp;media=null&amp;description=Sicheres%20und%20einfaches%20Backup%20mit%20Encfs%20in%20die%20Cloud', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=600, height=300, toolbar=0, status=0');return false" title="Pin It" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -128px 0 no-repeat" href="#" data-count="twi" onclick="window.open('https://twitter.com/intent/tweet?text=Sicheres%20und%20einfaches%20Backup%20mit%20Encfs%20in%20die%20Cloud&amp;url=http://blog.lgohlke.de/2013/04/08/Sicheres-und-einfaches-Backup-mit-Encfs-in-die-Cloud.html', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Twitter" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -160px 0 no-repeat" href="/rss.xml" title="Subscribe to RSS feed" target="_blank"></a>
+	</span>
+</div>
+
+			</div>
+		</div>	
+	</div>	
+	<div id="footer">
+	<div class="row contact" itemscope itemtype="http://schema.org/Person">
+		<div class="col-xs-4">
+			<span itemprop="name">Lars K.W. Gohlke</span>
+		</div>
+		<div class="col-xs-4">
+			<a href="http://www.lgohlke.de/#impressum" itemprop="url" rel="prefetch">impressum</a>
+		</div>
+		<div class="col-xs-4">
+			<a href="https://github.com/lkwg82">github.com/lkwg82</a><br />
+		</div>
+		
+		<span class="version">last changed 2014-09-06 18:00:18 +0200 bd2c017539652abb7084e6a9ea47853b985fbdfd</span>
+	</div>
+	
+</div>
+	<script src="/js/ga.js" async></script>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </body>
+</html>

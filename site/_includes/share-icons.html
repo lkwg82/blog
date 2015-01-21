@@ -1,0 +1,18 @@
+{% if  paginator.posts %}
+
+{% else %}
+
+{% capture title %}{{ page.title | uri_escape }}{% endcapture %}
+{% capture url %}{{site.url| uri_escape}}{{ page.url | uri_escape }}{% endcapture %}
+
+<div class="share42init" data-path="/img/">
+	<span id="share42">
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -0px 0 no-repeat" href="https://www.evernote.com/clip.action?url={{url}}&amp;title={{title}}" title="Share on Evernote" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -32px 0 no-repeat" href="#" data-count="fb" onclick="window.open('http://www.facebook.com/sharer.php?u={{url}}', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Facebook" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -64px 0 no-repeat" href="#" onclick="window.open('https://plus.google.com/share?url={{url}}', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Google+" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -96px 0 no-repeat" href="#" data-count="pin" onclick="window.open('http://pinterest.com/pin/create/button/?url={{url}}&amp;media=null&amp;description={{title}}', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=600, height=300, toolbar=0, status=0');return false" title="Pin It" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -128px 0 no-repeat" href="#" data-count="twi" onclick="window.open('https://twitter.com/intent/tweet?text={{title}}&amp;url={{url}}', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Twitter" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -160px 0 no-repeat" href="/rss.xml" title="Subscribe to RSS feed" target="_blank"></a>
+	</span>
+</div>
+{% endif %}

@@ -1,0 +1,89 @@
+---           
+layout: post
+title: Rotate and convert videos automatically to h264 in the shell
+date: 2014-04-11 21:23:07 UTC
+updated: 2014-04-11 21:23:07 UTC
+comments: true
+categories: multimedia
+---
+
+<p>Recently I had the luck to welcome my daughter on earth. I almost welcomed her with my smartphone in my hand recording a video. Actually I did not! But later I did a lot of videos.</p>
+
+<p>I wonder how to not fill up my disk in a few weeks I had to compress them without loosing too much quality.</p>
+
+<p>
+This is my solution:
+
+{% highlight bash %}
+#!/bin/bash
+#set -e
+set +x
+
+size=-1
+
+function determineMaxVideoSize(){
+        local source=$1
+        local width=$(exiftool $source | grep -i "^Image Width" | sed -e 's#.*: ##');
+        local height=$(exiftool $source | grep -i "^Image Height" | sed -e 's#.*: ##');
+
+        local max=$(($width>$height ? $width : $height));
+
+        if [ $max -gt 1280 ];
+        then
+                size=hd720;
+        else
+                size=$width"x"$height;
+        fi
+}
+
+function _convert(){
+        local source=$1
+        local target="$1.avi"
+        if [ -f $target ];
+        then
+                echo "skipping '$source', because '$target' already exists"
+        else
+                # exiftool comes with libimage-exiftool-perl
+                local rotation=$(exiftool $source | grep -i ^Rotation | sed -e 's#.*: ##');
+
+                declare -A videoFilter
+                videoFilter=(
+                        [90]='transpose=1' \
+                        [180]='transpose=1,transpose=1' \
+                        [270]='transpose=1,transpose=1,transpose=1' \
+                );
+
+                determineMaxVideoSize $source;
+
+                local metadata=$(tempfile)
+                avconv -y -i $source -f ffmetadata $metadata
+
+                echo "rotation: $rotation"
+                local videoFilter="-vf ${videoFilter[$rotation]}"
+                if [ $rotation == 0 ];
+                then
+                        videoFilter="";
+                fi
+
+                cmd="avconv -xerror -i $source \
+                        -acodec libmp3lame -ab 160000  `# mp3 160kB/s` \
+                        -vcodec libx264 -maxrate 2500k -bufsize 1000000 -r 25 -s $size $videoFilter `# 25fps, 1280x720` \
+                        $target.tmp.avi \
+                        -i $metadata -map_metadata 1 -map 0 `# add dumped metadata`"
+
+                $cmd && \
+                        mv $target.tmp.avi $target && \
+                        touch -r "$source" "$target"
+        fi
+}
+
+export -f _convert
+export -f determineMaxVideoSize
+
+find -maxdepth 1 -type f -name "*MOV" -o -name "*3gp" -o -name "*mp4" | xargs -n1 -I {} bash -c '_convert {}'
+{% endhighlight %}
+
+I decided to save the script as <tt>convertCamVideo2ArchivVideo.sh</tt> in <tt>~/bin</tt>. So you can run it from everywhere as this path is already in <code>PATH</code>.
+</p>
+
+<p>For me it is running perfectly well.</p>

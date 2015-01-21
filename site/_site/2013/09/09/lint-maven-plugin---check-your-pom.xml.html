@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="de" >
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"/>
+	<meta name="HandheldFriendly" content="true"/>
+        <title>lint-maven-plugin - check your pom.xml</title>
+	<link rel="stylesheet" href="/css/201407230018.min.css"/>
+	<link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+    </head>
+    <body>
+	
+	<div class="row" id="header">
+		<h2 class="title"><a href="/">Erw&auml;hnenswert</a></h2>
+	</div>
+
+	<div class="site">
+		<div class="row">
+			<div class="col-md-8 content">
+				
+					<div class="post">
+	<article itemscope itemtype="http://schema.org/Article">
+		<header>
+			<time datetime="2013-09-09T14:00:02Z" pubdate  class="date">09 Sep 2013</time>
+			<h1 itemprop="headline">lint-maven-plugin - check your pom.xml</h1>
+		</header>
+		<text itemprop="text">
+		We know for each and everything there are some <i>Do's</i> and many <i>Don'ts</i>. This is about recommendations on your <a href="http://maven.apache.org/guides/introduction/introduction-to-the-pom.html">pom.xml</a> of your maven project.<p/>
+
+Just try this: <br/>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mvn com.lewisd:lint-maven-plugin:check
+<span class="o">[</span>INFO<span class="o">]</span> Scanning <span class="k">for </span>projects...
+<span class="o">[</span>INFO<span class="o">]</span>                                                                         
+<span class="o">[</span>INFO<span class="o">]</span> ------------------------------------------------------------------------
+<span class="o">[</span>INFO<span class="o">]</span> Building Maven POM lint plugin 0.0.9-SNAPSHOT
+<span class="o">[</span>INFO<span class="o">]</span> ------------------------------------------------------------------------
+<span class="o">[</span>INFO<span class="o">]</span> 
+<span class="o">[</span>INFO<span class="o">]</span> --- lint-maven-plugin:0.0.8:check <span class="o">(</span>default-cli<span class="o">)</span> @ lint-maven-plugin ---
+<span class="o">[</span>INFO<span class="o">]</span> Writing summary report
+<span class="o">[</span>INFO<span class="o">]</span> <span class="o">[</span>LINT<span class="o">]</span> Completed with 3 violations
+<span class="o">[</span>INFO<span class="o">]</span> <span class="o">[</span>LINT<span class="o">]</span> OSSIssueManagementSectionRule: missing  section : 0:0 : /home/lars/development/workspaces/sonar/lint-maven-plugin/pom.xml
+<span class="o">[</span>INFO<span class="o">]</span> <span class="o">[</span>LINT<span class="o">]</span> ExecutionId: Executions must specify an id : 346:40 : /home/lars/development/workspaces/sonar/lint-maven-plugin/pom.xml
+<span class="o">[</span>INFO<span class="o">]</span> <span class="o">[</span>LINT<span class="o">]</span> OSSContinuousIntegrationManagementSectionRule: missing  section : 0:0 : /home/lars/development/workspaces/sonar/lint-maven-plugin/pom.xml
+<span class="o">[</span>INFO<span class="o">]</span> Writing xml report
+<span class="o">[</span>INFO<span class="o">]</span> ------------------------------------------------------------------------
+<span class="o">[</span>INFO<span class="o">]</span> BUILD FAILURE
+<span class="o">[</span>INFO<span class="o">]</span> ------------------------------------------------------------------------
+<span class="o">[</span>INFO<span class="o">]</span> Total <span class="nb">time</span>: 2.678s
+<span class="o">[</span>INFO<span class="o">]</span> Finished at: Mon Sep 09 02:00:32 CEST 2013
+<span class="o">[</span>INFO<span class="o">]</span> Final Memory: 11M/267M
+<span class="o">[</span>INFO<span class="o">]</span> ------------------------------------------------------------------------
+<span class="o">[</span>ERROR<span class="o">]</span> Failed to execute goal com.lewisd:lint-maven-plugin:0.0.8:check <span class="o">(</span>default-cli<span class="o">)</span> on project lint-maven-plugin: <span class="o">[</span>LINT<span class="o">]</span> Violations found. For more details, see error messages above, or results in /home/lars/development/workspaces/sonar/lint-maven-plugin/target/maven-lint-result.xml -&gt; <span class="o">[</span>Help 1<span class="o">]</span>
+<span class="o">[</span>ERROR<span class="o">]</span> 
+<span class="o">[</span>ERROR<span class="o">]</span> To see the full stack trace of the errors, re-run Maven with the -e switch.
+<span class="o">[</span>ERROR<span class="o">]</span> Re-run Maven using the -X switch to <span class="nb">enable </span>full debug logging.
+<span class="o">[</span>ERROR<span class="o">]</span> 
+<span class="o">[</span>ERROR<span class="o">]</span> For more information about the errors and possible solutions, please <span class="nb">read </span>the following articles:
+<span class="o">[</span>ERROR<span class="o">]</span> <span class="o">[</span>Help 1<span class="o">]</span> http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+</code></pre></div>
+
+<h2>list of rules</h2> You can see the list of supported rules with <pre class="brush:bash"><br />$ mvn com.lewisd:lint-maven-plugin:list<br /></pre> <style type="text/css">li.c { list-style: none; width: 500px; text-align: justify; } li.h { list-style: none; font-size: 130%; margin-left: -1em; text-decoration: underline; margin-top: 1em; } </style> <ul>  <li class="h"> DotVersionProperty </li><li class="c">  The convention is to specify properties used to hold versions as  "some.library.version",or some-library.version, but never some-library-version or some.library-version.  </li><li class="h"> DuplicateDep</li><li class="c">  Multiple dependencies, in <dependencies> or <managedDependencies>, with the same  co-ordinatesare reduntant, and can be confusing. If they have different versions, they can  leadto unexpected behaviour.  </li><li class="h"> ExecutionId</li><li class="c">  Executions should always specify an id, so they can be overridden in child  modules,and uniquely identified in build logs.  </li><li class="h"> GAVOrder</li><li class="c">  Maven convention is that the groupId, artifactId, and version elements be listed  inthat order. Other elements with short, simple content, such as type, scope,  classifier,etc, should be before elements with longer content, such as configuration,  executions,and exclusions, otherwise they can be easily missed, leading to confusion  </li><li class="h"> OSSContinuousIntegrationManagementSectionRule</li><li class="c">  For better understanding the project a link to the used integration system helps  usersto trust.  </li><li class="h"> OSSDevelopersSectionRule</li><li class="c">  The users/developers need to know where to get active bugs and to report new  onesto.  </li><li class="h"> OSSInceptionYearRule</li><li class="c">  For better understanding the project the inception year of your project is  required.  </li><li class="h"> OSSIssueManagementSectionRule</li><li class="c">  The users/developers need to know where to get active bugs and to report new  onesto.  </li><li class="h"> OSSLicenseSectionRule</li><li class="c">  Each project should be licensed under a specific license so the terms of usage  areclear.  </li><li class="h"> OSSUrlSectionRule</li><li class="c">  For better understanding the project a link to your project is required.  </li><li class="h"> ProfileOnlyAddModules</li><li class="c">  Profiles who's ids match the pattern with-.* must only add modules to the  reactor.  </li><li class="h"> RedundantDepVersion</li><li class="c">  Dependency versions should be set in one place, and not overridden without  changingthe version. If, for example, <dependencyManagement> sets a version, and  <dependencies>somewhere overrides it, but with the same version, this can make version  upgradesmore difficult, due to the repetition.  </li><li class="h"> RedundantPluginVersion</li><li class="c">  Plugin versions should be set in one place, and not overridden without changing  theversion. If, for example, <pluginManagement> sets a version, and <plugins> somewhereoverrides it, but with the same version, this can make version upgrades more  difficult,due to the repetition.  </li><li class="h"> VersionProp</li><li class="c">  The ${version} property is deprecated. Use ${project.version} instead.    </li></ul> <hr/>The source can be found on github <a href="https://github.com/lewisd32/lint-maven-plugin">https://github.com/lewisd32/lint-maven-plugin</a> currently version 0.0.8 is online. <p/> Contributions are welcome and will be integrated very fast, thanks to Lewis!
+
+		</text>
+	</article>
+	
+	<div class="row" id="neighbors">
+		<div class="col-xs-6 prev">			
+			 
+				<a href="/2013/08/20/Howto%3A-Duplikate-mit-rdfind-finden-und-mit-einem-Hardlink-ersetzen.html" rel="prev" title="Howto&colon; Duplikate mit rdfind finden und mit einem Hardlink ersetzen">&laquo; previous</a> 
+			 
+		</div>
+		<div class="col-xs-6 next">			
+			 
+				<a href="/2013/11/06/secure-alternative-to-ssh-agent.html" rel="next" title="secure alternative to ssh-agent">next &raquo;</a> 
+			 
+		</div>
+	</div>
+</div>
+
+
+   <div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'lgohlke'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+
+ 
+
+				
+			</div>
+			<div class="col-md-4 recent">
+				<h3>recent posts</h3>
+				
+				<ul>
+				
+					
+						
+							<li><a href="/spam/phishing/funny/mails/2014/09/06/best-of-spam-part-I.html">BestOfSpam - +++Geheimdienst ermittelt+++</a></li>
+						
+					
+						
+							<li><a href="/sonarqube/plugin/sonar-mojobridge/2014/05/25/sonarqube-plugin-mojobridge-supports-sonarqube-4.2-and-above.html">SonarQube Mojo Bridge now supports Sonarqube 4.2 and above</a></li>
+						
+					
+						
+							<li><a href="/backup/system/perl/2014/05/18/clever-backup-compatibility-with-ubuntu-14.04.html">new release of clever-backup fixed compatibility issue with ubuntu 14.04</a></li>
+						
+					
+						
+							<li><a href="/ssh/security/hijacking/2014/05/18/SSH-Agent-Forwarding-Is-a-Bug.html">SSH Agent Forwarding Is a Bug</a></li>
+						
+					
+						
+							<li><a href="/multimedia/2014/04/11/convert-and-rotate-videos-automatically-to-h264.html">Rotate and convert videos automatically to h264 in the shell</a></li>
+						
+					
+						
+							<li><a href="/security/privacy/2014/04/10/truecrypt-with-keyfiles-and-pam.html">Truecrypt mit Keyfiles und pam_exec automatisch mounten</a></li>
+						
+					
+						
+							<li><a href="/linux/2014/04/06/hibernate-and-resume-with-dm-crypt.html">hibernate and resume with dm-crypt under ubuntu</a></li>
+						
+					
+						
+							<li><a href="/2014/02/09/babyphone-mit-dem-raspberry-pi.html">Howto Babyphone mit dem Raspberry PI</a></li>
+						
+					
+						
+							<li><a href="/2014/02/04/thoughtworks-technology-radar-2014.html">Thoughtworks Technology Radar</a></li>
+						
+					
+						
+							<li><a href="/2014/01/31/Blog-Relaunch-mit-jekyll.html">Blog relaunched mit Jekyll</a></li>
+						
+					
+						
+							<li><a href="/2013/12/09/%22Leading-Change%22-in-einer-Agile-Company.html">Leading Change in einer Agile Company</a></li>
+						
+					
+				
+				
+				</ul>
+				
+
+
+
+
+<div class="share42init" data-path="/img/">
+	<span id="share42">
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -0px 0 no-repeat" href="https://www.evernote.com/clip.action?url=http://blog.lgohlke.de/2013/09/09/lint-maven-plugin---check-your-pom.xml.html&amp;title=lint-maven-plugin%20-%20check%20your%20pom.xml" title="Share on Evernote" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -32px 0 no-repeat" href="#" data-count="fb" onclick="window.open('http://www.facebook.com/sharer.php?u=http://blog.lgohlke.de/2013/09/09/lint-maven-plugin---check-your-pom.xml.html', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Facebook" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -64px 0 no-repeat" href="#" onclick="window.open('https://plus.google.com/share?url=http://blog.lgohlke.de/2013/09/09/lint-maven-plugin---check-your-pom.xml.html', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Google+" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -96px 0 no-repeat" href="#" data-count="pin" onclick="window.open('http://pinterest.com/pin/create/button/?url=http://blog.lgohlke.de/2013/09/09/lint-maven-plugin---check-your-pom.xml.html&amp;media=null&amp;description=lint-maven-plugin%20-%20check%20your%20pom.xml', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=600, height=300, toolbar=0, status=0');return false" title="Pin It" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -128px 0 no-repeat" href="#" data-count="twi" onclick="window.open('https://twitter.com/intent/tweet?text=lint-maven-plugin%20-%20check%20your%20pom.xml&amp;url=http://blog.lgohlke.de/2013/09/09/lint-maven-plugin---check-your-pom.xml.html', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Twitter" target="_blank"></a>
+		<a rel="nofollow" style="display:inline-block;vertical-align:bottom;width:32px;height:32px;margin:0 6px 6px 0;padding:0;outline:none;background:url(/img/icons.png) -160px 0 no-repeat" href="/rss.xml" title="Subscribe to RSS feed" target="_blank"></a>
+	</span>
+</div>
+
+			</div>
+		</div>	
+	</div>	
+	<div id="footer">
+	<div class="row contact" itemscope itemtype="http://schema.org/Person">
+		<div class="col-xs-4">
+			<span itemprop="name">Lars K.W. Gohlke</span>
+		</div>
+		<div class="col-xs-4">
+			<a href="http://www.lgohlke.de/#impressum" itemprop="url" rel="prefetch">impressum</a>
+		</div>
+		<div class="col-xs-4">
+			<a href="https://github.com/lkwg82">github.com/lkwg82</a><br />
+		</div>
+		
+		<span class="version">last changed 2014-09-06 18:00:18 +0200 bd2c017539652abb7084e6a9ea47853b985fbdfd</span>
+	</div>
+	
+</div>
+	<script src="/js/ga.js" async></script>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </body>
+</html>

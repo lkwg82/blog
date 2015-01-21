@@ -1,0 +1,10 @@
+---           
+layout: post
+title: EncFS --reverse
+date: 2013-02-17 22:42:00 UTC
+updated: 2013-02-17 22:42:00 UTC
+comments: true
+categories: backup rsync server
+---
+
+Gerade habe ich in der Manpage von EncFS eine sehr schöne Lösung für ein sicheres Backup in der Cloud gefunden.<p/> Encfs ist ein Dateisystem im Userspace und bietet eine Sicht auf Verzeichnisse an. Ursprünglich ging es darum verschlüsselte Verzeichnisse entschlüsselt anzuzeigen. Der <i>Reverse</i> Modus bietet genau den umgekehrten Weg an. Somit können beliebige (unverschlüsselte) Verzeichnisse mittels <tt>EncFs</tt> als verschlüsselte Verzeichnisse angezeigt werden.<p/> "Wow. Wtf?" Werden sich gerade einige fragen. Aber mit dieser umgekehrten Sicht, kann man einfach mit einem Synchronisationswerkzeug das Ganze an syncronisieren. "Wow!" <p/> Ich verweise einfach nur auf den Artikel: <a href="http://dbudwm.wordpress.com/tag/encfs/">Daten sicher in der Synchro-Wolke dank encfs</a>.<p/> Habe leider keine Ahnung, ob dieser Modus auch für Mac bzw. auch für Windows via dokan verfügbar ist. :|<p/> P.S. Python WrapperSkript <a href="http://blog.fealdia.org/2012/12/06/encfs-reverse-rsync-encrb/">encfs –reverse + rsync = encrb</a>

@@ -77,5 +77,4 @@ public class MyTextWebSocketHandlerTest {
         TimeUnit.MILLISECONDS.sleep(100);
         assertThat(socket.isConnected()).isFalse();
     }
-
 }

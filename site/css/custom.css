@@ -25,14 +25,10 @@ pre {
 }
 
 .date {
-    width: 7rem;
-    padding: 1rem;
-    position: absolute;
+    width: 100%;
+    display: block;
     text-align: right;
-    left: 0;
-    background-color: #F3ECEC;
-    color: rgb(54, 46, 46);
-    font-weight: 800;
+    color: grey;
 }
 
 h1 {
@@ -58,7 +54,6 @@ h1 {
 }
 
 .content {
-    padding-left: 10rem;
     border-right: 1px solid #efefef;
 }
 
@@ -88,11 +83,6 @@ article header h1 {
 
 .recent li {
     padding: 0.007rem 0;
-}
-
-.recent li a {
-    padding: 0.75rem 0.3rem;
-    display: block;
 }
 
 #footer {
@@ -205,16 +195,7 @@ h2 {
     }
 
     .date {
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-        border-radius: 0;
         text-align: center;
-        width: auto;
-        padding: 0rem;
-        position: relative;
-        background-color: white;
-        color: grey;
-        font-weight: normal;
     }
 }
 

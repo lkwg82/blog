@@ -1,7 +1,7 @@
 name: Erw&auml;hnenswert
 subtitle: ... darum schreibe ich hier
 markdown: redcarpet
-highlighter: true
+highlighter: pygments
 paginate: 5
 url: http://blog.lgohlke.de
 

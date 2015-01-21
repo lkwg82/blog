@@ -25,7 +25,7 @@ h1 { margin-bottom: 1em; }
 p { margin: 1em 0; }
 
 a{
-	color: blue;
+	color: #266495;
 	-webkit-transition: color 0.2s;
 	-moz-transition: color 0.2s;
 	-o-transition: color 0.2s;
@@ -39,7 +39,6 @@ a:hover   {
 	-o-transition: background-color 0.4s;
 	transition: background-color 0.4s;
 }
-a:visited { color: blue; }
 
 /*****************************************************************************/
 /*

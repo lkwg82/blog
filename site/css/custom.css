@@ -25,16 +25,13 @@ pre {
 }
 
 .date {
-    -webkit-border-radius: 0 3px 3px 0;
-    -moz-border-radius: 0 3px 3px 0;
-    border-radius: 0 3px 3px 0;
     width: 7rem;
     padding: 1rem;
     position: absolute;
     text-align: right;
     left: 0;
-    background-color: #3c3c3c;
-    color: white;
+    background-color: #F3ECEC;
+    color: rgb(54, 46, 46);
     font-weight: 800;
 }
 
@@ -150,15 +147,12 @@ ol.sources {
 }
 
 a[rel=full-article] {
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
     background: #e5e5e5;
     display: inline-block;
     padding: .4em .8em;
     margin-right: .5em;
     text-decoration: none;
-    color: #666;
+    /*color: #666;*/
     -webkit-transition: background-color 0.5s;
     -moz-transition: background-color 0.5s;
     -o-transition: background-color 0.5s;

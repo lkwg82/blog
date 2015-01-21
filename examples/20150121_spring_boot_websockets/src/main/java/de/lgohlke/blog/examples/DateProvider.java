@@ -13,7 +13,7 @@ class DateProvider extends DataProvider {
     public void onEvent() {
         Date date = new Date();
         getConsumers().forEach(consumer -> {
-            consumer.sendData("{ type: 'date', data: '" + date + "'");
+            consumer.sendData("{ type: 'date', data: '" + date + "'}");
         });
     }
 }

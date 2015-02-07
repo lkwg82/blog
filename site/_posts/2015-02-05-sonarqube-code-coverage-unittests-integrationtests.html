@@ -2,7 +2,7 @@
 layout: post
 title: Easy distinct unit and integration test code coverage with sonarqube
 date: 2015-02-05 23:23:07 UTC
-updated: 2015-02-05 14:23:07 UTC
+updated: 2015-02-07 13:36:07 UTC
 comments: true
 categories: java sonarqube coverage maven
 ---
@@ -22,13 +22,6 @@ categories: java sonarqube coverage maven
             <id>sonar-coverage</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <configuration>
-                            <argLine>${argLine}</argLine>
-                        </configuration>
-                    </plugin>
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
@@ -92,3 +85,5 @@ See also
         <a href="http://developer.immobilienscout24.de/2013/06/maven-profile-for-combined-unit-and-integration-test-code-coverage-for-sonar/">older outdated config sample</a>
     </li>
 </ul>
+
+<b>Update: 2015-02-07, no need for extra failsafe config</b>

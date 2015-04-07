@@ -43,7 +43,7 @@ $ dh_make --single -p h2o-server_1.1.1 --createorig -y
 {% endhighlight %}
 
 <div class="info">
-    <tt>DEBFULLNAME</tt> should be the same as in your gpg keys, which you are using to sign the package.
+    <tt>DEBEMAIL</tt> and <tt>DEBFULLNAME</tt> should be the same as in your gpg keys, which you are using to sign the package.
 </div>
 
 <p>Now fill the generated files under <tt>debian/</tt> (control/changelog) and check with <tt>lintian</tt> until there are no more errors. Commit all changes!</p>

@@ -1,0 +1,69 @@
+---
+layout: post
+title: Aufnahme von Ton mit pulseaudio
+date: 2015-04-29 21:23:07 UTC
+updated: 2015-04-29 13:36:07 UTC
+comments: true
+categories: ubuntu pulseaudio
+---
+
+<div>
+    Ich habe heute vergeblich versucht meinen Spotify Sound per Streaming auf meinen Raspberry PI zu streamen. Ich hatte leider regelm&auml;&szlig;ig immer wieder Aussetzer.<br/>
+    Trotzdem schildere ich hier mal f&uuml;r andere. Vielleicht bekommt das jemand hin und schreibt mir das.
+</div>
+
+
+Anwending finden
+
+{% highlight bash %}
+$ pacmd list-sink-inputs
+1 sink input(s) available.
+    index: 16
+	driver: <protocol-native.c>
+	flags: START_CORKED
+	state: RUNNING
+	sink: 1 <alsa_output.pci-0000_00_1b.0.analog-surround-41>
+	volume: front-left: 30309 /  46% / -20,09 dB,   front-right: 30309 /  46% / -20,09 dB
+	        balance 0,00
+	muted: no
+	current latency: 1887,44 ms
+	requested latency: 123,81 ms
+	sample spec: s16le 2ch 44100Hz
+	channel map: front-left,front-right
+	             Stereo
+	resample method: copy
+	module: 10
+	client: 136 <spotify>
+	properties:
+		media.role = "music"
+		media.name = "Spotify"
+		application.name = "spotify"
+		native-protocol.peer = "UNIX socket client"
+		native-protocol.version = "30"
+		application.process.id = "7869"
+		application.process.user = "lars"
+		...
+		module-stream-restore.id = "sink-input-by-media-role:music"
+{% endhighlight %}
+
+<p>
+
+Aufnehmen, als Opus Audio-Codec transkodieren und im VLC abspielen. (Der Enkoder erkennt das RAW-Format korrekt.)
+
+{% highlight bash %}
+$ pamon --monitor-stream=16 -r | opusenc --max-delay 100 --framesize 20 --raw - - | vlc -
+{% endhighlight %}
+
+Eigentlich m&uuml;sste nun nur noch folgendes fehlen (mp3 weil vlc es dann direkt erkennt, ja ich wei&szlig; eine Kr&uuml;cke.):
+
+{% highlight bash %}
+$ pamon --monitor-stream=16 -r | opusenc --max-delay 100 --framesize 20 --raw - - | avconv -f ogg -i - -acodec mp3 -f rtp rtp://226.0.0.1:1025
+{% endhighlight %}
+
+Anh&ouml;ren und Aussetzer genie&szlig;en.
+
+{% highlight bash %}
+$ vlc rtp://226.0.0.1:1025
+{% endhighlight %}
+
+Weiter komme ich leider nicht.

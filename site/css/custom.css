@@ -181,6 +181,10 @@ h2 {
     height: 100rem;
 }
 
+.recent a{
+   color: rgba(0, 0, 0, 0.81);
+}
+
 .justice-metric-wrap{
     height: 20px;
 }
@@ -277,7 +281,11 @@ h2 .hint{
         margin: 0;
     }
 
-    .twitter-timeline{
+    .twitter-timeline {
+        height: 10rem;
+          padding: 2rem;
+          display: block;
+          color: blue !important;
     }
 
     .recent {

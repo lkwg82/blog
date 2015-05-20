@@ -1,5 +1,6 @@
-<div id="iframe_disqus"></div>
+<div id="disqus_thread"></div>
 <script>
+(function() {
     if ( window.screen.width < 700 ){
 
        var button = document.createElement("a");
@@ -15,14 +16,13 @@
     }
 
     function activateDisqus(){
-      var iframe = document.createElement('iframe');
-      iframe.src = "/iframe_disqus.html";
-      iframe.scrolling="no";
-      iframe.height=500;
-      document.getElementById('iframe_disqus').appendChild(iframe);
-
-      var resize = function(){ iframe.height = iframe.contentDocument.body.scrollHeight; }
-      setTimeout(resize , 1000);
-      setInterval(resize, 1000);
+            var d = document;
+            var disqus_shortname = 'lgohlke';
+            script = d.createElement('script');
+            script.type = 'text/javascript';
+            script.async = true;
+            script.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            d.getElementsByTagName('body')[0].appendChild(script);
     }
+}
 </script>

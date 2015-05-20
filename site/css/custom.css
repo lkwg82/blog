@@ -184,9 +184,13 @@ h2 {
     height: 100rem;
 }
 
-iframe {
-    width: 100%;
-    border:0;
+.justice-metric-wrap{
+    height: 20px;
+}
+
+.justice-metric{
+  margin:0 !important;
+  padding:0 !important;
 }
 
 @media (max-width: 990px) {

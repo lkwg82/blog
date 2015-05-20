@@ -1,0 +1,18 @@
+<!--<script type="text/javascript" src="/js/justice.1.0.0.js"></script>-->
+<script type="text/javascript" src="/js/justice.latest.js"></script>
+<script type="text/javascript">
+    Justice.init({
+      metrics: {
+        TTFB:             { budget: 200   },
+        domInteractive:   { budget: 300   },
+        domComplete:      { budget: 800   },
+        firstPaint:       { budget: 1000  },
+        pageLoad:         { budget: 2000  },
+        requests:         { budget: 10    },
+      },
+
+      warnThreshold: 0.70,
+      showFPS: false,
+      chartType: 'spline'
+    });
+</script>

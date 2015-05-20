@@ -62,9 +62,7 @@ h2{
 
 article {
     padding-top: 3rem;
-    padding-bottom: 3rem;
     border-bottom: 1px none #EFEFEF;
-    margin-bottom: 3rem;
     text-align: initial;
 }
 
@@ -201,7 +199,36 @@ h2 {
 }
 
 .share img{
-      margin: -2rem 1.5rem;
+      margin: 2rem 1.5rem;
+}
+
+.hint{
+  color: white;
+  display: inline-block;
+  font-family: verdana, tahoma, sans-serif;
+  font-size: 0.7em;
+  font-weight: normal;
+  line-height: 1.4em;
+  text-transform: uppercase;
+  padding: 0.2em;
+  vertical-align: super;
+}
+
+h2 .hint{
+  font-size: 0.5em;
+}
+
+.hint-news{
+  background: #09c;
+}
+
+.hint-story{
+  background: red;
+}
+
+.hint-tip{
+  background: yellow;
+  color: black;
 }
 
 @media (max-width: 990px) {

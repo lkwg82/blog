@@ -192,6 +192,18 @@ h2 {
   padding:0 !important;
 }
 
+.mobile{
+    display: none;
+}
+
+.share{
+    text-align: center;
+}
+
+.share img{
+      margin: -2rem 1.5rem;
+}
+
 @media (max-width: 990px) {
     #header .title {
         text-align: center;
@@ -217,6 +229,14 @@ h2 {
 
     .date {
         text-align: center;
+    }
+
+
+    .desktop{
+        display:none;
+    }
+    .mobile{
+        display: block;
     }
 }
 

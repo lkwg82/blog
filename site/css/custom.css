@@ -39,6 +39,10 @@ h2{
   font-size:2rem;
 }
 
+h1,h2,h3{
+    margin-top: 0;
+}
+
 #neighbors {
     margin-top: 5rem;
 }
@@ -75,6 +79,7 @@ article header h1 {
 }
 
 .recent h3 {
+    margin-top: 20px;
     font-weight: bold;
 }
 

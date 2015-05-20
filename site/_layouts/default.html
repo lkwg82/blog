@@ -68,8 +68,7 @@
 					{% endfor %}
 
 					<a class="twitter-timeline" href="https://twitter.com/lkwg82" data-widget-id="491705617245945857">Tweets von @lkwg82</a>
-
-
+					{% include twitter.html %}
 				{% else %}
 					{% for post in site.posts offset: 0 limit: 11  %}
 						{% if post.title != page.title %}
@@ -85,6 +84,5 @@
 	</div>
 	{% include footer.html %}
 	<script src="/js/ga.js" async></script>
-	{% include twitter.html %}
     </body>
 </html>

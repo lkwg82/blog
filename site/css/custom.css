@@ -33,7 +33,10 @@ pre {
 
 h1 {
     font-size: 3rem;
-    text-align: left;
+}
+
+h2{
+  font-size:2rem;
 }
 
 #neighbors {
@@ -75,10 +78,6 @@ article header h1 {
 
 .recent h3 {
     font-weight: bold;
-}
-
-.recent ul {
-    list-style: none;
 }
 
 .recent li {
@@ -199,8 +198,14 @@ h2 {
         margin: 3rem 0rem 0rem auto;
     }
 
-    h1 {
+    h1,h2,h3 {
         text-align: center;
+    }
+    header h1{
+        margin-bottom: 10px;
+    }
+    header h2,h3{
+        margin-top:0;
     }
 
     .content {
@@ -225,9 +230,43 @@ h2 {
         margin: 0;
     }
 
+    .twitter-timeline{
+    }
+
+    .recent {
+        padding:0;
+        text-align:center;
+    }
+    .recent h3{
+        padding-left: 3rem;
+    }
+    .recent ul{
+        margin:0;
+    }
+
+    .recent li {
+        list-style: none;
+        background-color: rgb(241, 241, 255);
+        margin-bottom: 5px;
+        padding: 1rem;
+    }
+
+    header a,
+    .recent li a{
+        display: block;
+        height: 100%;
+        width:100%;
+    }
+
     a[rel=full-article] {
         width: 100%;
         padding: 1em 2em;
         margin: 1rem auto;
+    }
+}
+
+@media (max-width: 360px) {
+    h1{
+        font-size: 2rem;
     }
 }

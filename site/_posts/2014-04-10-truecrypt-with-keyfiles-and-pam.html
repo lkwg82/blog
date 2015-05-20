@@ -1,10 +1,12 @@
----           
+---
 layout: post
 title: Truecrypt mit Keyfiles und pam_exec automatisch mounten
 date: 2014-04-10 21:23:07 UTC
 updated: 2014-04-10 21:23:07 UTC
 comments: true
 categories: security privacy
+# news | tip | story
+hint-type: story
 ---
 
 <p>Nachdem ich in im letzten <a href="/linux/2014/04/06/hibernate-and-resume-with-dm-crypt.html">Artikel</a> kurz beschrieben habe, warum ich mich f&uuml;r <a href="http://ww.truecrypt.org">truecrypt</a> entschieden habe, m&ouml;chte ich nun kurz zeigen, wie man mit Hilfe von <a href="http://www.linux-pam.org/Linux-PAM-html/sag-pam_exec.html">pam_exec</a> verschl&uuml;sselte Datentr&auml;ger mit <a href="http://www.truecrypt.org/docs/keyfiles">Schl&uuml;sseldateien</a> einbindet.</p>
@@ -44,15 +46,15 @@ session    optional        pam_exec.so ...
 
 {% highlight bash %}
 # erster Aufruf
-gdisk -l /dev/sdc | grep "^Disk identifier" | cut -d\   -f4 
+gdisk -l /dev/sdc | grep "^Disk identifier" | cut -d\   -f4
 1DA8415E-997C-4264-8037-C159FEF26AAD
 
 # zweiter Aufruf
-gdisk -l /dev/sdc | grep "^Disk identifier" | cut -d\   -f4 
+gdisk -l /dev/sdc | grep "^Disk identifier" | cut -d\   -f4
 A7A3912B-DE0F-4B0A-A6E3-A06DF8E4EDE7
 
 # dritter Aufruf
-gdisk -l /dev/sdc | grep "^Disk identifier" | cut -d\   -f4 
+gdisk -l /dev/sdc | grep "^Disk identifier" | cut -d\   -f4
 D16AB7A6-B045-4398-84C2-1236EF6111E1
 
 ...
@@ -120,9 +122,9 @@ Aus Gründen der Darstellung liste ich <tt>&lt;parameter&gt;<tt> hier separat au
 	<code>1</code> Partitionsnummer z.B <tt>/dev/sda<b>1</b></tt> <br/>
 	<code>/backup</code> Mountpoint <br/>
  </p>
- 
+
  Alle Pfade sollten natürlich absolut sein ;).
-</p> 
+</p>
 
 <p>
 Das Skript dazu sieht dann wie folgt aus:
@@ -135,7 +137,7 @@ set -e
 if [ $# -ne 4 ]
 then
   echo "Usage: `basename $0` <keyfile> <serialNo> <partition-nr> <mountpoint>"
-  echo 
+  echo
   echo "serialNo can be retrieved from 'hdparm -i /dev/sda' "
   exit 1
 fi
@@ -179,7 +181,7 @@ done
 </p>
 
 <p>
-Geschafft! 
+Geschafft!
 </p>
 
 <h2 id="debug">4. Tipps zum Debugging</h2>

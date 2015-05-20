@@ -1,10 +1,12 @@
----           
+---
 layout: post
 title: lint-maven-plugin - check your pom.xml
 date: 2013-09-09 14:00:02 UTC
 updated: 2013-09-09 14:00:02 UTC
 comments: true
-categories: 
+categories:
+# news | tip | story
+hint-type: story
 ---
 
 We know for each and everything there are some <i>Do's</i> and many <i>Don'ts</i>. This is about recommendations on your <a href="http://maven.apache.org/guides/introduction/introduction-to-the-pom.html">pom.xml</a> of your maven project.<p/>
@@ -14,11 +16,11 @@ Just try this: <br/>
 {% highlight bash %}
 $ mvn com.lewisd:lint-maven-plugin:check
 [INFO] Scanning for projects...
-[INFO]                                                                         
+[INFO]
 [INFO] ------------------------------------------------------------------------
 [INFO] Building Maven POM lint plugin 0.0.9-SNAPSHOT
 [INFO] ------------------------------------------------------------------------
-[INFO] 
+[INFO]
 [INFO] --- lint-maven-plugin:0.0.8:check (default-cli) @ lint-maven-plugin ---
 [INFO] Writing summary report
 [INFO] [LINT] Completed with 3 violations
@@ -34,10 +36,10 @@ $ mvn com.lewisd:lint-maven-plugin:check
 [INFO] Final Memory: 11M/267M
 [INFO] ------------------------------------------------------------------------
 [ERROR] Failed to execute goal com.lewisd:lint-maven-plugin:0.0.8:check (default-cli) on project lint-maven-plugin: [LINT] Violations found. For more details, see error messages above, or results in /home/lars/development/workspaces/sonar/lint-maven-plugin/target/maven-lint-result.xml -> [Help 1]
-[ERROR] 
+[ERROR]
 [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
 [ERROR] Re-run Maven using the -X switch to enable full debug logging.
-[ERROR] 
+[ERROR]
 [ERROR] For more information about the errors and possible solutions, please read the following articles:
 [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
 {% endhighlight %}

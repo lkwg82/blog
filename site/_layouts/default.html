@@ -70,22 +70,45 @@
 			<div class="col-md-4 recent">
 				<h3>recent posts</h3>
 				<ul>
-				{% if page.url == '/index.html' %}
-					{% for post in site.posts offset: 2 limit: 13  %}
-						<li>
-							<a href="{{ post.url }}">
-								{% if post.hint-type %}
-								<span class="hint hint-{{ post.hint-type }}">{{ post.hint-type }}</span>
+				{% capture url %}{{ page.url | split:"/" | last }}{% endcapture %}
+				{% if url == 'index.html' %}
+					{% assign max = "13" %}
+					{% assign count = 0 %}
+					{% assign end = 0 %}
+					{% for post in site.posts %}
+						{% if end == 1 %}
+					         <!-- do nothing -->
+						{% else %}
+							{% if count == max %}
+								{% assign end = 1 %}
+							{% else %}
+								{% assign hasFound = "0" %}
+								{% for ppost in paginator.posts %}
+									{% if hasFound == "0" %}
+										{% if post.url == ppost.url %}
+											{% assign hasFound = "1" %}
+										{% endif %}
+									{% endif %}
+								{% endfor %}
+								{% if hasFound == "0" %}
+									{% capture count %}{{ count | plus:1}}{% endcapture %}
+									<li>
+										<a href="{{ post.url }}">
+											{% if post.hint-type %}
+												<span class="hint hint-{{ post.hint-type }}">{{ post.hint-type }}</span>
+											{% endif %}
+											{{post.title}}
+										</a>
+									</li>
 								{% endif %}
-								{{post.title}}
-							</a>
-						</li>
+							{% endif %}
+						{% endif %}
 					{% endfor %}
 
 					<a class="twitter-timeline" href="https://twitter.com/lkwg82" data-widget-id="491705617245945857">Tweets von @lkwg82</a>
 					{% include twitter.html %}
 				{% else %}
-					{% for post in site.posts offset: 0 limit: 11  %}
+					{% for post in site.posts offset: 0 limit: 13  %}
 						{% if post.title != page.title %}
 							<li>
 								<a href="{{ post.url }}">

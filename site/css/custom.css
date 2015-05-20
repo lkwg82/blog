@@ -85,6 +85,11 @@ article header h1 {
 
 .recent li {
     padding: 0.007rem 0;
+    list-style: none;
+}
+
+.recent a{
+   color: rgba(0, 0, 0, 0.81);
 }
 
 #footer {
@@ -186,9 +191,6 @@ h2 {
     height: 100rem;
 }
 
-.recent a{
-   color: rgba(0, 0, 0, 0.81);
-}
 
 .justice-metric-wrap{
     height: 20px;
@@ -305,7 +307,6 @@ h2 .hint{
     }
 
     .recent li {
-        list-style: none;
         background-color: rgb(241, 241, 255);
         margin-bottom: 5px;
         padding: 1rem;

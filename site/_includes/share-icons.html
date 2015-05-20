@@ -1,12 +1,11 @@
 {% if  paginator.posts %}
 
 {% else %}
-
-{% capture title %}{{ page.title | uri_escape }}{% endcapture %}
-{% capture url %}{{site.url| uri_escape}}{{ page.url | uri_escape }}{% endcapture %}
-	<a rel="nofollow" href="https://www.evernote.com/clip.action?url={{url}}&amp;title={{title}}" title="Share on Evernote" target="_blank"><img src="/img/basic_social/colored/32/square/evernote.png?__inline=true" width="32" alt="Evernote"></a>
-	<a rel="nofollow" href="#" data-count="twi" onclick="window.open('https://twitter.com/intent/tweet?text={{title}}&amp;url={{url}}', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Twitter" target="_blank"><img src="/img/basic_social/colored/32/square/twitter.png?__inline=true" width="32" alt="Twitter"></a>
-	<a rel="nofollow" href="#" data-count="fb" onclick="window.open('http://www.facebook.com/sharer.php?u={{url}}', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Facebook" target="_blank"><img src="/img/basic_social/colored/32/square/facebook.png?__inline=true" width="32" alt="Facebook"></a>
-	<a rel="nofollow" href="#" onclick="window.open('https://plus.google.com/share?url={{url}}', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Google+" target="_blank"><img src="/img/basic_social/colored/32/square/google_plus.png?__inline=true" width="32" alt="Blog"></a>
-	<a href="/rss.xml" title="Subscribe to RSS feed" target="_blank"></a>
+	{% capture title %}{{ page.title | uri_escape }}{% endcapture %}
+	{% capture url %}{{site.url| uri_escape}}{{ page.url | uri_escape }}{% endcapture %}
+		<a rel="nofollow" href="https://www.evernote.com/clip.action?url={{url}}&amp;title={{title}}" title="Share on Evernote" target="_blank"><img src="/img/basic_social/colored/32/square/evernote.png?__inline=true" width="32" alt="Evernote"></a>
+		<a rel="nofollow" href="#" data-count="twi" onclick="window.open('https://twitter.com/intent/tweet?text={{title}}&amp;url={{url}}', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Twitter" target="_blank"><img src="/img/basic_social/colored/32/square/twitter.png?__inline=true" width="32" alt="Twitter"></a>
+		<a rel="nofollow" href="#" data-count="fb" onclick="window.open('http://www.facebook.com/sharer.php?u={{url}}', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Facebook" target="_blank"><img src="/img/basic_social/colored/32/square/facebook.png?__inline=true" width="32" alt="Facebook"></a>
+		<a rel="nofollow" href="#" onclick="window.open('https://plus.google.com/share?url={{url}}', '_blank', 'scrollbars=0, resizable=1, menubar=0, left=100, top=100, width=550, height=440, toolbar=0, status=0');return false" title="Share on Google+" target="_blank"><img src="/img/basic_social/colored/32/square/google_plus.png?__inline=true" width="32" alt="Blog"></a>
+		<a href="/rss.xml" title="Subscribe to RSS feed" target="_blank"></a>
 {% endif %}

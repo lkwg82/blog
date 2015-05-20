@@ -8,8 +8,8 @@
        button.innerText = 'activate comment section';
        button.id='comments';
 
-       var frame= document.getElementById('iframe_disqus');
-       frame.parentElement.insertBefore(button,frame);
+       var div= document.getElementById('disqus_thread');
+       div.parentElement.insertBefore(button,div);
     }
     else{
         activateDisqus();

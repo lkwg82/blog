@@ -1,7 +1,7 @@
 # installation
 
 ```bash
-$ sudo apt-get install -y ruby-dev zlib1g-dev
+$ sudo apt-get install -y ruby-dev zlib1g-dev npm
 $ sudo gem install jekyll jekyll-assets less therubyracer jekyll-watch 
 $ sudo gem uninstall cmdparse
 $ sudo gem install cmdparse --version=2.0.6
@@ -10,3 +10,10 @@ $ juicer install yui_compressor
 $ juicer install closure_compiler
 $ juicer install jslint
 ```
+
+npm
+```bash
+$ sudo npm install -g bower grunt
+$ bower install filament-shoestring && cd bower_components/filament-shoestring && grunt && cp dist/shoestring.min.js ../../js/
+
+``

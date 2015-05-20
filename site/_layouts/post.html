@@ -1,6 +1,6 @@
 ---
 layout: default
----    
+---
 
 <div class="post">
 	<article itemscope itemtype="http://schema.org/Article">
@@ -12,17 +12,17 @@ layout: default
 		{{ content }}
 		</text>
 	</article>
-	
+
 	<div class="row" id="neighbors">
-		<div class="col-xs-6 prev">			
-			{% if page.previous.url %} 
-				<a href="{{page.previous.url}}" rel="prev" title="{{page.previous.title}}">&laquo; previous</a> 
-			{% endif %} 
+		<div class="col-xs-6 prev">
+			{% if page.previous.url %}
+				<a href="{{page.previous.url}}" rel="prev" title="{{page.previous.title}}">&laquo; previous</a>
+			{% endif %}
 		</div>
-		<div class="col-xs-6 next">			
-			{% if page.next.url %} 
-				<a href="{{page.next.url}}" rel="next" title="{{page.next.title}}">next &raquo;</a> 
-			{% endif %} 
+		<div class="col-xs-6 next">
+			{% if page.next.url %}
+				<a href="{{page.next.url}}" rel="next" title="{{page.next.title}}">next &raquo;</a>
+			{% endif %}
 		</div>
 	</div>
 </div>
@@ -32,5 +32,5 @@ layout: default
 {% endif %}
 
 {% if page.use-lightbox-2 %}
-	{% include use-lightbox-2.6.html %}
-{% endif %} 
+	{% include use-lightbox.html %}
+{% endif %}

@@ -2,6 +2,5 @@ files: [
   'css/bootstrap_3.0.3/css/bootstrap.css',
   'css/syntax.css',
   'css/main.css',
-  'css/custom.css',
 #  'css/themeA.css',
 ]

@@ -10,18 +10,13 @@ pre {
 }
 
 #header .title {
-    text-decoration: none;
     font-size: 2.75rem;
     text-transform: uppercase;
     letter-spacing: 0.3rem;
     font-family: Utopia, Georgia, serif;
     color: #392C5C;
-
-    text-align: right;
-
-    max-width: 150rem;
+    text-align: center;
     margin: 5rem 0 1rem -4rem;
-    width: 100%;
 }
 
 .date {
@@ -244,7 +239,6 @@ h2 .hint{
 
 @media (max-width: 990px) {
     #header .title {
-        text-align: center;
         margin: 3rem 0rem 0rem auto;
     }
 

@@ -11,7 +11,6 @@ pgdb:
 ttrss:
    container_name: ttrss
    build: setup_data
-   dockerfile: Dockerfile-apache-php
    links:
       - pgdb:db
    volumes:

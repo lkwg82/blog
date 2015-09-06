@@ -1,0 +1,20 @@
+# https://hub.docker.com/_/postgres/
+pgdb:
+   container_name: pgdb
+   image: postgres
+   environment:
+       - POSTGRES_PASSWORD=mysecretpassword
+       - PGDATA=/pgdata
+   volumes:
+       - ./volumes/pgdb_pgdata:/pgdata
+
+ttrss:
+   container_name: ttrss
+   build: setup_data
+   dockerfile: Dockerfile-apache-php
+   links:
+      - pgdb:db
+   volumes:
+      - ./tt-rss_:/var/www/html:rw
+   ports:
+      - 9108:80

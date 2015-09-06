@@ -1,0 +1,120 @@
+---
+layout: post
+title: Tiny Tiny RSS setup with docker-compose in 2 minutes
+subtitle: a single command setup for tiny tiny rss
+date: 2015-09-05 21:23:07 UTC
+updated: 2015-09-05 13:36:07 UTC
+comments: true
+categories: docker-compose
+published: true
+# news | tip | story
+hint-type: story
+---
+
+<p>
+    How can I setup and run my own <a href="https://tt-rss.org/" target="tt">tt-rss</a> instance with <a
+        href="https://docs.docker.com/compose/" target="dc">docker-compose</a> within 2 minutes?
+</p>
+
+<p>
+<h2>TL;DR</h2>
+{% highlight bash %}
+# preparation
+$ sudo apt-get install python-pip git curl
+# see https://docs.docker.com/installation/ubuntulinux/
+$ curl -sSL https://get.docker.com/ | sh
+$ sudo pip install docker-compose
+
+# installation
+$ git clone https://github.com/lkwg82/blog.git blog
+$ cd blog/examples/20150908_tinytinyrss_docker-compose
+$ ./run.sh
+
+# usage
+$ firefox http://localhost:9108/
+{% endhighlight %}
+</p>
+
+<hr/>
+
+
+<p>Here comes the little longer story ... not much longer ... only more prose.</p>
+
+
+<h2>Intro</h2>
+<p>
+    This example is about installing <a href="https://tt-rss.org/" target="tt">tt-rss</a> from scratch with its requires
+    database server (I took postgres) with docker and docker-compose.
+</p>
+
+<h2>Why?</h2>
+<p>
+    I like to have some easy reproducible installation procedures for wanna-be-complex setups. I took <a
+        href="http://docker.com" target="d">docker</a> as my favourite virtualization technique.
+</p>
+
+<h2>What is ...?</h2>
+<p>
+<ul>
+    <li><b><a href="https://tt-rss.org/" target="tt">tt-rss</a></b>: it is an open source web based rss feed reader
+        similiar to former google reader.
+    </li>
+    <li><b><a
+        href="http://docker.com" target="d">docker</a></b>: <i>Docker containers wrap up a piece of software in a complete filesystem that contains everything it needs to run: code, runtime, system tools, system libraries – anything you can install on a server. This guarantees that it will always run the same, regardless of the environment it is running in.</i>(cite from <a href="https://www.docker.com/whatisdocker" target="wd">here</a>)
+    </li>
+    <li><b><a
+        href="https://docs.docker.com/compose/" target="dc">docker-compose</a></b>: <i>Compose is a tool for defining and running multi-container applications with Docker. With Compose, you define a multi-container application in a single file, then spin your application up in a single command which does everything that needs to be done to get it running.</i>(cite from <a href="https://docs.docker.com/compose/" target="wdc">here</a>).
+    </li>
+</ul>
+</p>
+
+<h2>how?</h2>
+<div>
+   <p>(I explain here only the <cmd>./run.sh</cmd> context from <b>TL:DR</b>)</p>
+
+   create a file called <name>docker-compose.yml</name>
+
+    {% highlight yaml linenos%}
+# https://hub.docker.com/_/postgres/
+pgdb:
+   container_name: pgdb
+   image: postgres
+   environment:
+       - POSTGRES_PASSWORD=mysecretpassword
+       - PGDATA=/pgdata
+   volumes:
+       - ./volumes/pgdb_pgdata:/pgdata
+
+ttrss:
+   container_name: ttrss
+   build: setup_data
+   links:
+      - pgdb:db
+   volumes:
+      - ./tt-rss_:/var/www/html:rw
+   ports:
+      - 9108:80
+    {% endhighlight %}
+
+    <p>
+        <ul>
+            <li><b>line 2 and 11</b>: two services called <name>pgdb</name>(postgres database) and <name>ttrss</name>(feed reader), can be later called from <cmd>docker-compose</cmd> separatly</li>
+            <li><b>line 3</b>: docker container name is pgdb</li>
+            <li><b>line 4</b>: service bases on docker image pgdb(:latest)</li>
+            <li><b>line 8</b>: saves the database outside in the local directory <file>./volumes/pgdb_pgdata</file> and mounts into container under <file>/pgdata</file></li>
+            <li><b>line 13</b>: looks for a <file>Dockerfile</file> in the directory named <file>setup_data</file></li>
+            <li><b>line 14</b>: links container <name>pgdb</name> with alias <name>db</name>, so inside of this container the database is addressable via <name>db</name>, (imagine a call of <cmd>ping db</cmd>)</li>
+            <li><b>line 19:</b> exposes container port 80 to local 9108 (http://localhost:9108 should get the reader)</li>
+        </ul>
+    </p>
+    <p>
+        Build the setup with <cmd>docker-compose build</cmd> from the directory where the <file>docker-compose.yml</file> is. First it will build the <name>pgdb</name> container and then the <name>ttrss</name>. After they are built call <cmd>docker-compose up</cmd>. (For this setup watch the <file>run.sh</file>! There are some additional setup calls.)
+    </p>
+
+    <p>You watch a complete a shell recording <a href="https://showterm.io/b93061c6e38115a4a56a5#fast" target="st">here</a>.</p>
+
+    <p>
+        Disclaimer 1: For simplicity reasons I deployed the db ... no I let it to you, to find this little nasty thing ;).<br/>
+        Disclaimer 2: Maybe the downloads take longer than while my tests.
+    </p>
+</div>

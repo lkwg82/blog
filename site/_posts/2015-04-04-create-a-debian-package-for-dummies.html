@@ -74,11 +74,12 @@ W: h2o-server source: debian-watch-file-in-native-package
 
     <p>If you struggle with both ... loop until no errors left.</p>
 </div>
-
+<br/>
 <h2>2. Finish</h2>
 
 <p>Finish your (initial) changes with these steps:</p>
 
+<p>
 Build a binary package:
 {% highlight bash %}
 $ dpkg-buildpackage -tc -B
@@ -92,6 +93,7 @@ $ git-buildpackage -S -sa --git-tag --git-sign-tags --git-no-create-orig --git-d
 {% endhighlight %}
 
 In both cases the result is in the parent directory.
+</p>
 
 <h2>3. Publish!</h2>
 

@@ -10,10 +10,3 @@ $ juicer install yui_compressor
 $ juicer install closure_compiler
 $ juicer install jslint
 ```
-
-npm
-```bash
-$ sudo npm install -g bower grunt
-$ bower install filament-shoestring && cd bower_components/filament-shoestring && grunt && cp dist/shoestring.min.js ../../js/
-
-``

@@ -5,7 +5,7 @@ date: 2015-10-13 21:23:07 UTC
 updated: 2015-10-13 13:36:07 UTC
 comments: true
 categories: maven guava
-published: false
+published: true
 # news | tip | story
 hint-type: tip
 ---
@@ -33,6 +33,12 @@ I have dependency and want to use the jquery inside.
                 <version>18.0</version>
             </dependency>
             ...
+            <dependency> // just for my convinience ;)
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>1.3.2</version>
+            </dependency>
+            ...
         </dependencies>
     </project>
 
@@ -41,21 +47,27 @@ I have dependency and want to use the jquery inside.
 <p>
     With this demo test:
 {% highlight java %}
+import org.apache.commons.io.IOUtils;
 import com.google.common.reflect.ClassPath;
 import org.junit.Test;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class DemoTest {
     private static String readAsString(String name) throws IOException {
-        URL resource = ResourceUtils.class.getClassLoader().getResource(name);
-        if (resource == null) {
-            throw new IOException("resource not found:" + name);
+        ClassLoader classloader = DemoTest.class.getClassLoader();
+        try (InputStream resourceAsStream = classloader.getResourceAsStream(name)) {
+            if (resourceAsStream == null) {
+                throw new IOException("resource not found:" + name);
+            }
+            StringWriter writer = new StringWriter();
+            IOUtils.copy(resourceAsStream, writer);
+            return writer.toString();
         }
-        String path = resource.getFile();
-        return new String(Files.readAllBytes(Paths.get(path)));
     }
 
     @Test

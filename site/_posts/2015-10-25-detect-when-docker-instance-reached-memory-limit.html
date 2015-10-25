@@ -17,7 +17,7 @@ hint-type: tip
 <p>
     Just grab the kernel logs for oom-killer for the particular container id.
     {% highlight bash %}
-$ CONTAINER_ID=1def12ac166a
+$ CONTAINER_ID=84ec6201e6a54
 $ docker exec $CONTAINER_ID dmesg -T | grep -B2 docker-$CONTAINER_ID | grep -B1 oom-killer
     {% endhighlight %}
 
@@ -33,7 +33,7 @@ $ docker exec $CONTAINER_ID dmesg -T | grep -B2 docker-$CONTAINER_ID | grep -B1 
 <h2>more exact but unprecise approach</h2>
 <p>
     {% highlight bash %}
-$ CONTAINER_ID=1def12ac166a
+$ CONTAINER_ID=84ec6201e6a54
 $ if [ $(docker exec $CONTAINER_ID dmesg -T | grep docker-$CONTAINER_ID | wc -l) -gt 0 ]; then
         echo "there were issues with $CONTAINER_ID:";
         docker exec $CONTAINER_ID dmesg -T | grep docker-$CONTAINER_ID
@@ -50,7 +50,7 @@ $ if [ $(docker exec $CONTAINER_ID dmesg -T | grep docker-$CONTAINER_ID | wc -l)
 
     outputs
     {% highlight bash %}
-    there were issues with 1def12ac166a:
+    there were issues with 84ec6201e6a54:
      [Sun Oct 25 22:39:53 2015] perl cpuset=docker-84ec6201e6a54c9bf8118bcfa39870cb701961ad29bdb05776880cfe2c2572a2.scope mems_allowed=0
 [Sun Oct 25 22:39:53 2015] Task in /system.slice/docker-84ec6201e6a54c9bf8118bcfa39870cb701961ad29bdb05776880cfe2c2572a2.scope killed as a result of limit of /system.slice/docker-84ec6201e6a54c9bf8118bcfa39870cb701961ad29bdb05776880cfe2c2572a2.scope
 [Sun Oct 25 22:39:53 2015] Memory cgroup stats for /system.slice/docker-84ec6201e6a54c9bf8118bcfa39870cb701961ad29bdb05776880cfe2c2572a2.scope: cache:240KB rss:4194064KB rss_huge:14336KB mapped_file:0KB writeback:0KB inactive_anon:685848KB active_anon:3508408KB inactive_file:24KB active_file:24KB unevictable:0KB

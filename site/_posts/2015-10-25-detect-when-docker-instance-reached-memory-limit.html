@@ -39,7 +39,8 @@ $ if [ $(docker exec $CONTAINER_ID dmesg -T | grep docker-$CONTAINER_ID | wc -l)
         docker exec $CONTAINER_ID dmesg -T | grep docker-$CONTAINER_ID
         echo "--"
         echo "host config looks like (reduced)"
-        docker inspect --format="{{json .HostConfig}}" $CONTAINER_ID | python -m json.tool \
+        FORMAT="\{\{json .HostConfig\}\}" # please remove escapes, limitation of my blog
+        docker inspect --format="$FORMAT" $CONTAINER_ID | python -m json.tool \
             | grep -v ": \"\"" \
             | grep -v ": null" \
             | grep -vE ": 0|-1" \

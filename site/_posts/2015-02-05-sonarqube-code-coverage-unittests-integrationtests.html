@@ -2,7 +2,7 @@
 layout: post
 title: Easy distinct unit and integration test code coverage with sonarqube
 date: 2015-02-05 23:23:07 UTC
-updated: 2015-02-07 13:36:07 UTC
+updated: 2015-10-25 13:36:07 UTC
 comments: true
 categories: java sonarqube coverage maven
 # news | tip | story
@@ -46,7 +46,7 @@ hint-type: tip
                             </execution>
                             <execution>
                                 <id>jacoco-site</id>
-                                <phase>verify</phase>
+                                <phase>post-integration-test</phase>
                                 <goals>
                                     <goal>report</goal>
                                 </goals>
@@ -88,4 +88,8 @@ See also
     </li>
 </ul>
 
-<b>Update: 2015-02-07, no need for extra failsafe config</b>
+<b>Updates:</b>
+<ul>
+    <li>2015-02-07, no need for extra failsafe config</li>
+    <li>2015-10-25, change phase for using the results, dont let failing integration tests miss your integration coverage</li>
+</ul>

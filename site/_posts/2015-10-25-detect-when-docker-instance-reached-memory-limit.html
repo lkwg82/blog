@@ -1,0 +1,28 @@
+---
+layout: post
+title: Detect when docker instance reached memory limit
+date: 2015-10-24 21:23:07 UTC
+updated: 2015-10-24 13:36:07 UTC
+comments: true
+categories: memory docker
+published: true
+# news | tip | story
+hint-type: tip
+---
+
+<p>
+    I'd like to know if my test instance reached the memory limit and behave a kind of different after that.
+
+    Just grab the kernel logs for oom-killer for the particular container id.
+    {% highlight bash %}
+$ docker exec 1def12ac166a dmesg -T | grep -B1 oom-killer
+    {% endhighlight %}
+
+    outputs
+    {% highlight bash %}
+--
+[Sun Oct 25 22:06:17 2015] Killed process 30218 (java) total-vm:7464616kB, anon-rss:466924kB, file-rss:22272kB
+[Sun Oct 25 22:06:17 2015] java invoked oom-killer: gfp_mask=0xd0, order=0, oom_score_adj=0
+    {% endhighlight %}
+</p>
+

@@ -50,8 +50,8 @@ Any mentioned files are saved in the current directory otherwise it is specified
 <h2>Roadmap</h2>
     My roadmap in this tutorial:
     <ol>
-        <li>create a <file>Dockerfile</file></li>
         <li>create a script to run the tests (in and outside of docker)</li>
+        <li>create a <file>Dockerfile</file></li>
         <li>create a script to run docker with tests</li>
         <li>dont run as root, make it secure</li>
         <li>bundle some convinient code to live happily with</li>
@@ -60,24 +60,8 @@ Any mentioned files are saved in the current directory otherwise it is specified
 
 <hr/>
 
-<p>
-  <h2>1. Creating the Dockerfile </h2>
-    I prefer to have a <file>Dockerfile</file>  to build a fresh container for each run. For my example I choose <a href="https://hub.docker.com/r/lkwg82/mitmproxy-0.11-maven3-jdk8/~/dockerfile/">lkwg82/mitmproxy-0.11-maven3-jdk8</a> (contains maven, jdk8, google-chrome and ...).
-{% highlight docker %}
-FROM lkwg82/mitmproxy-0.11-maven3-jdk8
-{% endhighlight %}
-
-    To run my tests I add the current directory while building the container.
-    {% highlight docker %}
-FROM lkwg82/mitmproxy-0.11-maven3-jdk8
-
-ADD     . /home/build
-WORKDIR   /home/build
-    {% endhighlight %}
-</p>
-
 <div>
-    <h2>2. create a script to run the tests</h2>
+    <h2>1. create a script to run the tests</h2>
 
 There should be a script wrapping test commands to be used inside and outside of docker. No special docker test commands!
     <figure>
@@ -97,6 +81,21 @@ timeout --preserve-status --kill-after 7m 6m \
 <p>Line 7 does timout the test run after specified time. I do have in mind a range of time to timeout the complete test run. To make the download of artifact independent line 4 is kept separate.</p>
 </div>
 
+<div>
+    <h2>2. Creating the Dockerfile </h2>
+    I prefer to have a <file>Dockerfile</file>  to build a fresh container for each run. For my example I choose <a href="https://hub.docker.com/r/lkwg82/mitmproxy-0.11-maven3-jdk8/~/dockerfile/">lkwg82/mitmproxy-0.11-maven3-jdk8</a> (contains maven, jdk8, google-chrome and ...).
+    {% highlight docker %}
+FROM lkwg82/mitmproxy-0.11-maven3-jdk8
+    {% endhighlight %}
+
+    To run my tests I add the current directory while building the container.
+    {% highlight docker %}
+FROM lkwg82/mitmproxy-0.11-maven3-jdk8
+
+ADD     . /home/build
+WORKDIR   /home/build
+    {% endhighlight %}
+</div>
 <div>
     <h2>3. create a script to run docker</h2>
 

@@ -162,10 +162,6 @@ a:hover {
     padding: 1rem 0;
 }
 
-code {
-    font-weight: bold;
-}
-
 .file,
 file,
 cmd,
@@ -191,7 +187,6 @@ name{
 img{
     max-width: 100%;
 }
-
 
 .info{
     background-color:rgba(222, 231, 92, 0.37);

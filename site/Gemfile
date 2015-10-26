@@ -1,0 +1,20 @@
+# A sample Gemfile
+source "https://rubygems.org"
+
+# gem "rails"
+
+gem 'cmdparse','2.0.6'
+gem 'ffi'
+gem 'guard'
+gem 'guard-jekyll-plus'
+gem 'guard-livereload','2.2.0'
+gem 'jekyll'
+gem 'jekyll-assets'
+gem 'jekyll-watch'
+gem 'juicer'
+gem 'less'
+gem 'redcarpet'
+gem 'rb-fsevent'
+gem 'thin'
+gem 'therubyracer'
+gem 'libv8'

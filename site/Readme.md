@@ -10,3 +10,9 @@ $ juicer install yui_compressor
 $ juicer install closure_compiler
 $ juicer install jslint
 ```
+
+run with 
+```bash
+bundler install
+bundler exec guard
+```

@@ -164,6 +164,7 @@ a:hover {
 
 .file,
 file,
+figcaption,
 cmd,
 name{
     font-family: sans-serif;
@@ -172,6 +173,14 @@ name{
     margin: 0.1rem;
     border: 1px solid #E6E6E6;
 }
+figure figcaption{
+    margin:0;
+    padding-bottom:0;
+    }
+figure .highlight{
+    padding-top:0;
+}
+
 
 /* terminal */
 .post pre.terminal {
@@ -235,7 +244,10 @@ h2{
 }
 
 h1,h2,h3{
-    margin-top: 0;
+    margin-top: 0rem;
+}
+h2,h3{
+    padding-top: 2rem;
 }
 
 #neighbors {

@@ -10,7 +10,7 @@ published: true
 hint-type: tip
 ---
 
-Ich bin durch einen Kollegen auf den Podcast ("F&uuml;hrung auf den Punkt gebracht")[http://www.mehr-fuehren.de] gesto&szlig;en und h&ouml;re ihn nun regelm&auml;&szlig;ig beim Laufen. Der Titel wirkt etwas staubig, aber die Inhalte &uuml;berzeugen daf&uuml;r um so mehr. Alle Podcasts lassen sich in Schriftform nachlesen und enden mit einen inspirierenden Zitat ;).
+Ich bin durch einen Kollegen auf den Podcast ["F&uuml;hrung auf den Punkt gebracht"](http://www.mehr-fuehren.de) gesto&szlig;en und h&ouml;re ihn nun regelm&auml;&szlig;ig beim Laufen. Der Titel wirkt etwas staubig, aber die Inhalte &uuml;berzeugen daf&uuml;r um so mehr. Alle Podcasts lassen sich in Schriftform nachlesen und enden mit einen inspirierenden Zitat ;).
 
 Eigentlich bin ich selbst nicht in der Situation als ausgewiesene "Führungskraft" tätig zu sein. Allerdings ist mein Verständnis von professionellem Arbeiten auch (situativ) zu führen.
 Zum anderen stellt sich mir auch die Frage, was ist gute Führung und woran erkennt man sie bzw. wie kann man selbst gut führen.

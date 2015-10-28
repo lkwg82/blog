@@ -18,7 +18,7 @@ hint-type: tip
     Just grab the kernel logs for oom-killer for the particular container id.
     {% highlight bash %}
 $ CONTAINER_ID=84ec6201e6a54
-$ docker exec $CONTAINER_ID dmesg -T | grep -B2 docker-$CONTAINER_ID | grep -B1 oom-killer
+$ dmesg -T | grep -B2 docker-$CONTAINER_ID | grep -B1 oom-killer
     {% endhighlight %}
 
     outputs
@@ -34,9 +34,9 @@ $ docker exec $CONTAINER_ID dmesg -T | grep -B2 docker-$CONTAINER_ID | grep -B1 
 <p>
     {% highlight bash %}
 $ CONTAINER_ID=84ec6201e6a54
-$ if [ $(docker exec $CONTAINER_ID dmesg -T | grep docker-$CONTAINER_ID | wc -l) -gt 0 ]; then
+$ if [ $(dmesg -T | grep docker-$CONTAINER_ID | wc -l) -gt 0 ]; then
         echo "there were issues with $CONTAINER_ID:";
-        docker exec $CONTAINER_ID dmesg -T | grep docker-$CONTAINER_ID
+        dmesg -T | grep docker-$CONTAINER_ID
         echo "--"
         echo "host config looks like (reduced)"
         FORMAT="\{\{json .HostConfig\}\}" # please remove escapes, limitation of my blog

@@ -108,9 +108,6 @@
 						{% if post.title != page.title %}
 							<li>
 								<a href="{{ post.url }}">
-									{% if post.hint-type %}
-									<span class="hint hint-{{ post.hint-type }}">{{ post.hint-type }}</span>
-									{% endif %}
 									{{post.title}}
 								</a>
 							</li>

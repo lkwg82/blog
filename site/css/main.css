@@ -291,7 +291,8 @@ article header h1 {
 }
 
 .recent li {
-    padding: 0.007rem 0;
+    padding: 0.05rem 0;
+    margin: 0.5rem 0;
     list-style: none;
 }
 

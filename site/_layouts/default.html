@@ -27,9 +27,6 @@
 					  <header>
 						<a href="{{ post.url }}">
 							<h2>{{ post.title }}
-								{% if post.hint-type %}
-								<span class="hint hint-{{ post.hint-type }}">{{ post.hint-type }}</span>
-								{% endif %}
 							</h2>
 							{% if post.subtitle %}
 							   <h3>{{ post.subtitle }}</h3>
@@ -96,9 +93,6 @@
 									{% capture count %}{{ count | plus:1}}{% endcapture %}
 									<li>
 										<a href="{{ post.url }}">
-											{% if post.hint-type %}
-												<span class="hint hint-{{ post.hint-type }}">{{ post.hint-type }}</span>
-											{% endif %}
 											{{post.title}}
 										</a>
 									</li>

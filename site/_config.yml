@@ -9,7 +9,7 @@ highlighter: rouge
 
 paginate: 5
 
-url: http://blog.lgohlke.de
+url: https://blog.lgohlke.de
 
 gems:
  - jekyll-paginate

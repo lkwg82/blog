@@ -1,7 +1,19 @@
 name: Erw&auml;hnenswert
 subtitle: ... darum schreibe ich hier
-markdown: redcarpet
-highlighter: pygments
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+highlighter: rouge
+
 paginate: 5
+
 url: http://blog.lgohlke.de
 
+gems:
+ - jekyll-paginate
+ - jekyll-feed
+
+feed:
+  path: rss.xml

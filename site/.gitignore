@@ -2,3 +2,6 @@
 /.idea
 .idea
 bower_components
+.bundle
+.bundler
+Gemfile.lock

@@ -451,6 +451,33 @@ h2 .hint{
   color: black;
 }
 
+.highlight pre.lineno {
+    border: none;
+    opacity: 0.6;
+    line-height: 1.7em;
+}
+
+.highlight pre {
+    line-height: 1.7em;
+}
+
+.highlight .lineno {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.highlight .gutter {
+    border-right: 1px solid #ccc;
+}
+
+.highlight .code pre {
+    border:none;
+}
+
 @media (max-width: 990px) {
     #header .title {
         margin: 3rem 0rem 0rem auto;

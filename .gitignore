@@ -1,1 +1,4 @@
 /.idea/
+.bundle
+.bundler
+_site

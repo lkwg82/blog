@@ -82,10 +82,13 @@ PLATFORMS
 DEPENDENCIES
   guard
   guard-jekyll-plus
-  guard-livereload (= 2.2.0)
+  guard-livereload
   jekyll
   jekyll-feed
   jekyll-paginate
   jekyll-watch
   rb-fsevent
   thin
+
+BUNDLED WITH
+   1.10.6

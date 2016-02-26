@@ -3,7 +3,7 @@ source "https://rubygems.org"
 
 gem 'guard'
 gem 'guard-jekyll-plus'
-gem 'guard-livereload','2.2.0'
+gem 'guard-livereload'
 gem 'jekyll'
 gem 'jekyll-feed'
 gem 'jekyll-paginate'

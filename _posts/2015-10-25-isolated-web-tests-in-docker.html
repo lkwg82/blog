@@ -1,0 +1,408 @@
+---
+layout: post
+title: Isolated web tests in docker
+date: 2015-10-25 21:23:07 UTC
+updated: 2015-10-25 13:36:07 UTC
+comments: true
+categories: webdriver docker google-chrome
+published: true
+# news | tip | story
+hint-type: story
+---
+
+<p>
+    This is a simple tutorial to show you how easy it can be to run isolated webtests in docker.
+</p>
+
+<p>
+    Presumed you want to run your webtests in an isolated environment for the following reasons:
+
+<ul>
+    <li>isolation from other test runs (same ports/same directories/...)</li>
+    <li>automatic cleanup of ...
+        <ul>
+            <li>orphaned processes (to avoid memory leaks of test agent)</li>
+            <li>cleanup of build files (not filling disk up with temporary files)</li>
+        </ul>
+    </li>
+    <li>repeatability (of course)</li>
+</ul>
+
+<p class="info">
+Btw. with <i>build files</i> I include the temporary container and images as well. (I just had a bunch of stability tests, which means running tests more than 50 times. I had local memory fuckups twice.)
+</p>
+
+<p>
+The examples are taken from <a href="https://github.com/lkwg82/de.lgohlke.selenium-webdriver/tree/c18b2933d0dd371469f0a573aac2e097c2e2a310">https://github.com/lkwg82/de.lgohlke.selenium-webdriver</a>.<br/>
+Any mentioned files are saved in the current directory otherwise it is specified.
+</p>
+
+<p>
+    <h2>Requirements</h2>
+    <ul>
+        <li>docker (I took 1.8)</li>
+        <li>ubuntu (I took 15.04)</li>
+        <li>maven (just for this example, I took 3.3.3)</li>
+    </ul>
+</p>
+
+<p>
+<h2>Roadmap</h2>
+    My roadmap in this tutorial:
+    <ol>
+        <li>create a script to run the tests (in and outside of docker)</li>
+        <li>create a <file>Dockerfile</file></li>
+        <li>create a script to run docker with tests</li>
+        <li>dont run as root, make it secure</li>
+        <li>bundle some convinient code to live happily with</li>
+    </ol>
+</p>
+
+<hr/>
+
+<div>
+    <h2>1. create a script to run the tests</h2>
+
+There should be a script wrapping test commands to be used inside and outside of docker. No special docker test commands!
+    <figure>
+        <figcaption>File: <tt>run_tests.sh</tt></figcaption>
+            {% highlight bash linenos%}
+#!/bin/bash
+
+# just for resolving all dependencies
+mvn install -DskipTests
+
+# actual running tests
+timeout --preserve-status --kill-after 7m 6m \
+    mvn clean verify -P sonar-coverage
+
+{% endhighlight %}   </figure>
+
+<p>Line 7 does timout the test run after specified time. I do have in mind a range of time to timeout the complete test run. To make the download of artifact independent line 4 is kept separate.</p>
+</div>
+
+<div>
+    <h2>2. Creating the Dockerfile </h2>
+    I prefer to have a <file>Dockerfile</file>  to build a fresh container for each run. For my example I choose <a href="https://hub.docker.com/r/lkwg82/mitmproxy-0.11-maven3-jdk8/~/dockerfile/">lkwg82/mitmproxy-0.11-maven3-jdk8</a> (contains maven, jdk8, google-chrome and ...).
+    {% highlight docker %}
+FROM lkwg82/mitmproxy-0.11-maven3-jdk8
+    {% endhighlight %}
+
+    To run my tests I add the current directory while building the container.
+    {% highlight docker %}
+FROM lkwg82/mitmproxy-0.11-maven3-jdk8
+
+ADD     . /home/build
+WORKDIR   /home/build
+    {% endhighlight %}
+</div>
+<div>
+    <h2>3. create a script to run docker</h2>
+
+    <div>
+        <h3>3.1 get it run</h3>
+        <figure>
+            <figcaption>File: <tt>run_docker.sh</tt></figcaption>
+            {% highlight bash linenos%}
+#!/bin/bash
+
+docker build -t test-$$ . | tee docker_build.log
+IMAGE_ID=$(tail -n1 docker_build.log| cut -d\  -f3)
+docker run $IMAGE_ID ./run_tests.sh
+
+            {% endhighlight %}
+        </figure>
+
+        <ul>
+            <li>line 3: build the container and log the output while displaying</li>
+            <li>line 3: use a tagname which contains the PID to identify when running in parallel</li>
+            <li>line 4: retrieve the image id</li>
+            <li>line 5: run the tests in a new container with the retrieved image id</li>
+        </ul>
+
+        Make some custom adjustments:
+
+        <figure>
+            <figcaption>File: <tt>run_docker.sh</tt></figcaption>
+            {% highlight bash linenos%}
+#!/bin/bash
+
+DOCKER_USER_TMP="/tmp/docker_$USER"
+DOCKER_M2="$DOCKER_USER_TMP/m2"
+DOCKER_WEBDRIVER="$DOCKER_USER_TMP/webdriver"
+
+args="--name=webdriver-test-$$ -m 1500M --memory-swap=-1 \
+    -v /dev/shm:/dev/shm \
+    -v $DOCKER_M2:/home/build/.m2/repository \
+    -v $DOCKER_WEBDRIVER:/home/build/tmp_webdrivers "
+
+rm -rf target/*
+docker build -t test . | tee docker_build.log
+IMAGE_ID=$(tail -n1 docker_build.log| cut -d\  -f3)
+docker run $args $IMAGE_ID ./run_tests.sh
+
+            {% endhighlight %}
+        </figure>
+
+        <ul>
+            <li>line 4: reuse the maven repository over many runs</li>
+            <li>line 5: reuse special temp directory over many runs</li>
+            <li>line 12: clean <file>target/</file> before adding to the new image</li>
+        </ul>
+    </div>
+
+    <div>
+        <h3>3.2 let it cleanup after run, dont mess with y disk space</h3>
+
+        <figure>
+            <figcaption>File: <tt>run_docker.sh</tt></figcaption>
+            {% highlight bash linenos%}
+#!/bin/bash
+
+DOCKER_USER_TMP="/tmp/docker_$USER"
+DOCKER_M2="$DOCKER_USER_TMP/m2"
+DOCKER_WEBDRIVER="$DOCKER_USER_TMP/webdriver"
+
+args="--name=webdriver-test-$$ -m 1500M --memory-swap=-1 \
+    -v /dev/shm:/dev/shm \
+    -v $DOCKER_M2:/home/build/.m2/repository \
+    -v $DOCKER_WEBDRIVER:/home/build/tmp_webdrivers "
+
+rm -rf target/*
+docker build -t test . | tee docker_build.log
+IMAGE_ID=$(tail -n1 docker_build.log| cut -d\  -f3)
+CONTAINER_ID=$(docker run -d $args $IMAGE_ID bash -c 'while true; do sleep 10000; done')
+
+echo -n $IMAGE_ID > docker_IMAGE_ID
+echo -n $CONTAINER_ID > docker_CID
+
+function cleanup {
+  ./run_docker_cleanup.sh
+}
+trap cleanup EXIT INT
+
+docker exec $CONTAINER_ID ./run_tests.sh
+
+            {% endhighlight %}
+        </figure>
+
+        <ul>
+            <li>line 15: we need a main loop to keep the container running</li>
+            <li>line 15: keep the <cmd>$CONTAINER_ID</cmd> in memory</li>
+            <li>line 17-18: save ids to be used from outside this script</li>
+            <li>line 20: create function to call a cleanup script</li>
+            <li>line 23: register this cleanup function to be called on EXIT and CTRL-C (see <a href="http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_12_02.html" targe="traps">traps</a>)</li>
+            <li>line 25: execute the tests</li>
+        </ul>
+
+<figure>
+            <figcaption>File: <tt>run_docker_cleanup.sh</tt></figcaption>
+            {% highlight bash linenos%}
+#!/bin/bash
+
+CONTAINER_ID=$(cat docker_CID)
+IMAGE_ID=$(cat docker_IMAGE_ID)
+
+# cleanup instances
+docker kill  $CONTAINER_ID
+docker rm -f $CONTAINER_ID
+docker rmi   $IMAGE_ID
+            {% endhighlight %}
+        </figure>
+
+        <ul>
+            <li>line 7-9: kill and remove the container and remove the specified iamge</li>
+        </ul>
+    </div>
+</div>
+
+<div>
+    <h2>4. dont run as root, make it secure</h2>
+
+        <figure>
+            <figcaption>File: <tt>run_docker.sh</tt></figcaption>
+            {% highlight bash linenos%}
+#!/bin/bash
+
+DOCKER_USER_TMP="/tmp/docker_$USER"
+DOCKER_M2="$DOCKER_USER_TMP/m2"
+DOCKER_WEBDRIVER="$DOCKER_USER_TMP/webdriver"
+
+mkdir -p $DOCKER_M2           # create the directory before
+mkdir -p $DOCKER_WEBDRIVER    # to have the correct ownership
+
+args="--name=webdriver-test-$$ -m 1500M --memory-swap=-1 \
+    -v /dev/shm:/dev/shm \
+    -v $DOCKER_M2:/home/build/.m2/repository \
+    -v $DOCKER_WEBDRIVER:/home/build/tmp_webdrivers "
+
+rm -rf target/*
+docker build -t test-$$ . | tee docker_build.log
+IMAGE_ID=$(tail -n1 docker_build.log| cut -d\  -f3)
+CONTAINER_ID=$(docker run -d $args $IMAGE_ID bash -c 'while true; do sleep 10000; done')
+
+echo -n $IMAGE_ID > docker_IMAGE_ID
+echo -n $CONTAINER_ID > docker_CID
+
+function cleanup {
+  ./run_docker_cleanup.sh
+}
+trap cleanup EXIT INT
+
+UID_OUTSIDE=$(id --user)
+GID_OUTSIDE=$(id --group)
+USER_INSIDE_DOCKER="build"
+
+docker exec $CONTAINER_ID useradd --uid $UID_OUTSIDE $USER_INSIDE_DOCKER
+docker exec $CONTAINER_ID chown -R $USER_INSIDE_DOCKER .
+docker exec $CONTAINER_ID su $USER_INSIDE_DOCKER -c './run_tests.sh'
+
+            {% endhighlight %}
+        </figure>
+
+        <ul>
+            <li>line 7-8: create the shared directories as user which runs the tests</li>
+            <li>line 32: create an user with the same uid and gid inside the container as you have outside (this fixes the user id mapping problem)</li>
+            <li>line 33: remember you added the project as root (you dont set any user), so change the ownership to the new user</li>
+            <li>line 34: run the tests with the new user</li>
+        </ul>
+</div>
+
+
+<div>
+    <h2>5. make it convinient, make the user happy</h2>
+
+    <div>
+        <h3>5.1 Where is my build containing the logs?</h3>
+    <figure>
+        <figcaption>File: <tt>run_docker_cleanup.sh</tt></figcaption>
+        {% highlight bash linenos%}
+#!/bin/bash
+
+CONTAINER_ID=$(cat docker_CID)
+IMAGE_ID=$(cat docker_IMAGE_ID)
+
+rm -rf target
+docker cp $CONTAINER_ID:/home/build/target .
+
+# cleanup instances
+docker kill  $CONTAINER_ID
+docker rm -f $CONTAINER_ID
+docker rmi   $IMAGE_ID
+        {% endhighlight %}
+    </figure>
+
+        <ul>
+            <li>line 6: clear the local <file>target/</file>directory before filling with copies from container</li>
+            <li>line 7: copy the build files</li>
+        </ul>
+    </div>
+
+    <div>
+        <h3>5.2 Which software environment I ran the tests with?</h3>
+        <figure>
+            <figcaption>File: <tt>Dockerfile</tt></figcaption>
+{% highlight docker linenos%}
+FROM lkwg82/mitmproxy-0.11-maven3-jdk8
+
+ADD     . /home/build
+WORKDIR   /home/build
+RUN dpkg --list | grep ^ii > installed_software.log
+        {% endhighlight %}
+           </figure>
+    <figure>
+
+        <ul><li>line 5: save the installed package list</li></ul>
+
+    the list looks like
+{% highlight bash %}
+
+ii  acl            2.2.52-2     amd64        Access control list utilities
+ii  adduser        3.113+nmu3   all          add and remove users and groups
+ii  apt            1.0.9.8.1    amd64        commandline package manager
+ii  base-files     8+deb8u2     amd64        Debian base system miscellaneous files
+ii  base-passwd    3.5.37       amd64        Debian base system master password and group files
+ii  bash           4.3-11+b1    amd64        GNU Bourne Again SHell
+...
+
+{% endhighlight %}
+
+        Dont forget to copy the list from the container.
+
+        <figcaption>File: <tt>run_docker_cleanup.sh</tt></figcaption>
+        {% highlight bash linenos%}
+#!/bin/bash
+
+CONTAINER_ID=$(cat docker_CID)
+IMAGE_ID=$(cat docker_IMAGE_ID)
+
+rm -rf target
+docker cp $CONTAINER_ID:/home/build/target .
+docker cp $CONTAINER_ID:/home/build/installed_software.log target
+
+# cleanup instances
+docker kill  $CONTAINER_ID
+docker rm -f $CONTAINER_ID
+docker rmi   $IMAGE_ID
+        {% endhighlight %}
+    </figure>
+
+        <ul>
+            <li>line 8: copy the package list</li>
+        </ul>
+    </div>
+
+
+    <div>
+        <h3>5.3 Do I have any issues in docker with the limits?</h3>
+
+        If you ever experienced issues with flaky tests, read on!
+        <figure>
+        <figcaption>File: <tt>run_docker_cleanup.sh</tt></figcaption>
+        {% highlight bash linenos%}
+#!/bin/bash
+
+CONTAINER_ID=$(cat docker_CID)
+IMAGE_ID=$(cat docker_IMAGE_ID)
+
+rm -rf target
+docker cp $CONTAINER_ID:/home/build/target .
+docker cp $CONTAINER_ID:/home/build/installed_software.log target
+
+# check for issues (low memory etc.)
+if [ $(dmesg -T | grep docker-$CONTAINER_ID | wc -l) -gt 0 ]; then
+    echo "";
+    echo "[ERROR] there were issues with $CONTAINER_ID:";
+    echo "";
+    dmesg -T | grep docker-$CONTAINER_ID
+    echo "--"
+    echo "host config looks like (reduced)"
+    docker inspect --format="{{json .HostConfig}}" $CONTAINER_ID | python -m json.tool \
+        | grep -v ": \"\"" \
+        | grep -v ": null" \
+        | grep -vE ": 0|-1" \
+        | grep -v ": \[\]" \
+        | grep -v ": {}"
+
+    exit 137
+fi
+
+# cleanup instances
+docker kill  $CONTAINER_ID
+docker rm -f $CONTAINER_ID
+docker rmi   $IMAGE_ID
+        {% endhighlight %}
+    </figure>
+
+        <ul>
+            <li>line 10-26: add a check and let the build fail</li>
+        </ul>
+
+        For more details read <a href="/memory/docker/2015/10/24/detect-when-docker-instance-reached-memory-limit.html" target="details">this separate post</a> on this issue.
+    </div>
+</div>
+
+<hr/>
+<div>
+    I appreciate any feedback/corrections and comments.
+</div>

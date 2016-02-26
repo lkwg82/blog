@@ -1,0 +1,95 @@
+---
+layout: post
+title: Easy distinct unit and integration test code coverage with sonarqube
+date: 2015-02-05 23:23:07 UTC
+updated: 2015-10-25 13:36:07 UTC
+comments: true
+categories: java sonarqube coverage maven
+# news | tip | story
+hint-type: tip
+---
+
+<p>Simple compute distinct code coverage for unit tests and integration tests. I used jacoco 0.7.2, sonarqube 5.0 and maven 3.2.5 to cook the numbers ;).</p>
+<div class="image">
+    <a href="/img/posts/2015-02-05-combined-code-coverage.jpg" data-lightbox="image-1" title="screenshot from sonarqube">
+        <img src="/img/posts/2015-02-05-combined-code-coverage.jpg" alt="screenshot from sonarqube"/>
+    </a>
+</div>
+
+
+{% highlight xml %}
+<project ...>
+    ...
+        <profile>
+            <id>sonar-coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.7.2.201409121644</version>
+                        <configuration>
+                            <append>true</append>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>agent-for-ut</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>agent-for-it</id>
+                                <goals>
+                                    <goal>prepare-agent-integration</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>jacoco-site</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    ...
+</project>
+{% endhighlight %}
+
+A simple call with maven to run the test suite and activate jacoco class instrumentation would be:
+{% highlight bash %}
+mvn clean verify -P sonar-coverage
+{% endhighlight %}
+
+Later on the usual sonarqube run:
+{% highlight bash %}
+mvn sonar:sonar
+{% endhighlight %}
+
+<hr/>
+
+See also
+<ul>
+    <li>
+        <a href="https://github.com/SonarSource/sonar-examples/tree/master/projects/languages/java/code-coverage/combined%20ut-it">example configuration from sonar itself</a>
+    </li>
+    <li>
+        <a href="http://www.sonarqube.org/tag/coverage/">some blog entries on coverage in the sonar-blog</a>
+    </li>
+    <li>
+        <a href="http://www.eclemma.org/jacoco/trunk/doc/maven.html" target="_jacoco">jacoco maven-plugin</a>
+    </li>
+    <li>
+        <a href="http://developer.immobilienscout24.de/2013/06/maven-profile-for-combined-unit-and-integration-test-code-coverage-for-sonar/">older outdated config sample</a>
+    </li>
+</ul>
+
+<b>Updates:</b>
+<ul>
+    <li>2015-02-07, no need for extra failsafe config</li>
+    <li>2015-10-25, change phase for using the results, dont let failing integration tests miss your integration coverage</li>
+</ul>

@@ -1,0 +1,260 @@
+---
+layout: post
+title:  Howto Babyphone mit dem Raspberry PI
+date: 2014-02-09 13:08:00 UTC
+comments: true
+published: true
+categories:
+use-lightbox-2: true
+# news | tip | story
+hint-type: story
+---
+<p>Bald ist es soweit und das Babyphone muss eingerichtet werden. Dazu habe ich mir die Webcam <a href="http://www.logitech.com/de-de/product/hd-pro-webcam-c920">Logitech C920</a> und <a href="http://de.wikipedia.org/wiki/Raspberry_Pi#Spezifikationen">Raspberry Pi Modell B</a> gekauft.</p>
+<p>Hier nun meine kleine Anleitung um auf dem Handy Bild und Ton zu haben.</p>
+
+<h2>Vorraussetzungen</h2>
+
+Der PI hat Netzzugang und ihr k&ouml;nnt per SSH rauf.
+
+<h2 id="bild">Schritte zum Erfolg - das Bild</h2>
+
+Als erstes die Tools installieren:
+{% highlight bash%}
+$ sudo apt-get update
+$ sudo apt-get install build-essential libjpeg-dev imagemagick subversion libv4l-dev
+{% endhighlight%}
+
+Dann <a href="http://sourceforge.net/projects/mjpg-streamer/">mjpg-streamer</a> installieren (leider gibt es noch kein Bin&auml;rpaket):
+
+{% highlight bash%}
+$ cd /tmp
+$ svn co https://svn.code.sf.net/p/mjpg-streamer/code/mjpg-streamer mjpg-streamer
+$ cd mjpg-streamer
+$ make USE_LIBV4L2=true
+$ sudo make install
+{% endhighlight%}
+
+MJPEG-Streamer als Dienst installieren mit diesem Init-skript:
+{% highlight bash%}
+#!/bin/sh
+# /etc/init.d/mjpg_streamer
+
+#
+# Creation:    04.02.2013
+# Last Update: 04.02.2013
+#
+# Written by Georg Kainzbauer (http://www.gtkdb.de)
+#
+
+### BEGIN INIT INFO
+# Provides:          mjpg_streamer
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: MJPG-Streamer
+# Description:       MJPG-Streamer takes JPGs from Linux-UVC compatible webcams and streams them as M-JPEG via HTTP.
+### END INIT INFO
+
+start()
+{
+  echo "Starting mjpg-streamer..."
+  /usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so -d /dev/video0 -n" -o "/usr/local/lib/output_http.so -n -w /usr/local/www -p 8080" >/dev/null 2>&1 &
+}
+
+stop()
+{
+  echo "Stopping mjpg-streamer..."
+  kill -9 $(pidof mjpg_streamer) >/dev/null 2>&1
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    ;;
+esac
+
+exit 0
+{% endhighlight%}
+
+und bitte beim n&auml;chsten Booten automatisch mitstarten
+{% highlight bash%}
+$ sudo chmod 0755 /etc/init.d/mjpg_streamer
+$ sudo update-rc.d mjpg_streamer defaults
+{% endhighlight%}
+
+Zum Testen einfach den Dienst starten und dann unter <tt>http://&lt;ip&gt;:8080/</tt> anschauen.
+{% highlight bash%}
+$ sudo service mjpg_streamer start
+{% endhighlight %}
+
+Falls eure Webcam direkt MJPEG unterst&uuml;tzt, gibt es dieses Streaming f&uuml;r unter 5% cpu Last ;).
+
+{% highlight bash%}
+sudo v4l2-ctl --list-formats
+ioctl: VIDIOC_ENUM_FMT
+	Index       : 0
+	Type        : Video Capture
+	Pixel Format: 'YUYV'
+	Name        : YUV 4:2:2 (YUYV)
+
+	Index       : 1
+	Type        : Video Capture
+	Pixel Format: 'H264' (compressed)
+	Name        : H.264
+
+	Index       : 2
+	Type        : Video Capture
+	Pixel Format: 'MJPG' (compressed)
+	Name        : MJPEG
+{% endhighlight%}
+
+
+
+Details k&ouml;nnen unter <a href="#ubuntuusers">[1]</a> und <a href="#gtkdb">[2]</a> nachgelesen werden.
+
+<h2 id="ton">Schritte zum Erfolg - der Ton</h2>
+
+Ich habe mich dazu entschieden den Ton &uuml;ber http als mp3 anzubieten:
+
+Tools zum Aufnehmen und Konvertieren installieren:
+{% highlight bash%}
+$ sudo apt-get install libav-tools alsa-utils
+{% endhighlight %}
+
+Mikrophon der Soundkarte herausfinden
+{% highlight bash%}
+$ sudo arecord -l
+**** Liste der Hardware-Geraete (CAPTURE) ****
+Karte 1: C920 [HD Pro Webcam C920], Geraet 0: USB Audio [USB Audio]
+  Sub-Geraete: 0/1
+  Sub-Geraet #0: subdevice #0
+{% endhighlight %}
+
+Daraus ergibt sich die Alsa-Adresse <tt>plughw:1,0</tt>, die wir in den folgenden Init-skript verwenden. Dabei nehmen wir den Ton von der Webcam auf und schicken ihn als mp3 kodiert und als <a href="https://libav.org/avconv.html#rtp">rtp</a> verpackt an localhost. (Dieser Umweg ist deswegen notwendig, weil vlc in der Version vor 2.1 es nicht hinbekommt den Ton direkt von einem Alsa-Ger&auml;t auszulesen.)
+<tt>/etc/init.d/audio-record</tt>
+
+{% highlight bash%}
+#!/bin/sh
+# /etc/init.d/audio-record
+
+### BEGIN INIT INFO
+# Provides:          audio-record
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: audio-record
+# Description:       streams soundcard via rtp over localhost
+### END INIT INFO
+
+start()
+{
+  echo "Starting audiorecord.."
+  arecord -f cd -D plughw:1,0 2>/dev/null | avconv -i - -acodec libmp3lame -ac 1 -ab 128k -re -f mp3 -f rtp rtp://127.0.0.1:1234  1>/dev/null 2>&1 &
+}
+
+stop()
+{
+  echo "Stopping audiorecord ..."
+  kill -9 $(pidof arecord) >/dev/null 2>&1
+  kill -9 $(pidof avconv) >/dev/null 2>&1
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    ;;
+esac
+
+exit 0
+{% endhighlight %}
+
+Das Ganze greife ich mit vlc ab und biete es als http-stream <tt>/etc/init.d/vlc-http</tt> wieder an:
+{% highlight bash%}
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          vlc-http
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: vlc-http
+# Description:       transport rtp from localhost to http
+### END INIT INFO
+
+start()
+{
+  echo "Starting vlc-http .."
+  su lars -c "cvlc rtp://127.0.0.1:1234 --sout '#http{dst=:8081/baby.mp3}'" > /dev/null 2>&1  &
+}
+
+stop()
+{
+  echo "Stopping vlc-http ..."
+  kill -9 $(pidof vlc) >/dev/null 2>&1
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    ;;
+esac
+
+exit 0
+{% endhighlight %}
+
+Jetzt wieder beide neuen Init-skripte mit ... aktivieren.
+{% highlight bash%}
+$ sudo chmod 0755 /etc/init.d/audio-record
+$ sudo update-rc.d audio-record defaults
+$ sudo chmod 0755 /etc/init.d/vlc-http
+$ sudo update-rc.d vlc-http defaults
+{% endhighlight %}
+
+<p>Zum Testen einfach <tt>http://&lt;ip&gt;:8081/baby.mp3</tt> aufrufen und sich nicht &uuml;ber die 2 Sekunden Verz&ouml;gerung wundern ;).</p>
+
+<p>Alles f&uuml;r nur 50% CPU auf dem PI.</p>
+<div class="image">
+	<a href="/img/posts/2014-02-09-htop-pi.jpeg" data-lightbox="image-1" title="Auslastung mittels htop auf dem PI">
+		<img src="/img/posts/2014-02-09-htop-pi_small.jpeg" alt="Auslastung mittels htop auf dem PI"/>
+	</a>
+</div>
+
+
+<h2>Referenzen</h2>
+<ol class="sources" start=1>
+ <li><a id="ubuntuusers" href="http://wiki.ubuntuusers.de/MJPG-Streamer">http://wiki.ubuntuusers.de/MJPG-Streamer</a></li>
+ <li><a id="gtkdb" href="http://www.gtkdb.de/index_36_2098.html">Raspbian: MJPG-Streamer einrichten</a></li>
+</ol>

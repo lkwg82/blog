@@ -1,8 +1,8 @@
-FROM ubuntu:15.04
+FROM ubuntu:15.10
 
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y bundler
-RUN apt-get install -y zlib1g-dev
+RUN apt-get install -y zlib1g-dev libv8-dev
 
 ENV JEKYLL_UID 1000
 ENV JEKYLL_GID 1000

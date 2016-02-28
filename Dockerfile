@@ -18,4 +18,6 @@ USER jekyll
 
 EXPOSE 4000
 
-CMD bundler install --path .bundler && bundler exec guard
+CMD bundler install --path .bundler \
+    && bundler exec jekyll serve --incremental --host 0.0.0.0
+    #&& bundler exec guard

@@ -18,5 +18,16 @@ gems:
 feed:
   path: rss.xml
 
+# http://jch.penibelst.de/
+compress_html:
+  clippings: all
+  comments: []
+  endings: []
+  ignore:
+    envs: []
+  blanklines: false
+  profile: false
+  startings: []
+
 host: 0.0.0.0
 port: 4000

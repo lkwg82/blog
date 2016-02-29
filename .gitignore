@@ -2,3 +2,5 @@
 .bundle
 .bundler
 _site
+Gemfile.lock
+.jekyll-metadata

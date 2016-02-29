@@ -9,9 +9,6 @@ layout: compress
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"/>
     <meta name="HandheldFriendly" content="true"/>
     <title>{{ page.title }}</title>
-    <link rel="stylesheet" href="/css/bootstrap_3.0.3/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/css/syntax.css"/>
-    <link rel="stylesheet" href="/css/main.css"/>
     <link rel="alternate" type="application/rss+xml" href="/rss.xml"/>
     <meta property="og:title" content="{{ page.title | strip_html | strip_newlines }}"/>
     <meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines }}"/>
@@ -20,6 +17,14 @@ layout: compress
     {% elsif page.url %}
     <link rel="canonical" href="{{site.url}}{{page.url}}"/>
     {% endif %}
+
+    <link rel="stylesheet" href="/css/bootstrap_3.0.3/css/bootstrap.min.css"/>
+    <style type="text/css">
+        {% capture include_to_scssify %}
+               {% include main.scss %}
+        {% endcapture %}
+        {{ include_to_scssify | scssify }}
+    </style>
 </head>
 <body>
 

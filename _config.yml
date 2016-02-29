@@ -1,22 +1,9 @@
 name: Erw&auml;hnenswert
 subtitle: ... darum schreibe ich hier
-markdown: kramdown
-
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
-highlighter: rouge
 
 paginate: 5
 
 url: https://blog.lgohlke.de
-
-gems:
- - jekyll-paginate
- - jekyll-feed
-
-feed:
-  path: rss.xml
 
 # http://jch.penibelst.de/
 compress_html:
@@ -28,6 +15,23 @@ compress_html:
   blanklines: false
   profile: false
   startings: []
+
+feed:
+  path: rss.xml
+
+gems:
+ - jekyll-paginate
+ - jekyll-feed
+
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+markdown: kramdown
+
+sass:
+   sass_dir: _sass
+   style: compressed
 
 host: 0.0.0.0
 port: 4000

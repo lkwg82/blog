@@ -461,27 +461,28 @@ h2 .hint {
   color: black;
 }
 
-.highlight pre.lineno {
-  border: none;
-  opacity: 0.6;
-  line-height: 1.7em;
-}
+.highlight {
+  pre {
+    line-height: 1.7em;
+  }
 
-.highlight pre {
-  line-height: 1.7em;
-}
+  pre.lineno {
+    border: none;
+    opacity: 0.6;
+    line-height: 1.7em;
+  }
 
-.highlight .lineno {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.highlight .gutter {
-  border-right: 1px solid #ccc;
+  .lineno {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .gutter {
+    border-right: 1px solid #ccc;
+  }
 }
 
 .highlight .code pre {
@@ -490,17 +491,20 @@ h2 .hint {
 
 @media (max-width: 990px) {
   #header .title {
-    margin: 3rem 0rem 0rem auto;
+    margin: 3rem 0 0 auto;
   }
 
   h1, h2, h3 {
     text-align: center;
   }
-  header h1 {
-    margin-bottom: 10px;
-  }
-  header h2, h3 {
-    margin-top: 0;
+
+  header {
+    h1 {
+      margin-bottom: 10px;
+    }
+    h2, h3 {
+      margin-top: 0;
+    }
   }
 
   .content {
@@ -542,24 +546,25 @@ h2 .hint {
   .recent {
     padding: 0;
     text-align: center;
-  }
-  .recent h3 {
-    padding-left: 3rem;
-  }
-  .recent ul {
-    margin: 0;
-  }
 
-  .recent li {
-    background-color: rgb(241, 241, 255);
-    margin-bottom: 5px;
-    padding: 1rem;
+    h3 {
+      padding-left: 3rem;
+    }
+
+    ul {
+      margin: 0;
+    }
+
+    li {
+      background-color: rgb(241, 241, 255);
+      margin-bottom: 5px;
+      padding: 1rem;
+    }
   }
 
   header a,
   .recent li a {
     display: block;
-    height: 100%;
     width: 100%;
   }
 

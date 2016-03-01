@@ -85,11 +85,11 @@
             <!-- Pagination links -->
             <div class="pagination">
                 {% if paginator.previous_page %}
-                <a href="/page{{ paginator.previous_page }}" class="previous">Previous</a>
+                <a href="/page{{ paginator.previous_page }}/" class="previous">Previous</a>
                 {% endif %}
                 <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
                 {% if paginator.next_page %}
-                <a href="/page{{ paginator.next_page }}" class="next">Next</a>
+                <a href="/page{{ paginator.next_page }}/" class="next">Next</a>
                 {% endif %}
             </div>
             {% else %}

@@ -5,14 +5,19 @@
 //-->
 <script src="/bower_components/fontfaceobserver/fontfaceobserver.standalone.js"></script>
 <script>
-    var observers = [];
-    observers.push(new FontFaceObserver("Ubuntu", {weight: 400}).check);
-    observers.push(new FontFaceObserver("Glegoo", {weight: 400}).check);
+    // if the class is already set, we're good.
+    if (window.document.documentElement.className.indexOf("fonts-loaded") > -1) {
+        // complete
+    }
+    else {
+        var fontA = new FontFaceObserver("Ubuntu", {weight: 400});
+        var fontB = new FontFaceObserver("Glegoo", {weight: 400});
 
-    Promise.all(observers).then(function () {
-        console.log('Font is available');
-        window.document.documentElement.className += " fonts-loaded";
-    }, function () {
-        console.log('Font is not available');
-    });
+        Promise.all([fontA.check(), fontB.check()]).then(function () {
+            console.log('Font is available');
+            window.document.documentElement.className += " fonts-loaded";
+        }, function () {
+            console.log('Font is not available');
+        });
+    }
 </script>

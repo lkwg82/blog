@@ -1,0 +1,42 @@
+<!--
+ based on:
+   - https://www.filamentgroup.com/lab/font-events.html
+   - https://github.com/bramstein/fontfaceobserver
+//-->
+<script src="/bower_components/fontfaceobserver/fontfaceobserver.standalone.js"></script>
+<script>
+    var observers = [];
+
+    for (var key in WebFontConfig) {
+        if (WebFontConfig.hasOwnProperty(key)) {
+            console.debug(key, WebFontConfig[key]);
+            var provider = WebFontConfig[key];
+            for (var pkey in provider) {
+                if (provider.hasOwnProperty(pkey)) {
+                    console.debug(pkey, provider[pkey]);
+
+                    var families = provider[pkey];
+                    console.debug("families:" + families);
+                    for (var i = 0; i < families.length; i++) {
+                        console.debug("f:" + families[i]);
+                        var family = families[i];
+                        var name = family.split(":")[0];
+                        var weights = family.split(":")[1];
+
+                        for (var w = 0; w < weights.length; w++) {
+                            var o = new FontFaceObserver(name, {weight: weights[w]});
+                            observers.push(o.check);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Promise.all(observers).then(function () {
+        console.log('Font is available');
+        window.document.documentElement.className += " fonts-loaded";
+    }, function () {
+        console.log('Font is not available');
+    });
+</script>

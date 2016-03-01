@@ -1,0 +1,15 @@
+{
+  "name": "blog",
+  "homepage": "https://blog.lgohlke.de",
+  "authors": [
+    "Lars K.W. Gohlke <lkwg82@gmx.de>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "GPL",
+  "private": true,
+  "dependencies": {
+    "fontfaceobserver": "git://github.com/bramstein/fontfaceobserver.git#v1.6.5"
+  }
+}

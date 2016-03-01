@@ -13,14 +13,15 @@
     <title>{{ page.title }}</title>
     <link rel="alternate" type="application/rss+xml" href="/rss.xml"/>
     <meta property="og:title" content="{{ page.title | strip_html | strip_newlines }}"/>
+    {% if page.excerpt %}
     <meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines }}"/>
+    {% endif %}
     {% if paginator.previous_page %}
     <link rel="canonical" href="{{site.url}}/page{{ paginator.page }}/"/>
     {% elsif page.url %}
     <link rel="canonical" href="{{site.url}}{{page.url}}"/>
     {% endif %}
 
-    <link rel="stylesheet" href="/css/bootstrap_3.0.3/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/main.css"/>
 </head>
 <body>

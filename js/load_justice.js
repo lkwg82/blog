@@ -1,4 +1,3 @@
-<script>
 (function() {
 
     var footer = document.getElementById("footer");
@@ -44,5 +43,3 @@
         head.insertBefore(scr, head.firstChild);
     }
 })();
-
-</script>

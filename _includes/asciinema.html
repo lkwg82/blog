@@ -1,0 +1,28 @@
+<div id="player-container-poster">
+    <img src="/img/asciinema-poster.jpg" alt="asciinema player" class="center" width="300" height="218">
+</div>
+<div id="player-container" style="display:none"></div>
+<script>
+    (function () {
+        var div = document.getElementById("player-container-poster");
+        div.addEventListener('click', function () {
+            var scr = document.createElement('script');
+            scr.src = '/js/asciinema-player-v2.0.0.js';
+            scr.onload = function () {
+                asciinema_player.core.CreatePlayer('player-container', '/img/posts/{{ include.file }}', {
+                    'autoPlay': true
+                });
+                div.parentNode.removeChild(div);
+                document.getElementById("player-container").style.display = 'block';
+            };
+            var link = document.createElement('link');
+            link.rel = "stylesheet";
+            link.type = "text/css";
+            link.href = "/css/asciinema-player-v2.0.0.css";
+
+            var head = document.head || document.getElementsByTagName('head')[0];
+            head.insertBefore(link, head.firstChild);
+            head.insertBefore(scr, head.firstChild);
+        });
+    })();
+</script>

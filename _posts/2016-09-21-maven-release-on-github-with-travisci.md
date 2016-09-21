@@ -7,7 +7,7 @@ comments: true
 categories: maven github travisci
 ---
 
-As passionate developer I always strive to optimise my build chain for speed and simplicity. In this case I'd like to publish on a library on [maven central](http://search.maven.org/) without any onsite build tooling except my IDE. So lets see how to rid of gpg key management and trivial *push-button release process* with [Github](https://github.com/lkwg82) and [TravisCI](https://travis-ci.org).
+As a passionate developer I always strive to optimise my build chain for speed and simplicity. In this example I'd like to publish a library on [maven central](http://search.maven.org/) without any onsite build tooling except my IDE. So lets see how to rid of gpg key management and implement a trivial *push-button release process* with [Github](https://github.com/lkwg82) and [TravisCI](https://travis-ci.org).
 
 
 <small>(This is reblogged originally from [idealo/logback-redis/wiki/Release-Process](https://github.com/idealo/logback-redis/wiki/Release-Process) and sponsored by [Idealo](https:/www.idealo.de))</small>

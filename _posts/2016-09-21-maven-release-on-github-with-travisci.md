@@ -47,7 +47,9 @@ detailed explanations of these configuration values at
 This general information needs to be available (e.g. a missing
 description tag will make deployment to maven central impossible):
 
-```xml
+<figure>
+        <figcaption>File: <tt>pom.xml</tt></figcaption>
+{% highlight xml %}
 <groupId>org.example.spring</groupId>
 <artifactId>my-library</artifactId>
 <packaging>jar</packaging>
@@ -55,11 +57,13 @@ description tag will make deployment to maven central impossible):
 <name>my-library</name>
 <url>https://example.org</url>
 <description>A good description</description>
-```
+{% endhighlight %}</figure>
 
 Also the developer and license information is necessary:
 
-```xml
+<figure>
+        <figcaption>File: <tt>pom.xml</tt></figcaption>
+{% highlight xml %}
 <developers>
   <developer>
     <id>jd</id>
@@ -76,14 +80,17 @@ Also the developer and license information is necessary:
     <distribution>repo</distribution>
   </license>
 </licenses>
-```
+{% endhighlight %}</figure>
 
 ### Add distributionManagement for ossrh to your `pom.xml`
 
 The following two entries are given to you, as soon as you finish step
 __1__ and __2__ at sonatype's jira:
 
-```xml
+
+<figure>
+        <figcaption>File: <tt>pom.xml</tt></figcaption>
+{% highlight xml %}
 <distributionManagement>
   <snapshotRepository>
     <id>ossrh</id>
@@ -94,7 +101,8 @@ __1__ and __2__ at sonatype's jira:
     <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
   </repository>
 </distributionManagement>
-```
+
+{% endhighlight %}</figure>
 
 You will need to add them in your pom.
 
@@ -107,7 +115,9 @@ jar, a java sources jar and all of those need to be signed with a gpg
 key. The following configuration in your `pom.xml` will take care of
 those steps:
 
-```xml
+<figure>
+        <figcaption>File: <tt>pom.xml</tt></figcaption>
+{% highlight xml %}
 <profiles>
   <profile>
       <id>release</id>
@@ -168,13 +178,17 @@ those steps:
       </build>
     </profile>
   </profiles>
-```
+
+{% endhighlight %}</figure>
 
 ## Creating GPG-Keys
 
 We create our temporary GPG-Keys on-the-fly with the following script (`.travis/gpg.sh`):
 
-```bash
+
+<figure>
+        <figcaption>File: <tt>.travis/gpg.sh</tt></figcaption>
+{% highlight bash %}
 
 #!/usr/bin/env bash
 
@@ -224,8 +238,7 @@ while(true); do
   date
   gpg --keyserver keyserver.ubuntu.com  --recv-keys ${GPG_KEYNAME} && break || sleep 30
 done
-
-```
+{% endhighlight %}</figure>
 
 This will provide maven with a key pair to sign our artifacts.
 
@@ -236,7 +249,9 @@ Signing is mandatory with sonatype.
 The following settings.xml should be available in your git repository at
 `.travis/settings.xml`:
 
-```xml
+<figure>
+        <figcaption>File: <tt>.travis/settings.xml</tt></figcaption>
+{% highlight xml %}
 
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -264,7 +279,7 @@ The following settings.xml should be available in your git repository at
     </profiles>
 </settings>
 
-```
+{% endhighlight %}</figure>
 
 As you can see we'll use environment-variables to configure passphrase
 and sonatype password. (Those are tokens, not your real account passwords. See below.)
@@ -286,7 +301,9 @@ Fill `SONATYPE_USERNAME` and `SONATYPE_PASSWORD` with your tokens (NOT your actu
 
 Your .travis.yml file could look like this:
 
-```yaml
+<figure>
+        <figcaption>File: <tt>.travis.yml</tt></figcaption>
+{% highlight yaml %}
 
 language: java
 
@@ -310,7 +327,7 @@ notifications:
   email:
     - opensource-logback-redis@idealo.de
 
-```
+{% endhighlight %}</figure>
 
 It's __very important__ to override the `install` instruction for mvn with
 `--settings .travis/settings.xml`, otherwise your `settings.xml` will be
@@ -321,7 +338,9 @@ ignored and the configuration would be useless.
 Since it's easier to read if you have all deploy steps in a separate
 file, I created a `.travis/deploy.sh` for this:
 
-```bash
+<figure>
+        <figcaption>File: <tt>.travis/deploy.sh</tt></figcaption>
+{% highlight bash %}
 #!/usr/bin/env bash
 
 set -e
@@ -350,7 +369,7 @@ else
     echo "not on a tag -> keep snapshot version in pom.xml"
 fi
 
-```
+{% endhighlight %}</figure>
 
 This snippet sets the version in the pom file to the tag version (if
 it's a git tag aka release). Afterwards a deploy will be triggered only if it is a release.

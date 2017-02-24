@@ -7,3 +7,8 @@ see http://blog.lgohlke.de
 ```bash
 ./docker-run.sh
 ```
+
+update to latest github gems
+```bash
+./docker-run.sh bundle update
+```

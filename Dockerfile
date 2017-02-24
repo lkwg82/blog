@@ -1,4 +1,4 @@
-FROM ubuntu:15.10
+FROM ubuntu:16.04
 
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y bundler
@@ -19,5 +19,5 @@ USER jekyll
 EXPOSE 4000
 
 CMD bundler install --path .bundler \
-    && bundler exec guard
-#    && bundler exec jekyll serve --incremental --host 0.0.0.0
+    && bundler exec guard \
+    && bundler exec jekyll serve --incremental --host 0.0.0.0

@@ -55,6 +55,11 @@ a:hover {
   transition: background-color 0.4s;
 }
 
+/* <tt> tag is not supported in HTML5. */
+tt {
+  font-family: 'Lucida Console', monospace;
+}
+
 /*****************************************************************************/
 /*
 /* Home

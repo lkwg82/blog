@@ -4,6 +4,7 @@ RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y \
         bundler \
+        git \
         nodejs
 
 ENV JEKYLL_UID 1000
@@ -20,5 +21,4 @@ USER jekyll
 EXPOSE 4000
 
 CMD bundler install --path .bundler --jobs=10\
-#    && bundler exec guard \
     && bundler exec jekyll serve --incremental --host 0.0.0.0 -t

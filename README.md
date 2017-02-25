@@ -8,6 +8,8 @@ see http://blog.lgohlke.de
 ./docker-run.sh
 ```
 
+use these gems: https://pages.github.com/versions.json
+see https://github.com/github/pages-gem
 update to latest github gems
 ```bash
 ./docker-run.sh bundle update

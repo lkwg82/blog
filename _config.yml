@@ -4,6 +4,7 @@ subtitle: ... darum schreibe ich hier
 paginate: 5
 
 url: https://blog.lgohlke.de
+repository: lkwg82/blog
 
 feed:
   path: rss.xml
@@ -28,3 +29,4 @@ sitemap: true
 
 host: 0.0.0.0
 port: 4000
+livereload: true

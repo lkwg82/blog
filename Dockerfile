@@ -1,9 +1,10 @@
 FROM ubuntu:16.10
 
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y bundler
-RUN apt-get install -y zlib1g-dev
-RUN apt-get install -y nodejs
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y \
+        bundler \
+        nodejs
 
 ENV JEKYLL_UID 1000
 ENV JEKYLL_GID 1000

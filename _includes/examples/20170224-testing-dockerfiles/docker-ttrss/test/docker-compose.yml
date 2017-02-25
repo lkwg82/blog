@@ -1,0 +1,22 @@
+version: "2"
+
+services:
+ ttrss:
+  image: test-ttrss
+  restart: always
+  links:
+    - db:db
+  environment:
+      DB_ENV_USER: root
+      DB_ENV_PASS: rootpass
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_TYPE: mysql
+
+ db:
+  image: mariadb:10.1
+  environment:
+    MYSQL_DATABASE: ttrss
+    MYSQL_ROOT_PASSWORD: rootpass
+    MYSQL_USER: user
+    MYSQL_PASSWORD: userpass

@@ -8,12 +8,12 @@
     <link rel="alternate" type="application/rss+xml" href="/rss.xml"/>
     <meta property="og:title" content="{{ page.title | strip_html | strip_newlines }}"/>
     {% if page.excerpt %}
-    <meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines }}"/>
+        <meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines }}"/>
     {% endif %}
     {% if paginator.previous_page %}
-    <link rel="canonical" href="{{site.url}}/page{{ paginator.page }}/"/>
+        <link rel="canonical" href="{{site.url}}/page{{ paginator.page }}/"/>
     {% elsif page.url %}
-    <link rel="canonical" href="{{site.url}}{{page.url}}"/>
+        <link rel="canonical" href="{{site.url}}{{page.url}}"/>
     {% endif %}
     <link rel="stylesheet" href="/css/main.css"/>
 </head>
@@ -27,51 +27,47 @@
     <div class="row">
         <div class="col-md-8 content">
             {% if paginator.posts %}
-            {% for post in paginator.posts %}
-            <article>
-                <time datetime="{{ post.date | date_to_xmlschema }}" pubdate class="date">{{ post.date | date_to_string
-                    }}
-                </time>
-                <header>
-                    <a href="{{ post.url }}">
-                        <h2>{{ post.title }}
-                        </h2>
-                        {% if post.subtitle %}
-                        <h3>{{ post.subtitle }}</h3>
-                        {% endif %}
-                    </a>
-                </header>
-                {% capture excerptSize %} {{ post.excerpt | strip_newlines | size }} {% endcapture %}
-                {% capture contentSize %} {{ post.content | strip_newlines | size }} {% endcapture %}
-                <div>
-                    {% if excerptSize != contentSize %}
-                    <div>
-                        {{ post.excerpt }}
-                    </div>
-                    <footer>
-                        <a rel="full-article" href="{{post.url}}">weiterlesen</a>
-                    </footer>
-                    {% else %}
-                    <div>
-                        {{ post.content }}
-                    </div>
+                {% for post in paginator.posts %}
+                    <article>
+                        <time datetime="{{ post.date | date_to_xmlschema }}" pubdate class="date">{{ post.date | date_to_string}}</time>
+                        <header>
+                            <a href="{{ post.url }}">
+                                <h2>{{ post.title }}</h2>
+                                {% if post.subtitle %}
+                                    <h3>{{ post.subtitle }}</h3>
+                                {% endif %}
+                            </a>
+                        </header>
+                        {% capture excerptSize %} {{ post.excerpt | strip_newlines | size }} {% endcapture %}
+                        {% capture contentSize %} {{ post.content | strip_newlines | size }} {% endcapture %}
+                        <div>
+                            {% if excerptSize != contentSize %}
+                                <div>
+                                    {{ post.excerpt }}
+                                </div>
+                                <footer>
+                                    <a rel="full-article" href="{{post.url}}">weiterlesen</a>
+                                </footer>
+                            {% else %}
+                                <div>
+                                    {{ post.content }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </article>
+                {% endfor %}
+
+                <div class="pagination">
+                    {% if paginator.previous_page %}
+                        <a href="/page{{ paginator.previous_page }}/" class="previous">Previous</a>
+                    {% endif %}
+                    <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+                    {% if paginator.next_page %}
+                        <a href="/page{{ paginator.next_page }}/" class="next">Next</a>
                     {% endif %}
                 </div>
-            </article>
-            {% endfor %}
-
-            <!-- Pagination links -->
-            <div class="pagination">
-                {% if paginator.previous_page %}
-                <a href="/page{{ paginator.previous_page }}/" class="previous">Previous</a>
-                {% endif %}
-                <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
-                {% if paginator.next_page %}
-                <a href="/page{{ paginator.next_page }}/" class="next">Next</a>
-                {% endif %}
-            </div>
             {% else %}
-            {{content}}
+                {{content}}
             {% endif %}
         </div>
         <div class="col-md-4 recent">
@@ -79,51 +75,48 @@
             <ul>
                 {% capture url %}{{ page.url | split:"/" | last }}{% endcapture %}
                 {% if url == 'index.html' %}
-                {% assign max = "13" %}
-                {% assign count = 0 %}
-                {% assign end = 0 %}
-                {% for post in site.posts %}
-                {% if end == 1 %}
-                <!-- do nothing -->
+                    {% assign max = "13" %}
+                    {% assign count = 0 %}
+                    {% assign end = 0 %}
+                    {% for post in site.posts %}
+                        {% if end == 1 %}
+                            <!-- do nothing -->
+                        {% else %}
+                            {% if count == max %}
+                                {% assign end = 1 %}
+                            {% else %}
+                                {% assign hasFound = "0" %}
+                                {% for ppost in paginator.posts %}
+                                    {% if hasFound == "0" %}
+                                        {% if post.url == ppost.url %}
+                                            {% assign hasFound = "1" %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if hasFound == "0" %}
+                                    {% capture count %}{{ count | plus:1}}{% endcapture %}
+                                    <li>
+                                        <a href="{{ post.url }}">
+                                            {{post.title}}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    <a class="twitter-timeline" href="https://twitter.com/lkwg82" data-widget-id="491705617245945857">Tweets von @lkwg82</a>
+                    {% include twitter.html %}
                 {% else %}
-                {% if count == max %}
-                {% assign end = 1 %}
-                {% else %}
-                {% assign hasFound = "0" %}
-                {% for ppost in paginator.posts %}
-                {% if hasFound == "0" %}
-                {% if post.url == ppost.url %}
-                {% assign hasFound = "1" %}
+                    {% for post in site.posts offset: 0 limit: 13 %}
+                        {% if post.title != page.title %}
+                            <li>
+                                <a href="{{ post.url }}">
+                                    {{post.title}}
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
-                {% endif %}
-                {% endfor %}
-                {% if hasFound == "0" %}
-                {% capture count %}{{ count | plus:1}}{% endcapture %}
-                <li>
-                    <a href="{{ post.url }}">
-                        {{post.title}}
-                    </a>
-                </li>
-                {% endif %}
-                {% endif %}
-                {% endif %}
-                {% endfor %}
-
-                <a class="twitter-timeline" href="https://twitter.com/lkwg82" data-widget-id="491705617245945857">Tweets
-                    von @lkwg82</a>
-                {% include twitter.html %}
-                {% else %}
-                {% for post in site.posts offset: 0 limit: 13 %}
-                {% if post.title != page.title %}
-                <li>
-                    <a href="{{ post.url }}">
-                        {{post.title}}
-                    </a>
-                </li>
-                {% endif %}
-                {% endfor %}
-                {% endif %}
-
             </ul>
             <div class="share desktop">{% include share-icons.html %}</div>
         </div>

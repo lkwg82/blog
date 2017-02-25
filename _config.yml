@@ -5,23 +5,14 @@ paginate: 5
 
 url: https://blog.lgohlke.de
 
-# http://jch.penibelst.de/
-compress_html:
-  clippings: all
-  comments: []
-  endings: []
-  ignore:
-    envs: []
-  blanklines: false
-  profile: false
-  startings: []
-
 feed:
   path: rss.xml
 
 gems:
- - jekyll-paginate
  - jekyll-feed
+ - jekyll-paginate
+ - jekyll-seo-tag
+ - jekyll-sitemap
 
 highlighter: rouge
 kramdown:
@@ -32,6 +23,8 @@ markdown: kramdown
 sass:
    sass_dir: _sass
    style: compressed
+
+sitemap: true
 
 host: 0.0.0.0
 port: 4000

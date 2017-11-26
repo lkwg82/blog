@@ -9,7 +9,7 @@ categories: sleuth tomcat spring-cloud spring-boot
 
 At <a href="https://www.idealo.de">idealo</a> we do a lot of microservices with spring-boot. 
 To trace request we use <a href="https://cloud.spring.io/spring-cloud-sleuth/">spring-cloud-sleuth</a> as <a href="http://opentracing.io/">opentracing</a> implementation.
-I'm missing the injection of the trace header on first request. You still need to deliver those with your request. So here follows my solution…
+I'm missing the injection of the trace header on the first request. You still need to deliver those with your request. So here follows my solution…
 
 # concept
 

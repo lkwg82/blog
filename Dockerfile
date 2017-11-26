@@ -1,9 +1,13 @@
-FROM ubuntu:16.10
+# builder
+FROM ubuntu:17.10 as builder
 
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y \
+        g++ \
+        gcc \
         git \
+        make \
         nodejs \
         ruby \
         ruby-dev \
@@ -21,6 +25,9 @@ RUN gem install --no-document bundler --version 1.14.5
 
 WORKDIR /jekyll
 USER jekyll
+
+# jekyll-run-container
+FROM builder
 
 EXPOSE 4000
 

@@ -9,7 +9,7 @@ repository: lkwg82/blog
 feed:
   path: rss.xml
 
-gems:
+plugins:
  - jekyll-feed
  - jekyll-paginate
  - jekyll-seo-tag
@@ -22,10 +22,10 @@ kramdown:
 markdown: kramdown
 
 sass:
-   sass_dir: _sass
    style: compressed
 
 sitemap: true
+theme: jekyll-theme-dinky
 
 host: 0.0.0.0
 port: 4000

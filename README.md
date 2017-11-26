@@ -4,8 +4,14 @@ see http://blog.lgohlke.de
 
 # installation
 
+run 
 ```bash
 ./docker-run.sh
+```
+
+clean
+```bash
+rm -rf .bundle .bundler _site
 ```
 
 use these gems: https://pages.github.com/versions.json

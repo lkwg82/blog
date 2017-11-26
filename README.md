@@ -14,6 +14,11 @@ clean
 rm -rf .bundle .bundler _site
 ```
 
+test
+```bash
+./docker-test.sh
+``` 
+
 use these gems: https://pages.github.com/versions.json
 see https://github.com/github/pages-gem
 update to latest github gems

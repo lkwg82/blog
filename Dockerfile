@@ -21,7 +21,7 @@ RUN groupadd --gid $JEKYLL_GID jekyll \
     && mkdir /jekyll \
     && chown jekyll /jekyll
 
-RUN gem install --no-document bundler --version 1.14.5
+RUN gem install --no-document bundler
 
 WORKDIR /jekyll
 USER jekyll
@@ -31,5 +31,5 @@ FROM builder
 
 EXPOSE 4000
 
-CMD bundler install --path .bundler --jobs=10 \
+CMD bundler install --path .bundler --jobs=100 \
     && bundler exec jekyll serve --incremental --host 0.0.0.0 -t

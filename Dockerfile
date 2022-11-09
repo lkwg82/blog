@@ -1,5 +1,5 @@
 # builder
-FROM ubuntu:17.10 as builder
+FROM ubuntu:22.04 as builder
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -31,5 +31,5 @@ FROM builder
 
 EXPOSE 4000
 
-CMD bundler install --path .bundler --jobs=100 \
+CMD bundle config set --local path '.bundler' && bundler install --jobs=100 \
     && bundler exec jekyll serve --incremental --host 0.0.0.0 -t

@@ -33,4 +33,4 @@ EXPOSE 4000
 
 RUN bundle config set --local path '.bundler'
 CMD bundler install --jobs=100 \
-    && bundler exec jekyll serve --incremental
+    && bundler exec jekyll serve --incremental --watch

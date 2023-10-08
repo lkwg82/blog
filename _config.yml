@@ -10,6 +10,7 @@ feed:
   path: rss.xml
 
 plugins:
+ - jekyll-asciidoc
  - jekyll-feed
  - jekyll-paginate
  - jekyll-seo-tag

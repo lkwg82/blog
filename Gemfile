@@ -1,8 +1,4 @@
 source "https://rubygems.org"
 
-gem 'jekyll', "3.9.2"
-gem 'github-pages', "227", group: :jekyll_plugins
-
-group :jekyll_plugins do
-  gem 'jekyll-livereload'
-end
+gem 'webrick', "1.8.1"
+gem 'github-pages', "228", group: :jekyll_plugins

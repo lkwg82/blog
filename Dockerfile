@@ -31,5 +31,6 @@ FROM builder
 
 EXPOSE 4000
 
-CMD bundle config set --local path '.bundler' && bundler install --jobs=100 \
-    && bundler exec jekyll serve --incremental --host 0.0.0.0 -t
+RUN bundle config set --local path '.bundler'
+CMD bundler install --jobs=100 \
+    && bundler exec jekyll serve --incremental

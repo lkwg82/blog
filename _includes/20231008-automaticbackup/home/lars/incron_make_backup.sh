@@ -19,7 +19,7 @@ MOUNT_PATH=$HOME/backup-crypted
   fi
 
   if  [[ -L $DEVICE_NAME ]]; then
-    export DISPLAY=:0.0
+    export DISPLAY=:0.0 # this could be different
     if ! mount | grep "$MOUNT_PATH"; then
       if ! sudo mount "$DEVICE_NAME" "$MOUNT_PATH"; then
         zenity --error  --text "Mount failed"

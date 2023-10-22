@@ -310,14 +310,26 @@ Listen in `/dev/mapper` on `IN_MOVED_TO` events and call a script with the filen
 
 The userspace script to `sudo mount ...`, backup and `sudo umount ...`
 
-/home/lars/incron_make_backup.sh
+`/home/lars/incron_make_backup.sh`
 ```bash
 {% include /20231008-automaticbackup/home/lars/incron_make_backup.sh %}
 ```
-/home/lars/backup-crypted.sh
+
+make it executable
+```bash
+chmod +x /home/lars/incron_make_backup.sh
+```
+
+`/home/lars/backup-crypted.sh`
 ```bash
 {% include /20231008-automaticbackup/home/lars/backup-crypted.sh %}
 ```
+
+make it executable
+```bash
+chmod +x /home/lars/backup-crypted.sh
+```
+
 This script will pop up as terminal, window and disappear after a second.
 
 Thats it!

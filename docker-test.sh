@@ -2,11 +2,11 @@
 
 set -e
 
-cidfile=$(tempfile)
+cidfile=$(mktemp)
 testDir="_test_dir"
 
 image="blog-jekyll-test"
-docker build --iidfile ${cidfile} --tag ${image} .
+docker build --iidfile "${cidfile}" --tag ${image} .
 
 rm -rf ${testDir}
 rsync -a --exclude "${testDir}" --exclude "_site" --exclude "Gemfile.lock" $(pwd)/* ${testDir}

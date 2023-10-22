@@ -122,7 +122,7 @@ Test it with open the device and format with `btrfs`.
 
 open
 ```bash
-cryptsetup luksOpen /dev/sde usb-crypted
+cryptsetup luksOpen $DEVICE usb-crypted
 ```
 
 format
@@ -205,7 +205,7 @@ Here we see this line
 We need both identifiers `idVendor` and `idProduct` to create a specific rule.
 
 
-udev rule which runs a script on 'adding' the device to the system
+udev rule in `etc/udev/rules.d/99-my-usb-rule.rules` which runs a script on 'adding' the device to the system
 ```bash
 {% include /20231008-automaticbackup/etc/udev/rules.d/99-my-usb-rule.rules %}
 ```

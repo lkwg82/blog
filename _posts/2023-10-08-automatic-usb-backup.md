@@ -1,67 +1,60 @@
 ---
 layout: post
 title: automatic secure backup on usb with Luks/Udev 
-subtitle: Tutorial how to automatically mount a specific encrypted usb device on plugin, run a backup and umount it.
+subtitle: Tutorial how to automatically backup on an encrypted usb device
 date: 2023-10-08 15:27:34 CET 
 comments: true
 categories: udev luks linux backup
 ---
 
-= automatic secure backup on usb with Luks/Udev
-
 The goal is to automatically mount a specific encrypted usb device on plugin, run a backup and umount it.
 
-== Minor goals
+## Minor goals
 
 1. simple and use standard linux tooling
 2. do not break security
 3. interactive, give user feedback
+4. robust to interuptions
 
-== Prerequisites
+## Prerequisites
 
 have a spare usb device
 
-== Steps
+## Steps
 
-=== 1. Prepare the usb device
+### 1. Prepare the usb device
 
-Encrypt the device with https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup[luks].
+Encrypt the device with [luks](https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup).
 
 Assume our device is `/dev/sde`.
 
-[source bash]
-----
+```bash
 DEVICE=/dev/sde
-----
+```
 
 Encrypt the device with a keyfile for automatic usage and a passphrase as backup.
 You will be asked for a passphrase.
-[source bash]
-----
+```bash
 cryptsetup luksFormat $DEVICE --batch-mode
-----
+```
 
 Create keyfile to use for automation.
-[source bash]
-----
+```bash
 dd if=/dev/urandom bs=1M count=1 of=/root/usb-disk.key
-----
+```
 
 Add the keyfile as another key.
-[source bash]
-----
+```bash
 cryptsetup luksAddKey $DEVICE /root/usb-disk.key
-----
+```
 
 Verify we have both keys added.
-[source bash]
-----
+```bash
 cryptsetup luksDump $DEVICE
-----
+```
 
 output
-[source bash]
-----
+```bash
 LUKS header information
 Version:       	2
 Epoch:         	4
@@ -121,21 +114,19 @@ Digests:
 	            51 5a 0b 9c 36 59 36 24 19 f1 a4 37 a0 33 47 56
 	Digest:     a2 c4 fb 1b 76 49 2d e2 aa 52 ea 45 c8 db 26 6b
 	            90 7f 61 df 75 91 9c 4f fc 90 03 c8 7d 4a 4c c6
-----
+```
 
 Note the device is encrypted but lacks a filesystem.
 
 Test it with open the device and format with `btrfs`.
 
-.open
-[source bash]
-----
+open
+```bash
 cryptsetup luksOpen /dev/sde usb-crypted
-----
+```
 
-.format
-[source bash]
-----
+format
+```bash
 # mkfs.btrfs /dev/mapper/usb-crypted
 btrfs-progs v6.2
 See http://btrfs.wiki.kernel.org for more information.
@@ -164,26 +155,24 @@ Number of devices:  1
 Devices:
    ID        SIZE  PATH
     1     3.72GiB  /dev/mapper/usb-crypted
-----
+```
 
-.Close it
-[source bash]
-----
+Close it
+```bash
 cryptsetup close /dev/mapper/usb-crypted
-----
+```
 
 
 ---
 
-=== 2. Automatic open the device on plugin
+### 2. Automatic open the device on plugin
 
-Use udev subsystem ^https://www.linux.org/docs/man7/udev.html[1]^^,^ ^https://opensource.com/article/18/11/udev[2]^
+Use udev subsystem ([manpage](https://www.linux.org/docs/man7/udev.html), [intro](https://opensource.com/article/18/11/udev))
 to detect and react on events when the usb device is plugged in.
 
 Now we need an identifier to recognize as our usb device. Lets use `dmesg -w` to watch the kernel log, while we plug it in.
 
-[source bash]
-----
+```bash
 [ 3006.861777] dm-10: detected capacity change from 7811072 to 0
 [ 4237.103497] BTRFS: device fsid 7eb962dd-7327-4df8-b768-4f6da64d6d2a devid 1 transid 6 /dev/mapper/usb-crypted scanned by mkfs.btrfs (43170)
 [ 4387.501296] dm-10: detected capacity change from 7811072 to 0
@@ -204,57 +193,49 @@ Now we need an identifier to recognize as our usb device. Lets use `dmesg -w` to
 [ 4779.763351] sd 8:0:0:0: [sde] No Caching mode page found
 [ 4779.763355] sd 8:0:0:0: [sde] Assuming drive cache: write through
 [ 4779.791386] sd 8:0:0:0: [sde] Attached SCSI removable disk
-----
+```
 
 Here we see this line
-[source bash]
-----
-...
+```bash
+
 [ 4778.738946] usb 5-2: New USB device found, idVendor=058f, idProduct=6387, bcdDevice= 1.00
-...
-----
+
+```
 
 We need both identifiers `idVendor` and `idProduct` to create a specific rule.
 
-:src: examples/20231008-automaticbackup
 
-.udev rule which runs a script on 'adding' the device to the system
-[source bash]
-----
-include::{src}/etc/udev/rules.d/99-my-usb-rule.rules[]
-----
+udev rule which runs a script on 'adding' the device to the system
+```bash
+{% include /20231008-automaticbackup/etc/udev/rules.d/99-my-usb-rule.rules %}
+```
 
-.reload udev (to activate changes to the rule)
-[source bash]
-----
+reload udev (to activate changes to the rule)
+```bash
 udevadm control --reload
-----
-Create script to automatically "open" (make it available for access) the device.
+```
+Create script to automatically "open" (make it available for access) the device (needs higher priveleges).
 
-.udev rule which runs a script on 'adding' the device to and 'removing' the device from the system
-[source bash]
-----
-include::{src}/root/open-close-backup-usb.sh[]
-----
+udev rule which runs a script on 'adding' the device to and 'removing' the device from the system
+```bash
+{% include 20231008-automaticbackup/root/open-close-backup-usb.sh %}
+```
 
-.Make it executable
-[source bash]
-----
+Make it executable
+```bash
 chmod +x /root/open-close-backup-usb.sh
-----
+```
 
 Lets watch it in action (unplug it and shortly plug it in).
 
-.follow the log file
-[source bash]
-----
+follow the log file
+```bash
 tail -F /tmp/*.sh.log
-----
+```
 
-.output after plugged in
-[source bash]
-----
-------------------- Sat Oct  7 14:42:04 CEST 2023 ------------------
+output after plugged in
+```bash
+````````````--- Sat Oct  7 14:42:04 CEST 2023 ````````````--
 test
 usb-crypted
 already opened ... closing
@@ -270,17 +251,16 @@ opened
   offset:  32768 sectors
   size:    7811072 sectors
   mode:    read/write
-------------------- Sat Oct  7 14:42:08 CEST 2023 ------------------
-----
+````````````--- Sat Oct  7 14:42:08 CEST 2023 ````````````--
+```
 
-=== 3. mount it and run backup
+### 3. mount it and run backup
 
 Udev cant be used to mount devices (because of security - details left out here).
-So we need something to detect a new device like https://wiki.ubuntuusers.de/Incron/[incron].
+So we need something to detect a new device like [incron](https://wiki.ubuntuusers.de/Incron).
 
-.check it is running
-[source bash]
-----
+check it is running
+```bash
 # systemctl status incron
 ● incron.service - file system events scheduler
      Loaded: loaded (/lib/systemd/system/incron.service; enabled; preset: enabled)
@@ -292,59 +272,60 @@ So we need something to detect a new device like https://wiki.ubuntuusers.de/Inc
         CPU: 28ms
      CGroup: /system.slice/incron.service
              └─2248 /usr/sbin/incrond
-----
+```
 
 Allow our user to add listeners. It is restricted as it can overload the system.
 
-.add permission
-[source bash]
-----
+add permission
+```bash
 echo lars >> /etc/incron.allow
-----
+```
 
 
 Add `sudo` permissions to use `mount` command.
-[source bash]
-----
+```bash
 # cat /etc/sudoers.d/usermount_backup
 Cmnd_Alias C_MOUNT = \
   /bin/mount /dev/mapper/usb-crypted-* /home/lars/backup-crypted, \
   /bin/umount /home/lars/backup-crypted
 
 lars ALL = (root) NOPASSWD: C_MOUNT
-----
+```
 
-.check sudoers syntax
-[source bash]
-----
+check sudoers syntax
+```bash
 # visudo -c
 /etc/sudoers: parsed OK
-...
+
 /etc/sudoers.d/usermount_backup: parsed OK
-...
-----
 
-Install https://wiki.archlinux.org/title/Incron[incron]. Add this line to `incrontab -e` to listen to file events (based on https://www.man7.org/linux/man-pages/man7/inotify.7.html[inotify])
+```
 
-.Listen in `/dev/mapper` on `IN_MOVED_TO` events and call a script with the filename
-[source bash]
-----
+Install [incron](https://wiki.archlinux.org/title/Incron). Add this line to `incrontab -e` to listen to file events (based on [inotify](https://www.man7.org/linux/man-pages/man7/inotify.7.html))
+
+Listen in `/dev/mapper` on `IN_MOVED_TO` events and call a script with the filename
+```bash
 /dev/mapper     IN_MOVED_TO,recursive=false     /home/lars/incron_make_backup.sh  $#
-----
+```
 
 The userspace script to `sudo mount ...`, backup and `sudo umount ...`
 
-./home/lars/incron_make_backup.sh
-[source bash]
-----
-include::{src}/home/lars/incron_make_backup.sh[]
-----
+/home/lars/incron_make_backup.sh
+```bash
+{% include /20231008-automaticbackup/home/lars/incron_make_backup.sh %}
+```
+/home/lars/backup-crypted.sh
+```bash
+{% include /20231008-automaticbackup/home/lars/backup-crypted.sh %}
+```
+This script will pop up as terminal, window and disappear after a second.
 
-== Debugging
+Thats it!
 
-.check luks device status
-[source bash]
-----
+## Debugging
+
+check luks device status
+```bash
 # cryptsetup status /dev/mapper/usb-crypted
 /dev/mapper/usb-crypted is active and is in use.
   type:    n/a
@@ -356,36 +337,32 @@ include::{src}/home/lars/incron_make_backup.sh[]
   offset:  32768 sectors
   size:    7811072 sectors
   mode:    read/write
-----
+```
 
-.udev logging
-[source bash]
-----
+udev logging
+```bash
 udevadm control --log-priority=debug
 journalctl  -f -u systemd-udevd # follows the log
 udevadm control --log-priority=info # this is default
-----
+```
 
-.incron logging
-[source bash]
-----
+incron logging
+```bash
 journalctl  -f -u incron
-----
+```
 
-.Follow the logs while plugin/plugout
-[source bash]
-----
+Follow the logs while plugin/plugout
+```bash
 tail -F /tmp/*.sh.log /home/lars/*.sh.log
-----
+```
 
 
 
-.various
-[source bash]
-----
+various
+```bash
 dmsetup remove --force usb-crypted
-----
+```
 
 Links:
 
-- https://wiki.archlinux.org/title/Udev
+- [https://wiki.archlinux.org/title/Udev](https://wiki.archlinux.org/title/Udev)

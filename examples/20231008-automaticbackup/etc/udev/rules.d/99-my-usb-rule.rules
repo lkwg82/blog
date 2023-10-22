@@ -1,2 +1,0 @@
-KERNEL=="sd*", SUBSYSTEMS=="usb", ATTRS{idVendor}=="058f", ATTRS{idProduct}=="6387", RUN+="/root/open-close-backup-usb.sh"
-

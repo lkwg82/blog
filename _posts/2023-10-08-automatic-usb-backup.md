@@ -413,18 +413,6 @@ trigger event without actual  plugin/plugout
 udevadm trigger 
 ```
 
-incron logging
-```bash
-journalctl  -f -u incron
-```
-
-Follow the logs while plugin/plugout
-```bash
-tail -F /tmp/*.sh.log /home/lars/*.sh.log
-```
-
-
-
 various
 ```bash
 dmsetup remove --force usb-crypted

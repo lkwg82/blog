@@ -18,11 +18,16 @@ The goal is to automatically mount a specific encrypted usb device on plugin, ru
 
 ## Prerequisites
 
-have a spare usb device
+- have a spare usb device
+- have root access
 
 ## Steps
 
-### 1. Prepare the usb device
+1. Prepare the encrypted usb device
+2. Setup automounting
+3. Setup automatic backup as root with visual feedback for an ordinary user 
+
+### 1. Prepare the encrypted usb device
 
 Encrypt the device with [luks](https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup).
 
@@ -127,7 +132,7 @@ cryptsetup luksOpen $DEVICE usb-crypted
 
 format
 ```bash
-# mkfs.btrfs /dev/mapper/usb-crypted
+root@host:~# mkfs.btrfs /dev/mapper/usb-crypted
 btrfs-progs v6.2
 See http://btrfs.wiki.kernel.org for more information.
 
@@ -162,15 +167,19 @@ Close it
 cryptsetup close /dev/mapper/usb-crypted
 ```
 
-
 ---
 
-### 2. Automatic open the device on plugin
+### 2. Setup automounting
 
-Use udev subsystem ([manpage](https://www.linux.org/docs/man7/udev.html), [intro](https://opensource.com/article/18/11/udev))
-to detect and react on events when the usb device is plugged in.
+overall plan for automounting:
+1. Use udev subsystem ([manpage](https://www.linux.org/docs/man7/udev.html), [intro](https://opensource.com/article/18/11/udev))
+   to detect and react on events when the usb device is plugged in.
+2. Use [systemd](https://systemd.io) to automount crypted usb device.
 
-Now we need an identifier to recognize as our usb device. Lets use `dmesg -w` to watch the kernel log, while we plug it in.
+#### 2.1 udev tagging
+
+
+Now we need an identifier to recognize as our usb device. Lets use `dmesg --follow` to watch the kernel log, while we plug it in.
 
 ```bash
 [ 3006.861777] dm-10: detected capacity change from 7811072 to 0
@@ -197,149 +206,47 @@ Now we need an identifier to recognize as our usb device. Lets use `dmesg -w` to
 
 Here we see this line
 ```bash
-
+...
 [ 4778.738946] usb 5-2: New USB device found, idVendor=058f, idProduct=6387, bcdDevice= 1.00
-
+...
 ```
 
 We need both identifiers `idVendor` and `idProduct` to create a specific rule.
 
-
-udev rule in `etc/udev/rules.d/99-my-usb-rule.rules` which runs a script on 'adding' the device to the system
+udev rule in `/etc/udev/rules.d/99-my-usb-rule.rules` which tags the device for [systemd.device](https://www.freedesktop.org/software/systemd/man/latest/systemd.device.html)
 ```bash
-{% include /20231008-automaticbackup/etc/udev/rules.d/99-my-usb-rule.rules %}
+KERNEL=="sd*", SUBSYSTEMS=="usb", ATTRS{idVendor}=="058f", ATTRS{idProduct}=="6387", TAG+="systemd"
 ```
 
-reload udev (to activate changes to the rule)
+reload udev (to activate changes to the rule, without reboot)
 ```bash
 udevadm control --reload
 ```
-Create script to automatically "open" (make it available for access) the device (needs higher priveleges).
 
-udev rule which runs a script on 'adding' the device to and 'removing' the device from the system
+#### 2.2 setup systemd to automount encrypted usb
+
+find device uuid with
 ```bash
-{% include 20231008-automaticbackup/root/open-close-backup-usb.sh %}
+root@host:~# lsblk -fs $DEVICE
+NAME FSTYPE      FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+sde  crypto_LUKS 2           f3e7f11c-9b84-4391-80b2-2ef82b2aa5c8
+```
+add following line to `/etc/crypttab` to configure decrypting this usb device (`noauto` prevents failing boot, when device is unplugged)
+```bash
+backup-crypted     UUID=f3e7f11c-9b84-4391-80b2-2ef82b2aa5c8 /root/usb-disk.key luks,noauto
 ```
 
-Make it executable
+test with 
 ```bash
-chmod +x /root/open-close-backup-usb.sh
+root@host:~# cryptdisks_start backup-crypted
+ * Starting crypto disk...                                                                                                                                                                                                                                                                                           
+ * backup-crypted (running)...
 ```
 
-Lets watch it in action (unplug it and shortly plug it in).
-
-follow the log file
+check device
 ```bash
-tail -F /tmp/*.sh.log
-```
-
-output after plugged in
-```bash
-````````````--- Sat Oct  7 14:42:04 CEST 2023 ````````````--
-test
-usb-crypted
-already opened ... closing
-opening
-opened
-/dev/mapper/usb-crypted is active.
-  type:    LUKS2
-  cipher:  aes-xts-plain64
-  keysize: 512 bits
-  key location: keyring
-  device:  /dev/sdf
-  sector size:  512
-  offset:  32768 sectors
-  size:    7811072 sectors
-  mode:    read/write
-````````````--- Sat Oct  7 14:42:08 CEST 2023 ````````````--
-```
-
-### 3. mount it and run backup
-
-Udev cant be used to mount devices (because of security - details left out here).
-So we need something to detect a new device like [incron](https://wiki.ubuntuusers.de/Incron).
-
-check it is running
-```bash
-# systemctl status incron
-● incron.service - file system events scheduler
-     Loaded: loaded (/lib/systemd/system/incron.service; enabled; preset: enabled)
-     Active: active (running) since Sat 2023-10-07 13:04:26 CEST; 1h 47min ago
-       Docs: man:incrond(8)
-   Main PID: 2248 (incrond)
-      Tasks: 1 (limit: 18883)
-     Memory: 864.0K
-        CPU: 28ms
-     CGroup: /system.slice/incron.service
-             └─2248 /usr/sbin/incrond
-```
-
-Allow our user to add listeners. It is restricted as it can overload the system.
-
-add permission
-```bash
-echo lars >> /etc/incron.allow
-```
-
-
-Add `sudo` permissions to use `mount` command.
-```bash
-# cat /etc/sudoers.d/usermount_backup
-Cmnd_Alias C_MOUNT = \
-  /bin/mount /dev/mapper/usb-crypted-* /home/lars/backup-crypted, \
-  /bin/umount /home/lars/backup-crypted
-
-lars ALL = (root) NOPASSWD: C_MOUNT
-```
-
-check sudoers syntax
-```bash
-# visudo -c
-/etc/sudoers: parsed OK
-
-/etc/sudoers.d/usermount_backup: parsed OK
-
-```
-
-Install [incron](https://wiki.archlinux.org/title/Incron). Add this line to `incrontab -e` to listen to file events (based on [inotify](https://www.man7.org/linux/man-pages/man7/inotify.7.html))
-
-Listen in `/dev/mapper` on `IN_MOVED_TO` events and call a script with the filename
-```bash
-/dev/mapper     IN_MOVED_TO,recursive=false     /home/lars/incron_make_backup.sh  $#
-```
-
-The userspace script to `sudo mount ...`, backup and `sudo umount ...`
-
-`/home/lars/incron_make_backup.sh`
-```bash
-{% include /20231008-automaticbackup/home/lars/incron_make_backup.sh %}
-```
-
-make it executable
-```bash
-chmod +x /home/lars/incron_make_backup.sh
-```
-
-`/home/lars/backup-crypted.sh`
-```bash
-{% include /20231008-automaticbackup/home/lars/backup-crypted.sh %}
-```
-
-make it executable
-```bash
-chmod +x /home/lars/backup-crypted.sh
-```
-
-This script will pop up as terminal, window and disappear after a second.
-
-Thats it!
-
-## Debugging
-
-check luks device status
-```bash
-# cryptsetup status /dev/mapper/usb-crypted
-/dev/mapper/usb-crypted is active and is in use.
+root@host:~# cryptsetup status backup-crypted
+/dev/mapper/backup-crypted is active.
   type:    n/a
   cipher:  aes-xts-plain64
   keysize: 512 bits
@@ -351,11 +258,159 @@ check luks device status
   mode:    read/write
 ```
 
+configure mounting in `/etc/fstab` (triggered from [systemd.mount](https://www.freedesktop.org/software/systemd/man/latest/systemd.mount.html)) 
+```
+/dev/mapper/backup-crypted /root/backup-crypted btrfs compress=zstd,noauto,nofail,x-systemd.automount,x-systemd.device-timeout=15s,x-systemd.idle-timeout=30 0 0
+```
+`noauto` prevents failing during boot when device is unplugged
+
+`x-systemd.automount` creates a [systemd.automount unit](https://www.freedesktop.org/software/systemd/man/latest/systemd.automount.html)
+
+reload systemd services
+```bash
+root@host:~# Reload file system services for creating mount services for the external drive
+sudo systemctl restart local-fs.target
+sudo systemctl restart remote-fs.target
+```
+
+test it (unplugged and after plugged in)
+```bash
+root@host:~# watch 'mount | grep backup-crypted'
+systemd-1 on /root/backup-crypted type autofs (rw,relatime,fd=54,pgrp=1,timeout=30,minproto=5,maxproto=5,direct,pipe_ino=790044)
+```
+
+### 3. Setup automatic backup as root with visual feedback for an ordinary user
+
+steps
+1. create a simple backup script to actual do backup
+2. create `systemd.service` to trigger wrapper backup script
+3. adjust udev rule to trigger our `systemd.service`
+
+#### 3.1 create a simple backup script to actual do backup
+simple backup script `/root/backup-crypted.sh`
+```bash 
+#!/bin/bash
+
+echo test
+
+echo "press ENTER"
+read
+```
+
+make it executable and test it
+```bash
+chmod +x /root/backup-crypted.sh
+```
+#### 3.2 create `systemd.service` to trigger wrapper backup script
+
+wrapper script `/root/systemd.make_backup.sh` to display as root on user session ([zenity](https://en.wikipedia.org/wiki/Zenity) enables ui dialogs from shell scripts)
+```bash
+#!/bin/bash
+
+set -eux
+
+BACKUP_SCRIPT=/root/backup-crypted.sh
+MOUNT_PATH=/root/backup-crypted
+
+# check environment of user session, can differ
+export XDG_RUNTIME_DIR=/run/user/1000
+export XAUTHORITY=/home/lars/.Xauthority 
+export DISPLAY=:0.0
+
+xterm -title 'backup' -geometry 200x50 -e $BACKUP_SCRIPT
+
+if umount "$MOUNT_PATH"; then
+   zenity --info  --text "usb device can be removed"
+else
+   zenity --error  --text "umount failed"
+fi
+```
+
+make it executable and test it
+```bash
+chmod +x /root/systemd.make_backup.sh
+```
+
+create new systemd service file
+```bash
+systemctl edit --force --full usb-drive-backup.service
+```
+
+plain service file
+```
+[Service]
+ExecStart=/root/systemd.make_backup.sh
+```
+
+test it
+```bash
+# reload to make changed unit files visible to systemd
+systemctl daemon-reload
+
+# trigger manually service
+systemctl start usb-drive-backup
+
+# see status 
+systemctl status usb-drive-backup
+```
+
+adjust service to wait for automounts
+```bash
+systemctl edit --force --full usb-drive-backup.service
+```
+
+adjusted service file
+```bash
+[Unit]
+Requires=root-backup\x2dcrypted.automount
+After=root-backup\x2dcrypted.automount
+
+[Service]
+ExecStart=/root/systemd.make_backup.sh
+
+[Install]
+WantedBy=root-backup\x2dcrypted.automount
+WantedBy=graphical.target # prevent errors when no graphical session is available (during boot)
+```
+
+again reload systemd
+```bash
+systemctl daemon-reload
+```
+
+#### 3.3 adjust udev rule to trigger our `systemd.service`
+
+add a reference to `usb-drive-backup.service` (see [systemd.device](https://www.freedesktop.org/software/systemd/man/latest/systemd.device.html))
+```bash
+KERNEL=="sd*", SUBSYSTEMS=="usb", ATTRS{idVendor}=="058f", ATTRS{idProduct}=="6387", TAG+="systemd", ENV{SYSTEMD_WANTS}="usb-drive-backup.service"
+```
+
+depending on your system it needs `ENV{UDISKS_IGNORE}==1` to suppress file manager to prompt for a password on plugin (GNOME needs, XFCE does not need it)
+```bash
+KERNEL=="sd*", SUBSYSTEMS=="usb", ATTRS{idVendor}=="058f", ATTRS{idProduct}=="6387", TAG+="systemd", ENV{SYSTEMD_WANTS}="usb-drive-backup.service", ENV{UDISKS_IGNORE}==1
+```
+
+reload udev (to activate changes to the rule, without reboot)
+```bash
+udevadm control --reload
+```
+
+This script will pop up as terminal, window and disappear after a second.
+
+Thats it!
+
+## Debugging
+
 udev logging
 ```bash
 udevadm control --log-priority=debug
 journalctl  -f -u systemd-udevd # follows the log
 udevadm control --log-priority=info # this is default
+```
+
+trigger event without actual  plugin/plugout
+```bash
+udevadm trigger 
 ```
 
 incron logging
@@ -378,3 +433,4 @@ dmsetup remove --force usb-crypted
 Links:
 
 - [https://wiki.archlinux.org/title/Udev](https://wiki.archlinux.org/title/Udev)
+- https://askubuntu.com/questions/1283544/server-automount-usb-drive-with-systemd

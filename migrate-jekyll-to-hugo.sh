@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+#set -e
 
 # Script zur Migration von Jekyll zu Hugo
 # Konvertiert Front Matter und Syntax-Highlighting
@@ -176,25 +176,7 @@ migrate_file() {
     ((migrated_files++))
 }
 
-migrate_file "$1"
-
-
-echo ""
-echo -e "${GREEN}=== Migration abgeschlossen ===${NC}"
-echo "Gesamt: ${total_files} Dateien"
-echo "Migriert: ${migrated_files} Dateien"
-echo "Übersprungen: ${skipped_files} Dateien"
-echo ""
-echo "Backups wurden mit der Endung .jekyll-backup erstellt"
-echo ""
-
-# Optionale Bereinigung der Backups
-read -p "Möchten Sie die Backup-Dateien löschen? (j/N) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Jj]$ ]]; then
-    find "$POSTS_DIR" -name "*.jekyll-backup" -delete
-    echo "Backups gelöscht"
-else
-    echo "Backups behalten"
-fi
+for f in $(find . -type f -name "*.html"); do
+  migrate_file "$f"
+done
 

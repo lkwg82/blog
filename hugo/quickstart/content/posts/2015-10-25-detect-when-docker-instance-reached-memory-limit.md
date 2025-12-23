@@ -1,0 +1,83 @@
+---
+title: "Detect when docker instance reached memory limit"
+date: 2015-10-24T21:23:07Z
+lastmod: 2015-10-24T13:36:07Z
+draft: false
+tags: ["docker","memory"]
+---
+
+I'd like to know if my test instance reached the memory limit and behaves a kind of different after that.
+
+## simple but slightly incorrect approach
+
+Just grab the kernel logs for oom-killer for the particular container id.
+
+```bash
+$ CONTAINER_ID=84ec6201e6a54
+$ dmesg -T | grep -B2 docker-$CONTAINER_ID | grep -B1 oom-killer
+```
+
+outputs
+
+```bash
+--
+[Sun Oct 25 22:06:17 2015] java invoked oom-killer: gfp_mask=0xd0, order=0, oom_score_adj=0
+```
+
+Limitation: This implies that kernel logs before and after are about the same issue.
+
+## more exact but unprecise approach
+
+```bash
+$ CONTAINER_ID=84ec6201e6a54
+$ if [ $(dmesg -T | grep docker-$CONTAINER_ID | wc -l) -gt 0 ]; then
+        echo "there were issues with $CONTAINER_ID:";
+        dmesg -T | grep docker-$CONTAINER_ID
+        echo "--"
+        echo "host config looks like (reduced)"
+        FORMAT="{{json .HostConfig}}"
+        docker inspect --format="$FORMAT" $CONTAINER_ID | python -m json.tool \
+            | grep -v ": \"\"" \
+            | grep -v ": null" \
+            | grep -vE ": 0|-1" \
+            | grep -v ": \[\]" \
+            | grep -v ": {}"
+    fi
+```
+
+outputs
+
+```bash
+there were issues with 84ec6201e6a54:
+ [Sun Oct 25 22:39:53 2015] perl cpuset=docker-84ec6201e6a54c9bf8118bcfa39870cb701961ad29bdb05776880cfe2c2572a2.scope mems_allowed=0
+[Sun Oct 25 22:39:53 2015] Task in /system.slice/docker-84ec6201e6a54c9bf8118bcfa39870cb701961ad29bdb05776880cfe2c2572a2.scope killed as a result of limit of /system.slice/docker-84ec6201e6a54c9bf8118bcfa39870cb701961ad29bdb05776880cfe2c2572a2.scope
+[Sun Oct 25 22:39:53 2015] Memory cgroup stats for /system.slice/docker-84ec6201e6a54c9bf8118bcfa39870cb701961ad29bdb05776880cfe2c2572a2.scope: cache:240KB rss:4194064KB rss_huge:14336KB mapped_file:0KB writeback:0KB inactive_anon:685848KB active_anon:3508408KB inactive_file:24KB active_file:24KB unevictable:0KB
+--
+host config looks like (reduced)
+{
+    "Binds": [
+        "/dev/shm:/dev/shm",
+        "/tmp/docker_jenkins/m2:/home/build/.m2/repository",
+        "/tmp/docker_jenkins/webdriver:/home/build/tmp_webdrivers"
+    ],
+    "ConsoleSize": [
+        0,
+        0
+    ],
+    "LogConfig": {
+        "Type": "json-file"
+    },
+    "Memory": 4294967296,
+    "NetworkMode": "default",
+    "OomKillDisable": false,
+    "Privileged": false,
+    "PublishAllPorts": false,
+    "ReadonlyRootfs": false,
+    "RestartPolicy": {
+        "Name": "no"
+    },
+}
+```
+
+Comments and feedback is welcomed!
+

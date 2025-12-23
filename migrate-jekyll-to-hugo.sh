@@ -176,19 +176,8 @@ migrate_file() {
     ((migrated_files++))
 }
 
-# Alle Markdown-Dateien verarbeiten
-if [ ! -d "$POSTS_DIR" ]; then
-    echo -e "${RED}Fehler: Posts-Verzeichnis nicht gefunden: ${POSTS_DIR}${NC}"
-    exit 1
-fi
+migrate_file "$1"
 
-echo "Suche nach Markdown-Dateien..."
-echo ""
-
-while IFS= read -r -d '' file; do
-    ((total_files++))
-    migrate_file "$file"
-done < <(find "$POSTS_DIR" -name "*.md" -type f -print0)
 
 echo ""
 echo -e "${GREEN}=== Migration abgeschlossen ===${NC}"

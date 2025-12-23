@@ -13,3 +13,8 @@ markup:
 
 pagination:
   pagerSize: 100
+
+params:
+  author: Lars K.W. Gohlke
+  since: 2012
+  license: GPLv3

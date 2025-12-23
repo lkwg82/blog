@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  automatic secure backup on usb with Luks/Udev · Erwähnenswert
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="description" content="Tutorial how to automatically backup on an encrypted usb device">
+<meta name="keywords" content="">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="automatic secure backup on usb with Luks/Udev">
+  <meta name="twitter:description" content="Tutorial how to automatically backup on an encrypted usb device">
+
+<meta property="og:url" content="http://localhost:1313/posts/2023-10-08-automatic-usb-backup/">
+  <meta property="og:site_name" content="Erwähnenswert">
+  <meta property="og:title" content="automatic secure backup on usb with Luks/Udev">
+  <meta property="og:description" content="Tutorial how to automatically backup on an encrypted usb device">
+  <meta property="og:locale" content="de_de">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-10-08T15:27:34+01:00">
+    <meta property="article:modified_time" content="2023-10-08T15:27:34+01:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/2023-10-08-automatic-usb-backup/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Erwähnenswert
+    </a>
+    
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/2023-10-08-automatic-usb-backup/">
+              automatic secure backup on usb with Luks/Udev
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2023-10-08T15:27:34&#43;01:00">
+                October 8, 2023
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              7-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/udev-luks-linux-backup/">Udev Luks Linux Backup</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <p>The goal is to automatically mount a specific encrypted usb device on plugin, run a backup and umount it.</p>
+<h2 id="minor-goals">
+  Minor goals
+  <a class="heading-link" href="#minor-goals">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ol>
+<li>simple and use standard linux tooling</li>
+<li>do not break security</li>
+<li>interactive, give user feedback</li>
+<li>robust to interuptions</li>
+</ol>
+<h2 id="prerequisites">
+  Prerequisites
+  <a class="heading-link" href="#prerequisites">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>have a spare usb device</li>
+<li>have root access</li>
+</ul>
+<h2 id="steps">
+  Steps
+  <a class="heading-link" href="#steps">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ol>
+<li>Prepare the encrypted usb device</li>
+<li>Setup automounting</li>
+<li>Setup automatic backup as root with visual feedback for an ordinary user</li>
+</ol>
+<h3 id="1-prepare-the-encrypted-usb-device">
+  1. Prepare the encrypted usb device
+  <a class="heading-link" href="#1-prepare-the-encrypted-usb-device">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Encrypt the device with <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup"  class="external-link" target="_blank" rel="noopener">luks</a>.</p>
+<p>Assume our device is <code>/dev/sde</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>DEVICE<span style="color:#f92672">=</span>/dev/sde
+</span></span></code></pre></div><p>Encrypt the device with a keyfile for automatic usage and a passphrase as backup.
+You will be asked for a passphrase.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cryptsetup luksFormat $DEVICE --batch-mode
+</span></span></code></pre></div><p>Create keyfile to use for automation.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>/dev/urandom bs<span style="color:#f92672">=</span>1M count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> of<span style="color:#f92672">=</span>/root/usb-disk.key
+</span></span></code></pre></div><p>Add the keyfile as another key.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cryptsetup luksAddKey $DEVICE /root/usb-disk.key
+</span></span></code></pre></div><p>Verify we have both keys added.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cryptsetup luksDump $DEVICE
+</span></span></code></pre></div><p>output</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>LUKS header information
+</span></span><span style="display:flex;"><span>Version:       	<span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>Epoch:         	<span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>Metadata area: 	<span style="color:#ae81ff">16384</span> <span style="color:#f92672">[</span>bytes<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Keyslots area: 	<span style="color:#ae81ff">16744448</span> <span style="color:#f92672">[</span>bytes<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>UUID:          	6255866d-a3c0-466f-9d39-4f2d8084f4be
+</span></span><span style="display:flex;"><span>Label:         	<span style="color:#f92672">(</span>no label<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Subsystem:     	<span style="color:#f92672">(</span>no subsystem<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Flags:       	<span style="color:#f92672">(</span>no flags<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Data segments:
+</span></span><span style="display:flex;"><span>  0: crypt
+</span></span><span style="display:flex;"><span>	offset: <span style="color:#ae81ff">16777216</span> <span style="color:#f92672">[</span>bytes<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>	length: <span style="color:#f92672">(</span>whole device<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>	cipher: aes-xts-plain64
+</span></span><span style="display:flex;"><span>	sector: <span style="color:#ae81ff">512</span> <span style="color:#f92672">[</span>bytes<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Keyslots:
+</span></span><span style="display:flex;"><span>  0: luks2
+</span></span><span style="display:flex;"><span>	Key:        <span style="color:#ae81ff">512</span> bits
+</span></span><span style="display:flex;"><span>	Priority:   normal
+</span></span><span style="display:flex;"><span>	Cipher:     aes-xts-plain64
+</span></span><span style="display:flex;"><span>	Cipher key: <span style="color:#ae81ff">512</span> bits
+</span></span><span style="display:flex;"><span>	PBKDF:      argon2id
+</span></span><span style="display:flex;"><span>	Time cost:  <span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span>	Memory:     <span style="color:#ae81ff">1048576</span>
+</span></span><span style="display:flex;"><span>	Threads:    <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>	Salt:       af <span style="color:#ae81ff">65</span> 1c fd <span style="color:#ae81ff">11</span> <span style="color:#ae81ff">17</span> fd 7f d6 cd <span style="color:#ae81ff">29</span> 8f <span style="color:#ae81ff">33</span> fb 5e <span style="color:#ae81ff">70</span>
+</span></span><span style="display:flex;"><span>	            ce 5d <span style="color:#ae81ff">80</span> <span style="color:#ae81ff">83</span> 6c 0a e7 <span style="color:#ae81ff">30</span> a5 ee e1 2f ef <span style="color:#ae81ff">59</span> 4d <span style="color:#ae81ff">62</span>
+</span></span><span style="display:flex;"><span>	AF stripes: <span style="color:#ae81ff">4000</span>
+</span></span><span style="display:flex;"><span>	AF hash:    sha256
+</span></span><span style="display:flex;"><span>	Area offset:32768 <span style="color:#f92672">[</span>bytes<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>	Area length:258048 <span style="color:#f92672">[</span>bytes<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>	Digest ID:  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>  1: luks2
+</span></span><span style="display:flex;"><span>	Key:        <span style="color:#ae81ff">512</span> bits
+</span></span><span style="display:flex;"><span>	Priority:   normal
+</span></span><span style="display:flex;"><span>	Cipher:     aes-xts-plain64
+</span></span><span style="display:flex;"><span>	Cipher key: <span style="color:#ae81ff">512</span> bits
+</span></span><span style="display:flex;"><span>	PBKDF:      argon2id
+</span></span><span style="display:flex;"><span>	Time cost:  <span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span>	Memory:     <span style="color:#ae81ff">1048576</span>
+</span></span><span style="display:flex;"><span>	Threads:    <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>	Salt:       9f <span style="color:#ae81ff">38</span> <span style="color:#ae81ff">55</span> d1 <span style="color:#ae81ff">68</span> 4f b1 bb <span style="color:#ae81ff">01</span> <span style="color:#ae81ff">22</span> <span style="color:#ae81ff">53</span> 3c 8f 5b <span style="color:#ae81ff">58</span> <span style="color:#ae81ff">15</span>
+</span></span><span style="display:flex;"><span>	            <span style="color:#ae81ff">31</span> <span style="color:#ae81ff">86</span> f5 4a 1c <span style="color:#ae81ff">28</span> <span style="color:#ae81ff">99</span> 9f <span style="color:#ae81ff">10</span> 0f ce <span style="color:#ae81ff">76</span> <span style="color:#ae81ff">44</span> e4 d8 <span style="color:#ae81ff">99</span>
+</span></span><span style="display:flex;"><span>	AF stripes: <span style="color:#ae81ff">4000</span>
+</span></span><span style="display:flex;"><span>	AF hash:    sha256
+</span></span><span style="display:flex;"><span>	Area offset:290816 <span style="color:#f92672">[</span>bytes<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>	Area length:258048 <span style="color:#f92672">[</span>bytes<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>	Digest ID:  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>Tokens:
+</span></span><span style="display:flex;"><span>Digests:
+</span></span><span style="display:flex;"><span>  0: pbkdf2
+</span></span><span style="display:flex;"><span>	Hash:       sha256
+</span></span><span style="display:flex;"><span>	Iterations: <span style="color:#ae81ff">125788</span>
+</span></span><span style="display:flex;"><span>	Salt:       <span style="color:#ae81ff">58</span> d4 <span style="color:#ae81ff">83</span> <span style="color:#ae81ff">62</span> fd f1 <span style="color:#ae81ff">26</span> 4f a5 <span style="color:#ae81ff">59</span> c2 <span style="color:#ae81ff">29</span> 6e a8 c9 c2
+</span></span><span style="display:flex;"><span>	            <span style="color:#ae81ff">51</span> 5a 0b 9c <span style="color:#ae81ff">36</span> <span style="color:#ae81ff">59</span> <span style="color:#ae81ff">36</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">19</span> f1 a4 <span style="color:#ae81ff">37</span> a0 <span style="color:#ae81ff">33</span> <span style="color:#ae81ff">47</span> <span style="color:#ae81ff">56</span>
+</span></span><span style="display:flex;"><span>	Digest:     a2 c4 fb 1b <span style="color:#ae81ff">76</span> <span style="color:#ae81ff">49</span> 2d e2 aa <span style="color:#ae81ff">52</span> ea <span style="color:#ae81ff">45</span> c8 db <span style="color:#ae81ff">26</span> 6b
+</span></span><span style="display:flex;"><span>	            <span style="color:#ae81ff">90</span> 7f <span style="color:#ae81ff">61</span> df <span style="color:#ae81ff">75</span> <span style="color:#ae81ff">91</span> 9c 4f fc <span style="color:#ae81ff">90</span> <span style="color:#ae81ff">03</span> c8 7d 4a 4c c6
+</span></span></code></pre></div><p>Note the device is encrypted but lacks a filesystem.</p>
+<p>Test it with open the device and format with <code>btrfs</code>.</p>
+<p>open</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cryptsetup luksOpen $DEVICE usb-crypted
+</span></span></code></pre></div><p>format</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@host:~# mkfs.btrfs /dev/mapper/usb-crypted
+</span></span><span style="display:flex;"><span>btrfs-progs v6.2
+</span></span><span style="display:flex;"><span>See http://btrfs.wiki.kernel.org <span style="color:#66d9ef">for</span> more information.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>NOTE: several default settings have changed in version 5.15, please make sure
+</span></span><span style="display:flex;"><span>      this does not affect your deployments:
+</span></span><span style="display:flex;"><span>      - DUP <span style="color:#66d9ef">for</span> metadata <span style="color:#f92672">(</span>-m dup<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      - enabled no-holes <span style="color:#f92672">(</span>-O no-holes<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      - enabled free-space-tree <span style="color:#f92672">(</span>-R free-space-tree<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Label:              <span style="color:#f92672">(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>UUID:               7eb962dd-7327-4df8-b768-4f6da64d6d2a
+</span></span><span style="display:flex;"><span>Node size:          <span style="color:#ae81ff">16384</span>
+</span></span><span style="display:flex;"><span>Sector size:        <span style="color:#ae81ff">4096</span>
+</span></span><span style="display:flex;"><span>Filesystem size:    3.72GiB
+</span></span><span style="display:flex;"><span>Block group profiles:
+</span></span><span style="display:flex;"><span>  Data:             single            8.00MiB
+</span></span><span style="display:flex;"><span>  Metadata:         DUP             256.00MiB
+</span></span><span style="display:flex;"><span>  System:           DUP               8.00MiB
+</span></span><span style="display:flex;"><span>SSD detected:       no
+</span></span><span style="display:flex;"><span>Zoned device:       no
+</span></span><span style="display:flex;"><span>Incompat features:  extref, skinny-metadata, no-holes
+</span></span><span style="display:flex;"><span>Runtime features:   free-space-tree
+</span></span><span style="display:flex;"><span>Checksum:           crc32c
+</span></span><span style="display:flex;"><span>Number of devices:  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>Devices:
+</span></span><span style="display:flex;"><span>   ID        SIZE  PATH
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">1</span>     3.72GiB  /dev/mapper/usb-crypted
+</span></span></code></pre></div><p>Close it</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cryptsetup close /dev/mapper/usb-crypted
+</span></span></code></pre></div><hr>
+<h3 id="2-setup-automounting">
+  2. Setup automounting
+  <a class="heading-link" href="#2-setup-automounting">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>overall plan for automounting:</p>
+<ol>
+<li>Use udev subsystem (<a href="https://www.linux.org/docs/man7/udev.html"  class="external-link" target="_blank" rel="noopener">manpage</a>, <a href="https://opensource.com/article/18/11/udev"  class="external-link" target="_blank" rel="noopener">intro</a>)
+to detect and react on events when the usb device is plugged in.</li>
+<li>Use <a href="https://systemd.io"  class="external-link" target="_blank" rel="noopener">systemd</a> to automount crypted usb device.</li>
+</ol>
+<h4 id="21-udev-tagging">
+  2.1 udev tagging
+  <a class="heading-link" href="#21-udev-tagging">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<p>Now we need an identifier to recognize as our usb device. Lets use <code>dmesg --follow</code> to watch the kernel log, while we plug it in.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span> 3006.861777<span style="color:#f92672">]</span> dm-10: detected capacity change from <span style="color:#ae81ff">7811072</span> to <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4237.103497<span style="color:#f92672">]</span> BTRFS: device fsid 7eb962dd-7327-4df8-b768-4f6da64d6d2a devid <span style="color:#ae81ff">1</span> transid <span style="color:#ae81ff">6</span> /dev/mapper/usb-crypted scanned by mkfs.btrfs <span style="color:#f92672">(</span>43170<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4387.501296<span style="color:#f92672">]</span> dm-10: detected capacity change from <span style="color:#ae81ff">7811072</span> to <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4775.969525<span style="color:#f92672">]</span> usb 5-2: USB disconnect, device number <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4778.488544<span style="color:#f92672">]</span> usb 5-2: new high-speed USB device number <span style="color:#ae81ff">4</span> using xhci_hcd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4778.738946<span style="color:#f92672">]</span> usb 5-2: New USB device found, idVendor<span style="color:#f92672">=</span>058f, idProduct<span style="color:#f92672">=</span>6387, bcdDevice<span style="color:#f92672">=</span> 1.00
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4778.738960<span style="color:#f92672">]</span> usb 5-2: New USB device strings: Mfr<span style="color:#f92672">=</span>1, Product<span style="color:#f92672">=</span>2, SerialNumber<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4778.738967<span style="color:#f92672">]</span> usb 5-2: Product: Mass Storage Device
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4778.738972<span style="color:#f92672">]</span> usb 5-2: Manufacturer: JetFlash
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4778.738977<span style="color:#f92672">]</span> usb 5-2: SerialNumber: xxxx
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4778.744252<span style="color:#f92672">]</span> usb-storage 5-2:1.0: USB Mass Storage device detected
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4778.744440<span style="color:#f92672">]</span> scsi host8: usb-storage 5-2:1.0
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4779.761711<span style="color:#f92672">]</span> scsi 8:0:0:0: Direct-Access     JetFlash Transcend 4GB    8.07 PQ: <span style="color:#ae81ff">0</span> ANSI: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4779.762345<span style="color:#f92672">]</span> sd 8:0:0:0: Attached scsi generic sg4 type <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4779.763019<span style="color:#f92672">]</span> sd 8:0:0:0: <span style="color:#f92672">[</span>sde<span style="color:#f92672">]</span> <span style="color:#ae81ff">7843840</span> 512-byte logical blocks: <span style="color:#f92672">(</span>4.02 GB/3.74 GiB<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4779.763185<span style="color:#f92672">]</span> sd 8:0:0:0: <span style="color:#f92672">[</span>sde<span style="color:#f92672">]</span> Write Protect is off
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4779.763190<span style="color:#f92672">]</span> sd 8:0:0:0: <span style="color:#f92672">[</span>sde<span style="color:#f92672">]</span> Mode Sense: <span style="color:#ae81ff">03</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4779.763351<span style="color:#f92672">]</span> sd 8:0:0:0: <span style="color:#f92672">[</span>sde<span style="color:#f92672">]</span> No Caching mode page found
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4779.763355<span style="color:#f92672">]</span> sd 8:0:0:0: <span style="color:#f92672">[</span>sde<span style="color:#f92672">]</span> Assuming drive cache: write through
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4779.791386<span style="color:#f92672">]</span> sd 8:0:0:0: <span style="color:#f92672">[</span>sde<span style="color:#f92672">]</span> Attached SCSI removable disk
+</span></span></code></pre></div><p>Here we see this line</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 4778.738946<span style="color:#f92672">]</span> usb 5-2: New USB device found, idVendor<span style="color:#f92672">=</span>058f, idProduct<span style="color:#f92672">=</span>6387, bcdDevice<span style="color:#f92672">=</span> 1.00
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>We need both identifiers <code>idVendor</code> and <code>idProduct</code> to create a specific rule.</p>
+<p>udev rule in <code>/etc/udev/rules.d/99-my-usb-rule.rules</code> which tags the device for <a href="https://www.freedesktop.org/software/systemd/man/latest/systemd.device.html"  class="external-link" target="_blank" rel="noopener">systemd.device</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>KERNEL<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;sd*&#34;</span>, SUBSYSTEMS<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;usb&#34;</span>, ATTRS<span style="color:#f92672">{</span>idVendor<span style="color:#f92672">}==</span><span style="color:#e6db74">&#34;058f&#34;</span>, ATTRS<span style="color:#f92672">{</span>idProduct<span style="color:#f92672">}==</span><span style="color:#e6db74">&#34;6387&#34;</span>, TAG<span style="color:#f92672">+=</span><span style="color:#e6db74">&#34;systemd&#34;</span>
+</span></span></code></pre></div><p>reload udev (to activate changes to the rule, without reboot)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>udevadm control --reload
+</span></span></code></pre></div><h4 id="22-setup-systemd-to-automount-encrypted-usb">
+  2.2 setup systemd to automount encrypted usb
+  <a class="heading-link" href="#22-setup-systemd-to-automount-encrypted-usb">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<p>find device uuid with</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@host:~# lsblk -fs $DEVICE
+</span></span><span style="display:flex;"><span>NAME FSTYPE      FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+</span></span><span style="display:flex;"><span>sde  crypto_LUKS <span style="color:#ae81ff">2</span>           f3e7f11c-9b84-4391-80b2-2ef82b2aa5c8
+</span></span></code></pre></div><p>add following line to <code>/etc/crypttab</code> to configure decrypting this usb device (<code>noauto</code> prevents failing boot, when device is unplugged)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>backup-crypted     UUID<span style="color:#f92672">=</span>f3e7f11c-9b84-4391-80b2-2ef82b2aa5c8 /root/usb-disk.key luks,noauto
+</span></span></code></pre></div><p>test with</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@host:~# cryptdisks_start backup-crypted
+</span></span><span style="display:flex;"><span> * Starting crypto disk...                                                                                                                                                                                                                                                                                           
+</span></span><span style="display:flex;"><span> * backup-crypted <span style="color:#f92672">(</span>running<span style="color:#f92672">)</span>...
+</span></span></code></pre></div><p>check device</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@host:~# cryptsetup status backup-crypted
+</span></span><span style="display:flex;"><span>/dev/mapper/backup-crypted is active.
+</span></span><span style="display:flex;"><span>  type:    n/a
+</span></span><span style="display:flex;"><span>  cipher:  aes-xts-plain64
+</span></span><span style="display:flex;"><span>  keysize: <span style="color:#ae81ff">512</span> bits
+</span></span><span style="display:flex;"><span>  key location: keyring
+</span></span><span style="display:flex;"><span>  device:  <span style="color:#f92672">(</span>null<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  sector size:  <span style="color:#ae81ff">512</span>
+</span></span><span style="display:flex;"><span>  offset:  <span style="color:#ae81ff">32768</span> sectors
+</span></span><span style="display:flex;"><span>  size:    <span style="color:#ae81ff">7811072</span> sectors
+</span></span><span style="display:flex;"><span>  mode:    read/write
+</span></span></code></pre></div><p>configure mounting in <code>/etc/fstab</code> (triggered from <a href="https://www.freedesktop.org/software/systemd/man/latest/systemd.mount.html"  class="external-link" target="_blank" rel="noopener">systemd.mount</a>)</p>
+<pre tabindex="0"><code>/dev/mapper/backup-crypted /root/backup-crypted btrfs compress=zstd,noauto,nofail,x-systemd.automount,x-systemd.device-timeout=15s,x-systemd.idle-timeout=30 0 0
+</code></pre><p><code>noauto</code> prevents failing during boot when device is unplugged</p>
+<p><code>x-systemd.automount</code> creates a <a href="https://www.freedesktop.org/software/systemd/man/latest/systemd.automount.html"  class="external-link" target="_blank" rel="noopener">systemd.automount unit</a></p>
+<p>reload systemd services</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@host:~# Reload file system services <span style="color:#66d9ef">for</span> creating mount services <span style="color:#66d9ef">for</span> the external drive
+</span></span><span style="display:flex;"><span>sudo systemctl restart local-fs.target
+</span></span><span style="display:flex;"><span>sudo systemctl restart remote-fs.target
+</span></span></code></pre></div><p>test it (unplugged and after plugged in)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@host:~# watch <span style="color:#e6db74">&#39;mount | grep backup-crypted&#39;</span>
+</span></span><span style="display:flex;"><span>systemd-1 on /root/backup-crypted type autofs <span style="color:#f92672">(</span>rw,relatime,fd<span style="color:#f92672">=</span>54,pgrp<span style="color:#f92672">=</span>1,timeout<span style="color:#f92672">=</span>30,minproto<span style="color:#f92672">=</span>5,maxproto<span style="color:#f92672">=</span>5,direct,pipe_ino<span style="color:#f92672">=</span>790044<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h3 id="3-setup-automatic-backup-as-root-with-visual-feedback-for-an-ordinary-user">
+  3. Setup automatic backup as root with visual feedback for an ordinary user
+  <a class="heading-link" href="#3-setup-automatic-backup-as-root-with-visual-feedback-for-an-ordinary-user">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>steps</p>
+<ol>
+<li>create a simple backup script to actual do backup</li>
+<li>create <code>systemd.service</code> to trigger wrapper backup script</li>
+<li>adjust udev rule to trigger our <code>systemd.service</code></li>
+</ol>
+<h4 id="31-create-a-simple-backup-script-to-actual-do-backup">
+  3.1 create a simple backup script to actual do backup
+  <a class="heading-link" href="#31-create-a-simple-backup-script-to-actual-do-backup">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<p>simple backup script <code>/root/backup-crypted.sh</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo test
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;press ENTER&#34;</span>
+</span></span><span style="display:flex;"><span>read
+</span></span></code></pre></div><p>make it executable and test it</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +x /root/backup-crypted.sh
+</span></span></code></pre></div><h4 id="32-create-systemdservice-to-trigger-wrapper-backup-script">
+  3.2 create <code>systemd.service</code> to trigger wrapper backup script
+  <a class="heading-link" href="#32-create-systemdservice-to-trigger-wrapper-backup-script">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<p>wrapper script <code>/root/systemd.make_backup.sh</code> to display as root on user session (<a href="https://en.wikipedia.org/wiki/Zenity"  class="external-link" target="_blank" rel="noopener">zenity</a> enables ui dialogs from shell scripts)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>set -eux
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>BACKUP_SCRIPT<span style="color:#f92672">=</span>/root/backup-crypted.sh
+</span></span><span style="display:flex;"><span>MOUNT_PATH<span style="color:#f92672">=</span>/root/backup-crypted
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># check environment of user session, can differ</span>
+</span></span><span style="display:flex;"><span>export XDG_RUNTIME_DIR<span style="color:#f92672">=</span>/run/user/1000
+</span></span><span style="display:flex;"><span>export XAUTHORITY<span style="color:#f92672">=</span>/home/lars/.Xauthority 
+</span></span><span style="display:flex;"><span>export DISPLAY<span style="color:#f92672">=</span>:0.0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>xterm -title <span style="color:#e6db74">&#39;backup&#39;</span> -geometry 200x50 -e $BACKUP_SCRIPT
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> umount <span style="color:#e6db74">&#34;</span>$MOUNT_PATH<span style="color:#e6db74">&#34;</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>   zenity --info  --text <span style="color:#e6db74">&#34;usb device can be removed&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>   zenity --error  --text <span style="color:#e6db74">&#34;umount failed&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><p>make it executable and test it</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +x /root/systemd.make_backup.sh
+</span></span></code></pre></div><p>create new systemd service file</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl edit --force --full usb-drive-backup.service
+</span></span></code></pre></div><p>plain service file</p>
+<pre tabindex="0"><code>[Service]
+ExecStart=/root/systemd.make_backup.sh
+</code></pre><p>test it</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># reload to make changed unit files visible to systemd</span>
+</span></span><span style="display:flex;"><span>systemctl daemon-reload
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># trigger manually service</span>
+</span></span><span style="display:flex;"><span>systemctl start usb-drive-backup
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># see status </span>
+</span></span><span style="display:flex;"><span>systemctl status usb-drive-backup
+</span></span></code></pre></div><p>adjust service to wait for automounts</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl edit --force --full usb-drive-backup.service
+</span></span></code></pre></div><p>adjusted service file</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Requires<span style="color:#f92672">=</span>root-backup<span style="color:#ae81ff">\x</span>2dcrypted.automount
+</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>root-backup<span style="color:#ae81ff">\x</span>2dcrypted.automount
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/root/systemd.make_backup.sh
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>root-backup<span style="color:#ae81ff">\x</span>2dcrypted.automount
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>graphical.target <span style="color:#75715e"># prevent errors when no graphical session is available (during boot)</span>
+</span></span></code></pre></div><p>again reload systemd</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl daemon-reload
+</span></span></code></pre></div><h4 id="33-adjust-udev-rule-to-trigger-our-systemdservice">
+  3.3 adjust udev rule to trigger our <code>systemd.service</code>
+  <a class="heading-link" href="#33-adjust-udev-rule-to-trigger-our-systemdservice">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<p>add a reference to <code>usb-drive-backup.service</code> (see <a href="https://www.freedesktop.org/software/systemd/man/latest/systemd.device.html"  class="external-link" target="_blank" rel="noopener">systemd.device</a>)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>KERNEL<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;sd*&#34;</span>, SUBSYSTEMS<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;usb&#34;</span>, ATTRS<span style="color:#f92672">{</span>idVendor<span style="color:#f92672">}==</span><span style="color:#e6db74">&#34;058f&#34;</span>, ATTRS<span style="color:#f92672">{</span>idProduct<span style="color:#f92672">}==</span><span style="color:#e6db74">&#34;6387&#34;</span>, TAG<span style="color:#f92672">+=</span><span style="color:#e6db74">&#34;systemd&#34;</span>, ENV<span style="color:#f92672">{</span>SYSTEMD_WANTS<span style="color:#f92672">}=</span><span style="color:#e6db74">&#34;usb-drive-backup.service&#34;</span>
+</span></span></code></pre></div><p>depending on your system it needs <code>ENV{UDISKS_IGNORE}==1</code> to suppress file manager to prompt for a password on plugin (GNOME needs, XFCE does not need it)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>KERNEL<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;sd*&#34;</span>, SUBSYSTEMS<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;usb&#34;</span>, ATTRS<span style="color:#f92672">{</span>idVendor<span style="color:#f92672">}==</span><span style="color:#e6db74">&#34;058f&#34;</span>, ATTRS<span style="color:#f92672">{</span>idProduct<span style="color:#f92672">}==</span><span style="color:#e6db74">&#34;6387&#34;</span>, TAG<span style="color:#f92672">+=</span><span style="color:#e6db74">&#34;systemd&#34;</span>, ENV<span style="color:#f92672">{</span>SYSTEMD_WANTS<span style="color:#f92672">}=</span><span style="color:#e6db74">&#34;usb-drive-backup.service&#34;</span>, ENV<span style="color:#f92672">{</span>UDISKS_IGNORE<span style="color:#f92672">}==</span><span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p>reload udev (to activate changes to the rule, without reboot)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>udevadm control --reload
+</span></span></code></pre></div><p>This script will pop up as terminal, window and disappear after a second.</p>
+<p>Thats it!</p>
+<h2 id="debugging">
+  Debugging
+  <a class="heading-link" href="#debugging">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>udev logging</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>udevadm control --log-priority<span style="color:#f92672">=</span>debug
+</span></span><span style="display:flex;"><span>journalctl  -f -u systemd-udevd <span style="color:#75715e"># follows the log</span>
+</span></span><span style="display:flex;"><span>udevadm control --log-priority<span style="color:#f92672">=</span>info <span style="color:#75715e"># this is default</span>
+</span></span></code></pre></div><p>trigger event without actual  plugin/plugout</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>udevadm trigger 
+</span></span></code></pre></div><p>various</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dmsetup remove --force usb-crypted
+</span></span></code></pre></div><p>Links:</p>
+<ul>
+<li><a href="https://wiki.archlinux.org/title/Udev"  class="external-link" target="_blank" rel="noopener">https://wiki.archlinux.org/title/Udev</a></li>
+<li><a href="https://askubuntu.com/questions/1283544/server-automount-usb-drive-with-systemd"  class="external-link" target="_blank" rel="noopener">https://askubuntu.com/questions/1283544/server-automount-usb-drive-with-systemd</a></li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2025
+    
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

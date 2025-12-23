@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker Tdd Devops on Erwähnenswert</title>
+    <link>http://localhost:1313/categories/docker-tdd-devops/</link>
+    <description>Recent content in Docker Tdd Devops on Erwähnenswert</description>
+    <generator>Hugo</generator>
+    <language>de-de</language>
+    <lastBuildDate>Thu, 23 Feb 2017 23:23:07 +0100</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/docker-tdd-devops/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>testing dockerfiles</title>
+      <link>http://localhost:1313/posts/2017-02-24-pragmatic-approach-to-add-tests-for-docker-files/</link>
+      <pubDate>Thu, 23 Feb 2017 23:23:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/2017-02-24-pragmatic-approach-to-add-tests-for-docker-files/</guid>
+      <description>&lt;p&gt;Since a while I&amp;rsquo;m facing regularly issues with images create from docker files.&#xA;So I&amp;rsquo;m trying to develop a simple approach to test them. It is inspired basically by&#xA;&lt;!-- raw HTML omitted --&gt;TDD&lt;!-- raw HTML omitted --&gt;.&lt;/p&gt;&#xA;&lt;h1 id=&#34;concept&#34;&gt;&#xA;  concept&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#concept&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Let me show my approach. It is aimed to be easy to implement and easy to comprehend.&lt;/p&gt;&#xA;&lt;p&gt;I follow these simple steps:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;creating a &lt;code&gt;Dockerfile&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;create a &lt;code&gt;test.sh&lt;/code&gt; under &lt;code&gt;test/&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;run &lt;code&gt;test.sh&lt;/code&gt; from &lt;code&gt;test/&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;trivial-example&#34;&gt;&#xA;  trivial example&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#trivial-example&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;&lt;code&gt;Dockerfile&lt;/code&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

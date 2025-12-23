@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  maven central release with github in 30 seconds · Erwähnenswert
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="description" content="As a passionate developer I always strive to optimise my build chain for speed and simplicity. In this example I&rsquo;d like to publish a library on maven central without any onsite build tooling except my IDE. So lets see how to get rid of gpg key management and implement a trivial push-button release process with Github and TravisCI.
+(This is reblogged originally from idealo/logback-redis/wiki/Release-Process and sponsored by Idealo)">
+<meta name="keywords" content="">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="maven central release with github in 30 seconds">
+  <meta name="twitter:description" content="As a passionate developer I always strive to optimise my build chain for speed and simplicity. In this example I’d like to publish a library on maven central without any onsite build tooling except my IDE. So lets see how to get rid of gpg key management and implement a trivial push-button release process with Github and TravisCI.
+(This is reblogged originally from idealo/logback-redis/wiki/Release-Process and sponsored by Idealo)">
+
+<meta property="og:url" content="http://localhost:1313/posts/2016-09-21-maven-release-on-github-with-travisci/">
+  <meta property="og:site_name" content="Erwähnenswert">
+  <meta property="og:title" content="maven central release with github in 30 seconds">
+  <meta property="og:description" content="As a passionate developer I always strive to optimise my build chain for speed and simplicity. In this example I’d like to publish a library on maven central without any onsite build tooling except my IDE. So lets see how to get rid of gpg key management and implement a trivial push-button release process with Github and TravisCI.
+(This is reblogged originally from idealo/logback-redis/wiki/Release-Process and sponsored by Idealo)">
+  <meta property="og:locale" content="de_de">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2016-09-21T14:23:07+01:00">
+    <meta property="article:modified_time" content="2016-09-21T14:23:07+01:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/2016-09-21-maven-release-on-github-with-travisci/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Erwähnenswert
+    </a>
+    
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/2016-09-21-maven-release-on-github-with-travisci/">
+              maven central release with github in 30 seconds
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2016-09-21T14:23:07&#43;01:00">
+                September 21, 2016
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              5-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/maven-github-travisci/">Maven Github Travisci</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <p>As a passionate developer I always strive to optimise my build chain for speed and simplicity. In this example I&rsquo;d like to publish a library on <a href="http://search.maven.org/"  class="external-link" target="_blank" rel="noopener">maven central</a> without any onsite build tooling except my IDE. So lets see how to get rid of gpg key management and implement a trivial <em>push-button release process</em> with <a href="https://github.com/lkwg82"  class="external-link" target="_blank" rel="noopener">Github</a> and <a href="https://travis-ci.org"  class="external-link" target="_blank" rel="noopener">TravisCI</a>.</p>
+<p><!-- raw HTML omitted -->(This is reblogged originally from <a href="https://github.com/idealo/logback-redis/wiki/Release-Process"  class="external-link" target="_blank" rel="noopener">idealo/logback-redis/wiki/Release-Process</a> and sponsored by <a href="https:/www.idealo.de" >Idealo</a>)<!-- raw HTML omitted --></p>
+<p>We based the release process on <a href="https://dracoblue.net/dev/uploading-snapshots-and-releases-to-maven-central-with-travis/"  class="external-link" target="_blank" rel="noopener">this tutorial</a> and simplified the process by using adhoc created gpg keys just once, so there is no hassle with key management.</p>
+<p>For a working example, you may check out our project <a href="https://github.com/idealo/logback-redis"  class="external-link" target="_blank" rel="noopener">logback-redis</a></p>
+<p><strong>TLDR;</strong> Release with just pushing a git tag or pressing &lsquo;create release&rsquo; in Github.</p>
+<hr>
+<p>Basically you have 3 steps (<a href="http://central.sonatype.org/pages/ossrh-guide.html"  class="external-link" target="_blank" rel="noopener">OSSRH
+Guide</a>):</p>
+<ol>
+<li><a href="https://issues.sonatype.org/secure/Signup!default.jspa"  class="external-link" target="_blank" rel="noopener">Create a Jira Account at
+Sonatype</a></li>
+<li><a href="https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134"  class="external-link" target="_blank" rel="noopener">Create a Project
+Ticket</a></li>
+<li>Deploy to <a href="https://oss.sonatype.org/content/repositories/snapshots"  class="external-link" target="_blank" rel="noopener">https://oss.sonatype.org/content/repositories/snapshots</a>
+or <a href="https://oss.sonatype.org/service/local/staging/deploy/maven2/"  class="external-link" target="_blank" rel="noopener">https://oss.sonatype.org/service/local/staging/deploy/maven2/</a>.
+Therefor you need to:
+<ul>
+<li>Modify your pom.xml</li>
+<li>Add build plugins for binaries, javadoc and sources jar files
+and gpg signing</li>
+<li>(Creation of a gpg key and signing your builds is done implicitly)</li>
+<li>Integrate this with travis secured environment variables</li>
+</ul>
+</li>
+</ol>
+<h2 id="setup">
+  Setup
+  <a class="heading-link" href="#setup">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="add-general-information-to-your-pomxml">
+  Add general information to your <code>pom.xml</code>
+  <a class="heading-link" href="#add-general-information-to-your-pomxml">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>You need to add the following parts to your <code>pom.xml</code>. There are
+detailed explanations of these configuration values at
+<a href="http://central.sonatype.org/pages/apache-maven.html"  class="external-link" target="_blank" rel="noopener">sonatype.org</a>.</p>
+<p>This general information needs to be available (e.g. a missing
+description tag will make deployment to maven central impossible):</p>
+<!-- raw HTML omitted -->
+<p>Also the developer and license information is necessary:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h3 id="add-distributionmanagement-for-ossrh-to-your-pomxml">
+  Add distributionManagement for ossrh to your <code>pom.xml</code>
+  <a class="heading-link" href="#add-distributionmanagement-for-ossrh-to-your-pomxml">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>The following two entries are given to you, as soon as you finish step
+<strong>1</strong> and <strong>2</strong> at sonatype&rsquo;s jira:</p>
+<!-- raw HTML omitted -->
+<p>{% endhighlight %}<!-- raw HTML omitted --></p>
+<p>You will need to add them in your pom.</p>
+<p>Once set up, the maven deploy task will know the target for uploads.</p>
+<h3 id="add-maven-build-plugins">
+  Add maven build plugins
+  <a class="heading-link" href="#add-maven-build-plugins">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>For a successful upload to maven central you need your jar, a java doc
+jar, a java sources jar and all of those need to be signed with a gpg
+key. The following configuration in your <code>pom.xml</code> will take care of
+those steps:</p>
+<!-- raw HTML omitted -->
+<p>{% endhighlight %}<!-- raw HTML omitted --></p>
+<h2 id="creating-gpg-keys">
+  Creating GPG-Keys
+  <a class="heading-link" href="#creating-gpg-keys">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>We create our temporary GPG-Keys on-the-fly with the following script (<code>.travis/gpg.sh</code>):</p>
+<!-- raw HTML omitted -->
+<p>#!/usr/bin/env bash</p>
+<p>set -e</p>
+<h1 id="create-a-random-passphrase">
+  create a random passphrase
+  <a class="heading-link" href="#create-a-random-passphrase">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>export GPG_PASSPHRASE=$(echo &ldquo;$RANDOM$(date)&rdquo; | md5sum | cut -d\  -f1)</p>
+<h1 id="configuration-to-generate-gpg-keys">
+  configuration to generate gpg keys
+  <a class="heading-link" href="#configuration-to-generate-gpg-keys">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>cat &gt;gen-key-script &laquo;EOF
+%echo Generating a basic OpenPGP key
+Key-Type: RSA
+Key-Length: 4096
+Subkey-Type: 1
+Subkey-Length: 4096
+Name-Real: Opensource Idealo
+Name-Email: <a href="mailto:opensource-logback-redis@idealo.de" >opensource-logback-redis@idealo.de</a>
+Expire-Date: 2y
+Passphrase: ${GPG_PASSPHRASE}
+%commit
+%echo done
+EOF</p>
+<h1 id="create-a-local-keypair-with-given-configuration">
+  create a local keypair with given configuration
+  <a class="heading-link" href="#create-a-local-keypair-with-given-configuration">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>gpg &ndash;batch &ndash;gen-key gen-key-script</p>
+<h1 id="export-created-gpg-key">
+  export created GPG key
+  <a class="heading-link" href="#export-created-gpg-key">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<h1 id="">
+  
+  <a class="heading-link" href="#">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<h1 id="example-output">
+  example output
+  <a class="heading-link" href="#example-output">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<h1 id="sec---4096redd32e8b-2016-09-08-verfällt-2018-09-08">
+  sec   4096R/EDD32E8B 2016-09-08 [verfällt: 2018-09-08]
+  <a class="heading-link" href="#sec---4096redd32e8b-2016-09-08-verf%c3%a4llt-2018-09-08">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<h1 id="uid------------------lars-kw-gohlke">
+  uid                  Lars K.W. Gohlke <a href="mailto:lars.gohlke@idealo.de" >lars.gohlke@idealo.de</a>
+  <a class="heading-link" href="#uid------------------lars-kw-gohlke">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<h1 id="ssb---4096rcc1613b2-2016-09-08">
+  ssb   4096R/CC1613B2 2016-09-08
+  <a class="heading-link" href="#ssb---4096rcc1613b2-2016-09-08">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<h1 id="ssb---4096r55b7caa2-2016-09-08">
+  ssb   4096R/55B7CAA2 2016-09-08
+  <a class="heading-link" href="#ssb---4096r55b7caa2-2016-09-08">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>export GPG_KEYNAME=$(gpg -K | grep ^sec | cut -d/  -f2 | cut -d\  -f1 | head -n1)</p>
+<h1 id="cleanup-local-configuration">
+  cleanup local configuration
+  <a class="heading-link" href="#cleanup-local-configuration">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>shred gen-key-script</p>
+<h1 id="publish-the-gpg-key">
+  publish the gpg key
+  <a class="heading-link" href="#publish-the-gpg-key">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<h1 id="use-keyserverubuntucom-as-travis-request-keys-from-this-server">
+  (use keyserver.ubuntu.com as travis request keys from this server,
+  <a class="heading-link" href="#use-keyserverubuntucom-as-travis-request-keys-from-this-server">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<h1 id="we-avoid-synchronization-issues-while-releasing">
+  we avoid synchronization issues, while releasing)
+  <a class="heading-link" href="#we-avoid-synchronization-issues-while-releasing">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>gpg &ndash;keyserver keyserver.ubuntu.com &ndash;send-keys ${GPG_KEYNAME}</p>
+<h1 id="wait-for-the-key-beeing-accessible">
+  wait for the key beeing accessible
+  <a class="heading-link" href="#wait-for-the-key-beeing-accessible">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>while(true); do
+date
+gpg &ndash;keyserver keyserver.ubuntu.com  &ndash;recv-keys ${GPG_KEYNAME} &amp;&amp; break || sleep 30
+done
+{% endhighlight %}<!-- raw HTML omitted --></p>
+<p>This will provide maven with a key pair to sign our artifacts.</p>
+<p>Signing is mandatory with sonatype.</p>
+<h2 id="create-a-settingsxml-for-the-travis-build">
+  Create a settings.xml for the travis build
+  <a class="heading-link" href="#create-a-settingsxml-for-the-travis-build">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>The following settings.xml should be available in your git repository at
+<code>.travis/settings.xml</code>:</p>
+<!-- raw HTML omitted -->
+<p><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+
+<!-- raw HTML omitted -->ossrh<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->${env.SONATYPE_USERNAME}<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->${env.SONATYPE_PASSWORD}<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->ossrh<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->true<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+&lt;gpg.executable&gt;gpg&lt;/gpg.executable&gt;
+&lt;gpg.passphrase&gt;${env.GPG_PASSPHRASE}&lt;/gpg.passphrase&gt;
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted --></p>
+<p>{% endhighlight %}<!-- raw HTML omitted --></p>
+<p>As you can see we&rsquo;ll use environment-variables to configure passphrase
+and sonatype password. (Those are tokens, not your real account passwords. See below.)</p>
+<p><img src="https://github.com/idealo/logback-redis/wiki/img/sonatype-token.png" alt="sonatype-settings"></p>
+<h2 id="add-the-secrets-to-your-travis-settings-page">
+  Add the secrets to your Travis Settings Page
+  <a class="heading-link" href="#add-the-secrets-to-your-travis-settings-page">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>If your project is already on travis, you need to add the environment
+variables on the settings page. For example, for the <code>logback-redis</code> project
+under <code>idealo</code> namespace, the url looks like this:
+<code>https://travis-ci.org/idealo/logback-redis/settings</code>.</p>
+<p><img src="https://github.com/idealo/logback-redis/wiki/img/travis-settings.png" alt="travis-settings"></p>
+<p>Fill <code>SONATYPE_USERNAME</code> and <code>SONATYPE_PASSWORD</code> with your tokens (NOT your actual credentials).</p>
+<h2 id="add-travisyml">
+  Add .travis.yml
+  <a class="heading-link" href="#add-travisyml">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Your .travis.yml file could look like this:</p>
+<!-- raw HTML omitted -->
+<p>language: java</p>
+<p>jdk:</p>
+<ul>
+<li>oraclejdk8</li>
+</ul>
+<p>script: mvn &ndash;settings .travis/settings.xml clean  verify</p>
+<h2 id="deploy">
+  deploy:
+  <a class="heading-link" href="#deploy">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<pre><code>provider: script
+script: .travis/deploy.sh
+skip_cleanup: true
+on:
+  repo: idealo/logback-redis
+  tags: true
+  jdk: oraclejdk8
+</code></pre>
+<p>notifications:
+email:
+- <a href="mailto:opensource-logback-redis@idealo.de" >opensource-logback-redis@idealo.de</a></p>
+<p>{% endhighlight %}<!-- raw HTML omitted --></p>
+<p>It&rsquo;s <strong>very important</strong> to override the <code>install</code> instruction for mvn with
+<code>--settings .travis/settings.xml</code>, otherwise your <code>settings.xml</code> will be
+ignored and the configuration would be useless.</p>
+<h2 id="add-travisdeploysh">
+  Add <code>.travis/deploy.sh</code>
+  <a class="heading-link" href="#add-travisdeploysh">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Since it&rsquo;s easier to read if you have all deploy steps in a separate
+file, I created a <code>.travis/deploy.sh</code> for this:</p>
+<!-- raw HTML omitted -->
+<p>set -e</p>
+<h1 id="only-do-deployment-when-travis-detects-a-new-tag">
+  only do deployment, when travis detects a new tag
+  <a class="heading-link" href="#only-do-deployment-when-travis-detects-a-new-tag">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>if [ ! -z &ldquo;$TRAVIS_TAG&rdquo; ]
+then
+echo &ldquo;on a tag -&gt; set pom.xml <!-- raw HTML omitted --> to $TRAVIS_TAG&rdquo;
+mvn &ndash;settings .travis/settings.xml org.codehaus.mojo:versions-maven-plugin:2.3:set -DnewVersion=$TRAVIS_TAG -Prelease</p>
+<pre><code>if [ ! -z &quot;$TRAVIS&quot; -a -f &quot;$HOME/.gnupg&quot; ]; then
+    shred -v ~/.gnupg/*
+    rm -rf ~/.gnupg
+fi
+
+source .travis/gpg.sh
+
+mvn clean deploy --settings .travis/settings.xml -DskipTests=true --batch-mode --update-snapshots -Prelease
+
+
+if [ ! -z &quot;$TRAVIS&quot; ]; then
+    shred -v ~/.gnupg/*
+    rm -rf ~/.gnupg
+fi
+</code></pre>
+<p>else
+echo &ldquo;not on a tag -&gt; keep snapshot version in pom.xml&rdquo;
+fi</p>
+<p>{% endhighlight %}<!-- raw HTML omitted --></p>
+<p>This snippet sets the version in the pom file to the tag version (if
+it&rsquo;s a git tag aka release). Afterwards a deploy will be triggered only if it is a release.</p>
+<p>That&rsquo;s why in my <code>pom.xml</code> there is <strong>always</strong> a <code>-SNAPSHOT</code> qualifier
+and no final MAJOR.MINOR.PATCH version, yet. This part takes care of
+creating a <a href="http://semver.org"  class="external-link" target="_blank" rel="noopener">SemVer</a> version of the pom.xml.</p>
+<h2 id="result">
+  Result
+  <a class="heading-link" href="#result">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>If you set this up correctly, your setup will work like this:</p>
+<ol>
+<li>In your <code>pom.xml</code> you have <code>&lt;version&gt;0.1.0-SNAPSHOT&lt;/version&gt;</code></li>
+<li>If you push a commit to master of your repository only the tests will run.</li>
+<li>If you <code>git tag 0.1.0</code> and <code>git push --tags</code> afterwards, you will
+have <code>0.1.0</code> of your library available at maven central.</li>
+</ol>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2025
+    
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

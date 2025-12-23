@@ -10,3 +10,6 @@ markup:
   asciidocExt:
     attributes:
       source-highlighter: rouge
+
+pagination:
+  pagerSize: 100

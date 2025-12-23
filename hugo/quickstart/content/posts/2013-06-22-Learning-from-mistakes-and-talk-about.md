@@ -10,11 +10,9 @@ I just found a video when etsy talks on [softdevtube.com](http://www.softdevtube
 
 Alternatively you can watch the slides of that presentation.
 
-{{< slideshare id="9561138" >}}
-
 [Scaling Etsy: What Went Wrong, What Went Right](http://de.slideshare.net/beamrider9/scaling-etsy-what-went-wrong-what-went-right) from [Ross Snyder](http://de.slideshare.net/beamrider9)
 
 What makes me thinking it is worth mentioning these slides is, that I believe in the same principles (transparency, cross functional teams, talking about mistakes, reevaluate former decisions, ...) written in there.
-
+ 
 Enjoy!
 

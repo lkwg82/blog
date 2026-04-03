@@ -1,0 +1,20 @@
+baseURL: 'https://blog.lgohlke.de'
+languageCode : 'de-de'
+title : 'Erwähnenswert'
+theme : 'hugo-coder'
+renderer.unsafe: true
+ignoreLogs :
+  - 'warning-goldmark-raw-html'
+
+markup:
+  asciidocExt:
+    attributes:
+      source-highlighter: rouge
+
+pagination:
+  pagerSize: 100
+
+params:
+  author: Lars K.W. Gohlke
+  since: 2012
+  license: GPLv3

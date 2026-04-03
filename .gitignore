@@ -1,7 +1,2 @@
-/.idea/
-.bundle
-.bundler
-.jekyll-metadata
-.sass-cache
-_site
-Gemfile.lock
+public/
+_posts

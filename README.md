@@ -4,24 +4,12 @@ see http://blog.lgohlke.de
 
 # installation
 
-run 
+run locally dev
 ```bash
-./docker-run.sh
+./run.sh dev
 ```
 
-clean
+run locally prod
 ```bash
-rm -rf .bundle .bundler _site
-```
-
-test
-```bash
-./docker-test.sh
-``` 
-
-use these gems: https://pages.github.com/versions.json
-see https://github.com/github/pages-gem
-update to latest github gems
-```bash
-./docker-run.sh bundle update
+./run.sh prod
 ```

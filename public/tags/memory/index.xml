@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Memory on Erwähnenswert</title><link>https://blog.lgohlke.de/tags/memory/</link><description>Recent content in Memory on Erwähnenswert</description><generator>Hugo</generator><language>de-de</language><lastBuildDate>Sat, 24 Oct 2015 13:36:07 +0000</lastBuildDate><atom:link href="https://blog.lgohlke.de/tags/memory/index.xml" rel="self" type="application/rss+xml"/><item><title>Detect when docker instance reached memory limit</title><link>https://blog.lgohlke.de/posts/2015-10-25-detect-when-docker-instance-reached-memory-limit/</link><pubDate>Sat, 24 Oct 2015 21:23:07 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2015-10-25-detect-when-docker-instance-reached-memory-limit/</guid><description>&lt;p&gt;I&amp;rsquo;d like to know if my test instance reached the memory limit and behaves a kind of different after that.&lt;/p&gt;
+&lt;h2 id="simple-but-slightly-incorrect-approach"&gt;
+ simple but slightly incorrect approach
+ &lt;a class="heading-link" href="#simple-but-slightly-incorrect-approach"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;Just grab the kernel logs for oom-killer for the particular container id.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ CONTAINER_ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;84ec6201e6a54
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ dmesg -T | grep -B2 docker-$CONTAINER_ID | grep -B1 oom-killer
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;outputs&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;Sun Oct &lt;span style="color:#ae81ff"&gt;25&lt;/span&gt; 22:06:17 2015&lt;span style="color:#f92672"&gt;]&lt;/span&gt; java invoked oom-killer: gfp_mask&lt;span style="color:#f92672"&gt;=&lt;/span&gt;0xd0, order&lt;span style="color:#f92672"&gt;=&lt;/span&gt;0, oom_score_adj&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Limitation: This implies that kernel logs before and after are about the same issue.&lt;/p&gt;</description></item></channel></rss>

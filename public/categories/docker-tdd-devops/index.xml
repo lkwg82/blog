@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker Tdd Devops on Erwähnenswert</title><link>https://blog.lgohlke.de/categories/docker-tdd-devops/</link><description>Recent content in Docker Tdd Devops on Erwähnenswert</description><generator>Hugo</generator><language>de-de</language><lastBuildDate>Thu, 23 Feb 2017 23:23:07 +0100</lastBuildDate><atom:link href="https://blog.lgohlke.de/categories/docker-tdd-devops/index.xml" rel="self" type="application/rss+xml"/><item><title>testing dockerfiles</title><link>https://blog.lgohlke.de/posts/2017-02-24-pragmatic-approach-to-add-tests-for-docker-files/</link><pubDate>Thu, 23 Feb 2017 23:23:07 +0100</pubDate><guid>https://blog.lgohlke.de/posts/2017-02-24-pragmatic-approach-to-add-tests-for-docker-files/</guid><description>&lt;p&gt;Since a while I&amp;rsquo;m facing regularly issues with images create from docker files.
+So I&amp;rsquo;m trying to develop a simple approach to test them. It is inspired basically by
+&lt;!-- raw HTML omitted --&gt;TDD&lt;!-- raw HTML omitted --&gt;.&lt;/p&gt;
+&lt;h1 id="concept"&gt;
+ concept
+ &lt;a class="heading-link" href="#concept"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h1&gt;
+&lt;p&gt;Let me show my approach. It is aimed to be easy to implement and easy to comprehend.&lt;/p&gt;
+&lt;p&gt;I follow these simple steps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;creating a &lt;code&gt;Dockerfile&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;create a &lt;code&gt;test.sh&lt;/code&gt; under &lt;code&gt;test/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;run &lt;code&gt;test.sh&lt;/code&gt; from &lt;code&gt;test/&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1 id="trivial-example"&gt;
+ trivial example
+ &lt;a class="heading-link" href="#trivial-example"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h1&gt;
+&lt;p&gt;&lt;code&gt;Dockerfile&lt;/code&gt;&lt;/p&gt;</description></item></channel></rss>

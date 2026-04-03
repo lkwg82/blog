@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker-Compose on Erwähnenswert</title><link>https://blog.lgohlke.de/tags/docker-compose/</link><description>Recent content in Docker-Compose on Erwähnenswert</description><generator>Hugo</generator><language>de-de</language><lastBuildDate>Sat, 05 Sep 2015 13:36:07 +0000</lastBuildDate><atom:link href="https://blog.lgohlke.de/tags/docker-compose/index.xml" rel="self" type="application/rss+xml"/><item><title>Tiny Tiny RSS setup with docker-compose in 2 minutes</title><link>https://blog.lgohlke.de/posts/2015-09-08-tinyrss-mit-docker-compose/</link><pubDate>Sat, 05 Sep 2015 21:23:07 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2015-09-08-tinyrss-mit-docker-compose/</guid><description>&lt;p&gt;How can I setup and run my own &lt;a href="https://tt-rss.org/" class="external-link" target="_blank" rel="noopener"&gt;tt-rss&lt;/a&gt; instance with &lt;a href="https://docs.docker.com/compose/" class="external-link" target="_blank" rel="noopener"&gt;docker-compose&lt;/a&gt; within 2 minutes?&lt;/p&gt;
+&lt;h2 id="tldr"&gt;
+ TL;DR
+ &lt;a class="heading-link" href="#tldr"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# preparation&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo apt-get install python-pip git curl
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# see https://docs.docker.com/installation/ubuntulinux/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl -sSL https://get.docker.com/ | sh
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo pip install docker-compose
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# installation&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git clone https://github.com/lkwg82/blog.git blog
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cd blog/examples/20150908_tinytinyrss_docker-compose
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ./run.sh
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# usage&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ firefox http://localhost:9108/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;Here comes the little longer story &amp;hellip; not much longer &amp;hellip; only more prose.&lt;/p&gt;</description></item></channel></rss>

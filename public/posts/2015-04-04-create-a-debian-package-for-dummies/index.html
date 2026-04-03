@@ -1,0 +1,76 @@
+<!doctype html><html lang=en><head><title>Short debian package guide for dummies · Erwähnenswert</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=color-scheme content="light dark"><meta name=author content="Lars K.W. Gohlke"><meta name=description content="As I always struggle with creating a debian so I decided to write the few steps down. Finally. This is more a kind of cheat sheet than a comprehensive guide.
+In my example I will package h2o a very fast http/2 static file server capable to run as reverse proxy.
+This is my environment:
+$ lsb_release -a
+No LSB modules are available.
+Distributor ID:	Ubuntu
+Description:	Ubuntu 14.04.2 LTS
+Release:	14.04
+Codename:	trusty
+
+  1. creating the basic structure
+  
+    
+    Link to heading
+  
+
+clone repository and change to newly created branch"><meta name=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Short debian package guide for dummies"><meta name=twitter:description content="As I always struggle with creating a debian so I decided to write the few steps down. Finally. This is more a kind of cheat sheet than a comprehensive guide.
+In my example I will package h2o a very fast http/2 static file server capable to run as reverse proxy.
+This is my environment:
+$ lsb_release -a No LSB modules are available. Distributor ID:	Ubuntu Description:	Ubuntu 14.04.2 LTS Release:	14.04 Codename:	trusty 1. creating the basic structure Link to heading clone repository and change to newly created branch"><meta property="og:url" content="https://blog.lgohlke.de/posts/2015-04-04-create-a-debian-package-for-dummies/"><meta property="og:site_name" content="Erwähnenswert"><meta property="og:title" content="Short debian package guide for dummies"><meta property="og:description" content="As I always struggle with creating a debian so I decided to write the few steps down. Finally. This is more a kind of cheat sheet than a comprehensive guide.
+In my example I will package h2o a very fast http/2 static file server capable to run as reverse proxy.
+This is my environment:
+$ lsb_release -a No LSB modules are available. Distributor ID:	Ubuntu Description:	Ubuntu 14.04.2 LTS Release:	14.04 Codename:	trusty 1. creating the basic structure Link to heading clone repository and change to newly created branch"><meta property="og:locale" content="de_de"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2015-04-07T21:23:07+00:00"><meta property="article:modified_time" content="2015-04-07T13:36:07+00:00"><meta property="article:tag" content="Ubuntu"><meta property="article:tag" content="Debian"><meta property="article:tag" content="Packaging"><link rel=canonical href=https://blog.lgohlke.de/posts/2015-04-04-create-a-debian-package-for-dummies/><link rel=preload href=/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin><link rel=stylesheet href=/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin=anonymous media=screen><link rel=icon type=image/svg+xml href=/images/favicon.svg sizes=any><link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16><link rel=apple-touch-icon href=/images/apple-touch-icon.png><link rel=apple-touch-icon sizes=180x180 href=/images/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/images/safari-pinned-tab.svg color=#5bbad5></head><body class="preload-transitions colorscheme-light"><div class=float-container><a id=dark-mode-toggle class=colorscheme-toggle><i class="fa-solid fa-adjust fa-fw" aria-hidden=true></i></a></div><main class=wrapper><nav class=navigation><section class=container><a class=navigation-title href=https://blog.lgohlke.de/>Erwähnenswert</a></section></nav><div class=content><section class="container post"><article><header><div class=post-title><h1 class=title><a class=title-link href=https://blog.lgohlke.de/posts/2015-04-04-create-a-debian-package-for-dummies/>Short debian package guide for dummies</a></h1></div><div class=post-meta><div class=date><span class=posted-on><i class="fa-solid fa-calendar" aria-hidden=true></i>
+<time datetime=2015-04-07T21:23:07Z>April 7, 2015
+</time></span><span class=reading-time><i class="fa-solid fa-clock" aria-hidden=true></i>
+2-minute read</span></div><div class=tags><i class="fa-solid fa-tag" aria-hidden=true></i>
+<span class=tag><a href=/tags/ubuntu/>Ubuntu</a>
+</span><span class=separator>•</span>
+<span class=tag><a href=/tags/debian/>Debian</a>
+</span><span class=separator>•</span>
+<span class=tag><a href=/tags/packaging/>Packaging</a></span></div></div></header><div class=post-content><p>As I always struggle with creating a debian so I decided to write the few steps down. Finally. This is more a kind of cheat sheet than a comprehensive guide.<br>In my example I will package <a href=https://github.com/h2o/h2o class=external-link target=_blank rel=noopener>h2o</a> a very fast http/2 static file server capable to run as reverse proxy.</p><p>This is my environment:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ lsb_release -a
+</span></span><span style=display:flex><span>No LSB modules are available.
+</span></span><span style=display:flex><span>Distributor ID:	Ubuntu
+</span></span><span style=display:flex><span>Description:	Ubuntu 14.04.2 LTS
+</span></span><span style=display:flex><span>Release:	14.04
+</span></span><span style=display:flex><span>Codename:	trusty
+</span></span></code></pre></div><h2 id=1-creating-the-basic-structure>1. creating the basic structure
+<a class=heading-link href=#1-creating-the-basic-structure><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>clone repository and change to newly created branch</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ git clone git@github.com:lkwg82/h2o.git
+</span></span><span style=display:flex><span>$ git checkout tags/v1.1.1
+</span></span><span style=display:flex><span>$ git branch debian
+</span></span><span style=display:flex><span>$ git checkout debian
+</span></span><span style=display:flex><span>$ git branch --track origin/master
+</span></span></code></pre></div><p>create the debian structure as directory <code>debian/</code>.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ export DEBEMAIL<span style=color:#f92672>=</span>lkwg82@gmx.de
+</span></span><span style=display:flex><span>$ export DEBFULLNAME<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Lars K.W. Gohlke&#34;</span>
+</span></span><span style=display:flex><span>$ dh_make --single -p h2o-server_1.1.1 --createorig -y
+</span></span></code></pre></div><blockquote><p><strong>Note:</strong> <code>DEBEMAIL</code> and <code>DEBFULLNAME</code> should be the same as in your gpg keys, which you are using to sign the package.</p></blockquote><p>Now fill the generated files under <code>debian/</code> (control/changelog) and check with <code>lintian</code> until there are no more errors. Commit all changes!</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ lintian
+</span></span><span style=display:flex><span>Too late to run INIT block at /usr/local/lib/perl/5.18.2/Net/DNS.pm line 213.
+</span></span><span style=display:flex><span>W: h2o-server source: native-package-with-dash-version
+</span></span><span style=display:flex><span>W: h2o-server source: package-needs-versioned-debhelper-build-depends <span style=color:#ae81ff>9</span>
+</span></span><span style=display:flex><span>W: h2o-server source: vcs-field-uses-unknown-uri-format vcs-git git@github.com:h2o/h2o.git
+</span></span><span style=display:flex><span>W: h2o-server source: syntax-error-in-dep5-copyright line 11: Continuation line outside a paragraph <span style=color:#f92672>(</span>maybe line <span style=color:#ae81ff>10</span> should be <span style=color:#e6db74>&#34; .&#34;</span><span style=color:#f92672>)</span>.
+</span></span><span style=display:flex><span>W: h2o-server source: out-of-date-standards-version 3.9.4 <span style=color:#f92672>(</span>current is 3.9.5<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>W: h2o-server source: debian-watch-file-in-native-package
+</span></span></code></pre></div><h3 id=about-preparation-for-publishing>about preparation for publishing
+<a class=heading-link href=#about-preparation-for-publishing><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h3><p>I publish my packages on <a href=https://launchpad.net/~lkwg82 class=external-link target=_blank rel=noopener>launchpad</a>. For this I recommend to make sure every needed <a href=https://www.debian.org/doc/debian-policy/ch-relationships.html class=external-link target=_blank rel=noopener>build dependency</a> is met.</p><p>I struggled with <a href=http://pbuilder.alioth.debian.org/ class=external-link target=_blank rel=noopener>pbuilder</a> so I chose <a href=http://www.docker.com class=external-link target=_blank rel=noopener>docker</a> to have a clean build environment. For this I wrote <a href=https://github.com/lkwg82/docker-debian-build-env class=external-link target=_blank rel=noopener>docker-debian-build-env</a>.</p><p>A single command runs a clean ubuntu instance and build everything:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ docker_debian_build_all
+</span></span></code></pre></div><p>If you struggle with both &mldr; loop until no errors left.</p><h2 id=2-finish>2. Finish
+<a class=heading-link href=#2-finish><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Finish your (initial) changes with these steps:</p><p>Build a binary package:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ dpkg-buildpackage -tc -B
+</span></span></code></pre></div><p>or build a source package for publishing on launchpad:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ git-dch --release --git-author --commit --id-length<span style=color:#f92672>=</span><span style=color:#ae81ff>10</span> --distribution<span style=color:#f92672>=</span>trusty --debian-branch<span style=color:#f92672>=</span>debian
+</span></span><span style=display:flex><span>$ git-buildpackage -S -sa --git-tag --git-sign-tags --git-no-create-orig --git-debian-branch<span style=color:#f92672>=</span>debian
+</span></span></code></pre></div><p>In both cases the result is in the parent directory.</p><h2 id=3-publish>3. Publish!
+<a class=heading-link href=#3-publish><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Share your package with the community. Make a pull request to the original authors and let everyone know you packaged that software for easy use (hopfully).</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ dput ppa:lkwg82/webperformance ../h2o-server_1.1.1-2_source.changes
+</span></span></code></pre></div><p>My result is here <a href=https://launchpad.net/~lkwg82/+archive/ubuntu/webperformance class=external-link target=_blank rel=noopener>ppa:lkwg82/webperformance</a>.</p><p>Feedback is welcome!</p><hr><h3 id=links>Links
+<a class=heading-link href=#links><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h3><ul><li><a href="https://www.v13.gr/blog/?p=364" class=external-link target=_blank rel=noopener>automatically install build dependencies</a></li><li><a href=http://packaging.ubuntu.com/html/ class=external-link target=_blank rel=noopener>ubuntu packaging guide</a></li><li><a href=https://help.launchpad.net/Packaging/PPA/Uploading class=external-link target=_blank rel=noopener>launchpad uploading a package</a></li></ul></div><footer></footer></article></section></div><footer class=footer><section class=container>©
+2012 -
+2026
+Lars K.W. Gohlke
+·
+Licensed under GPLv3
+·
+Powered by <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> & <a href=https://github.com/luizdepra/hugo-coder/ target=_blank rel=noopener>Coder</a>.
+<a href=/index.xml>rss</a></section></footer></main><script src=/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script></body></html>

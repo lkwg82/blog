@@ -1,0 +1,183 @@
+<!doctype html><html lang=en><head><title>testing dockerfiles · Erwähnenswert</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=color-scheme content="light dark"><meta name=author content="Lars K.W. Gohlke"><meta name=description content="Since a while I&rsquo;m facing regularly issues with images create from docker files.
+So I&rsquo;m trying to develop a simple approach to test them. It is inspired basically by
+TDD.
+
+  concept
+  
+    
+    Link to heading
+  
+
+Let me show my approach. It is aimed to be easy to implement and easy to comprehend.
+I follow these simple steps:
+
+creating a Dockerfile
+create a test.sh under test/
+run test.sh from test/
+
+
+
+  trivial example
+  
+    
+    Link to heading
+  
+
+Dockerfile"><meta name=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="testing dockerfiles"><meta name=twitter:description content="Since a while I’m facing regularly issues with images create from docker files. So I’m trying to develop a simple approach to test them. It is inspired basically by TDD.
+concept Link to heading Let me show my approach. It is aimed to be easy to implement and easy to comprehend.
+I follow these simple steps:
+creating a Dockerfile create a test.sh under test/ run test.sh from test/ trivial example Link to heading Dockerfile"><meta property="og:url" content="https://blog.lgohlke.de/posts/2017-02-24-pragmatic-approach-to-add-tests-for-docker-files/"><meta property="og:site_name" content="Erwähnenswert"><meta property="og:title" content="testing dockerfiles"><meta property="og:description" content="Since a while I’m facing regularly issues with images create from docker files. So I’m trying to develop a simple approach to test them. It is inspired basically by TDD.
+concept Link to heading Let me show my approach. It is aimed to be easy to implement and easy to comprehend.
+I follow these simple steps:
+creating a Dockerfile create a test.sh under test/ run test.sh from test/ trivial example Link to heading Dockerfile"><meta property="og:locale" content="de_de"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2017-02-23T23:23:07+01:00"><meta property="article:modified_time" content="2017-02-23T23:23:07+01:00"><link rel=canonical href=https://blog.lgohlke.de/posts/2017-02-24-pragmatic-approach-to-add-tests-for-docker-files/><link rel=preload href=/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin><link rel=stylesheet href=/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin=anonymous media=screen><link rel=icon type=image/svg+xml href=/images/favicon.svg sizes=any><link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16><link rel=apple-touch-icon href=/images/apple-touch-icon.png><link rel=apple-touch-icon sizes=180x180 href=/images/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/images/safari-pinned-tab.svg color=#5bbad5></head><body class="preload-transitions colorscheme-light"><div class=float-container><a id=dark-mode-toggle class=colorscheme-toggle><i class="fa-solid fa-adjust fa-fw" aria-hidden=true></i></a></div><main class=wrapper><nav class=navigation><section class=container><a class=navigation-title href=https://blog.lgohlke.de/>Erwähnenswert</a></section></nav><div class=content><section class="container post"><article><header><div class=post-title><h1 class=title><a class=title-link href=https://blog.lgohlke.de/posts/2017-02-24-pragmatic-approach-to-add-tests-for-docker-files/>testing dockerfiles</a></h1></div><div class=post-meta><div class=date><span class=posted-on><i class="fa-solid fa-calendar" aria-hidden=true></i>
+<time datetime=2017-02-23T23:23:07+01:00>February 23, 2017
+</time></span><span class=reading-time><i class="fa-solid fa-clock" aria-hidden=true></i>
+3-minute read</span></div><div class=categories><i class="fa-solid fa-folder" aria-hidden=true></i>
+<a href=/categories/docker-tdd-devops/>Docker Tdd Devops</a></div></div></header><div class=post-content><p>Since a while I&rsquo;m facing regularly issues with images create from docker files.
+So I&rsquo;m trying to develop a simple approach to test them. It is inspired basically by
+TDD.</p><h1 id=concept>concept
+<a class=heading-link href=#concept><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h1><p>Let me show my approach. It is aimed to be easy to implement and easy to comprehend.</p><p>I follow these simple steps:</p><ul><li>creating a <code>Dockerfile</code></li><li>create a <code>test.sh</code> under <code>test/</code></li><li>run <code>test.sh</code> from <code>test/</code></li></ul><hr><h1 id=trivial-example>trivial example
+<a class=heading-link href=#trivial-example><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h1><p><code>Dockerfile</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-docker data-lang=docker><span style=display:flex><span><span style=color:#66d9ef>FROM</span> <span style=color:#e6db74>ubuntu</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>CMD</span> date<span style=color:#960050;background-color:#1e0010>
+</span></span></span></code></pre></div><p><code>test.sh</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>#!/bin/bash
+</span></span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>set -e
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> finish <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>	local exitCode<span style=color:#f92672>=</span>$?
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	echo -n <span style=color:#e6db74>&#34;cleanup: &#34;</span>
+</span></span><span style=display:flex><span>        docker image rm test-simple
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	echo <span style=color:#e6db74>&#34;---------&#34;</span>	
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;</span>$exitCode<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;0&#34;</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>		echo <span style=color:#e6db74>&#34;Test: SUCCESS&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>		echo <span style=color:#e6db74>&#34;Test: failed&#34;</span>
+</span></span><span style=display:flex><span>		exit $exitCode
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>trap finish EXIT
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># build image</span>
+</span></span><span style=display:flex><span>docker build -t test-simple ..
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>set -x
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># tests</span>
+</span></span><span style=display:flex><span>docker run test-simple &gt;/dev/null <span style=color:#f92672>||</span> exit <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>set +x
+</span></span></code></pre></div><p>and the output</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ ./test.sh 
+</span></span><span style=display:flex><span>Sending build context to Docker daemon 3.584 kB
+</span></span><span style=display:flex><span>Step 1/2 : FROM ubuntu
+</span></span><span style=display:flex><span> ---&gt; f49eec89601e
+</span></span><span style=display:flex><span>Step 2/2 : CMD date
+</span></span><span style=display:flex><span> ---&gt; Using cache
+</span></span><span style=display:flex><span> ---&gt; 50149deef371
+</span></span><span style=display:flex><span>Successfully built 50149deef371
+</span></span><span style=display:flex><span>+ docker run test-simple
+</span></span><span style=display:flex><span>+ set +x
+</span></span><span style=display:flex><span>cleanup: Untagged: test-simple:latest
+</span></span><span style=display:flex><span>---------
+</span></span><span style=display:flex><span>Test: SUCCESS
+</span></span></code></pre></div><hr><h1 id=more-complex-example-with-docker-compose>more complex example with docker-compose
+<a class=heading-link href=#more-complex-example-with-docker-compose><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h1><p>This example is about an application which consists of two images, app and database.
+The test is only about the app, which actually uses the database. This example is taken from <a href=https://github.com/lkwg82/docker-ttrss/tree/8581ca27e780af2cb1bf0f4673b329f37d52b23c class=external-link target=_blank rel=noopener>lkwg82/docker-trss</a>,
+here you can checkout and test it yourself (commit #8581ca2).</p><p><code>test/docker-compose.yml</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>version</span>: <span style=color:#e6db74>&#34;2&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>services</span>:
+</span></span><span style=display:flex><span> <span style=color:#f92672>ttrss</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>image</span>: <span style=color:#ae81ff>test-ttrss</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>restart</span>: <span style=color:#ae81ff>always</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>links</span>:
+</span></span><span style=display:flex><span>   - <span style=color:#ae81ff>db:db</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>environment</span>:
+</span></span><span style=display:flex><span>   <span style=color:#f92672>DB_ENV_USER</span>: <span style=color:#ae81ff>root</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>DB_ENV_PASS</span>: <span style=color:#ae81ff>rootpass</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>DB_HOST</span>: <span style=color:#ae81ff>db</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>DB_PORT</span>: <span style=color:#ae81ff>3306</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>DB_TYPE</span>: <span style=color:#ae81ff>mysql</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span> <span style=color:#f92672>db</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>image</span>: <span style=color:#ae81ff>mariadb:10.1</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>environment</span>:
+</span></span><span style=display:flex><span>   <span style=color:#f92672>MYSQL_DATABASE</span>: <span style=color:#ae81ff>ttrss</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>MYSQL_ROOT_PASSWORD</span>: <span style=color:#ae81ff>rootpass</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>MYSQL_USER</span>: <span style=color:#ae81ff>user</span>
+</span></span><span style=display:flex><span>   <span style=color:#f92672>MYSQL_PASSWORD</span>: <span style=color:#ae81ff>userpass</span>
+</span></span></code></pre></div><p><code>test/test.sh</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>#!/bin/bash
+</span></span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>set -e
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> finish <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>	local exitCode<span style=color:#f92672>=</span>$?
+</span></span><span style=display:flex><span>	set +x
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	echo <span style=color:#e6db74>&#34;cleanup &#34;</span>
+</span></span><span style=display:flex><span>        docker-compose stop &gt; /dev/null 2&gt;&amp;<span style=color:#ae81ff>1</span> &amp;
+</span></span><span style=display:flex><span>	
+</span></span><span style=display:flex><span>	echo <span style=color:#e6db74>&#34;-------&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;</span>$exitCode<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;0&#34;</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>		echo <span style=color:#e6db74>&#34;Test: SUCCESS&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>		docker-compose logs
+</span></span><span style=display:flex><span>		echo
+</span></span><span style=display:flex><span>		echo <span style=color:#e6db74>&#34;Test: failed&#34;</span>
+</span></span><span style=display:flex><span>		exit $exitCode
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>trap finish EXIT
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># build docker image</span>
+</span></span><span style=display:flex><span>docker build -t test-ttrss ..
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>docker-compose up -d db
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># give mariadb some time to startup</span>
+</span></span><span style=display:flex><span>sleep <span style=color:#ae81ff>5</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>docker-compose up -d ttrss
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cmd<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;docker-compose exec ttrss curl --fail -v http://localhost:8080/&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>set -x
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># tests</span>
+</span></span><span style=display:flex><span>$cmd | grep <span style=color:#e6db74>&#34;^&lt; HTTP/1.1 200 OK&#34;</span> <span style=color:#f92672>||</span> exit <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>$cmd | grep <span style=color:#e6db74>&#34;^&lt; Set-Cookie: ttrss_sid=deleted&#34;</span> <span style=color:#f92672>||</span> exit <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>set +x
+</span></span></code></pre></div><p>I admit any test with sleeps inside is worth inspecting and mostly due to poor design.
+At this point I make a tradeoff after 2hrs reading about :(.</p><p>output</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ ./test.sh 
+</span></span><span style=display:flex><span>Sending build context to Docker daemon 23.55 kB
+</span></span><span style=display:flex><span>Step 1/18 : FROM ubuntu:14.04
+</span></span><span style=display:flex><span> ---&gt; b969ab9f929b
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>Successfully built d37df1479d4a
+</span></span><span style=display:flex><span>test_db_1 is up-to-date
+</span></span><span style=display:flex><span>test_db_1 is up-to-date
+</span></span><span style=display:flex><span>test_ttrss_1 is up-to-date
+</span></span><span style=display:flex><span>+ docker-compose exec ttrss curl --fail -v http://localhost:8080/
+</span></span><span style=display:flex><span>+ grep <span style=color:#e6db74>&#39;^&lt; HTTP/1.1 200 OK&#39;</span>
+</span></span><span style=display:flex><span>&lt; HTTP/1.1 <span style=color:#ae81ff>200</span> OK
+</span></span><span style=display:flex><span>+ docker-compose exec ttrss curl --fail -v http://localhost:8080/
+</span></span><span style=display:flex><span>+ grep <span style=color:#e6db74>&#39;^&lt; Set-Cookie: ttrss_sid=deleted&#39;</span>
+</span></span><span style=display:flex><span>&lt; Set-Cookie: ttrss_sid<span style=color:#f92672>=</span>deleted; expires<span style=color:#f92672>=</span>Thu, 01-Jan-1970 00:00:01 GMT; Max-Age<span style=color:#f92672>=</span>0; path<span style=color:#f92672>=</span>/
+</span></span><span style=display:flex><span>+ set +x
+</span></span><span style=display:flex><span>cleanup 
+</span></span><span style=display:flex><span>-------
+</span></span><span style=display:flex><span>Test: SUCCESS
+</span></span></code></pre></div><hr><p>I know tooling around would make some aspects more convinient, but at least <em>start testing dockerfiles</em>!</p><p>Feedback is welcome - of course!</p></div><footer></footer></article></section></div><footer class=footer><section class=container>©
+2012 -
+2026
+Lars K.W. Gohlke
+·
+Licensed under GPLv3
+·
+Powered by <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> & <a href=https://github.com/luizdepra/hugo-coder/ target=_blank rel=noopener>Coder</a>.
+<a href=/index.xml>rss</a></section></footer></main><script src=/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script></body></html>

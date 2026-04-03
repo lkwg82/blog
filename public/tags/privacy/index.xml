@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Privacy on Erwähnenswert</title><link>https://blog.lgohlke.de/tags/privacy/</link><description>Recent content in Privacy on Erwähnenswert</description><generator>Hugo</generator><language>de-de</language><lastBuildDate>Thu, 10 Apr 2014 21:23:07 +0000</lastBuildDate><atom:link href="https://blog.lgohlke.de/tags/privacy/index.xml" rel="self" type="application/rss+xml"/><item><title>Truecrypt mit Keyfiles und pam_exec automatisch mounten</title><link>https://blog.lgohlke.de/posts/2014-04-10-truecrypt-with-keyfiles-and-pam/</link><pubDate>Thu, 10 Apr 2014 21:23:07 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2014-04-10-truecrypt-with-keyfiles-and-pam/</guid><description>&lt;p&gt;Nachdem ich in im letzten &lt;a href="https://blog.lgohlke.de/linux/2014/04/06/hibernate-and-resume-with-dm-crypt.html" &gt;Artikel&lt;/a&gt; kurz beschrieben habe, warum ich mich für &lt;a href="http://ww.truecrypt.org" class="external-link" target="_blank" rel="noopener"&gt;truecrypt&lt;/a&gt; entschieden habe, möchte ich nun kurz zeigen, wie man mit Hilfe von &lt;a href="http://www.linux-pam.org/Linux-PAM-html/sag-pam_exec.html" class="external-link" target="_blank" rel="noopener"&gt;pam_exec&lt;/a&gt; verschlüsselte Datenträger mit &lt;a href="http://www.truecrypt.org/docs/keyfiles" class="external-link" target="_blank" rel="noopener"&gt;Schlüsseldateien&lt;/a&gt; einbindet.&lt;/p&gt;
+&lt;p&gt;Mein System is effektiv hat nur einen menschlichen Nutzer, daher wird im Folgenden nicht nach unterschiedlichen Nutzern unterschieden.&lt;/p&gt;
+&lt;h2 id="ziel"&gt;
+ Ziel
+ &lt;a class="heading-link" href="#ziel"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;Eine Zeile pro Datenträger der mit einer Schlüsseldatei mit Hilfe von &lt;code&gt;pam_exec&lt;/code&gt; gemountet wird.&lt;/p&gt;</description></item></channel></rss>

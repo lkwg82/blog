@@ -1,0 +1,89 @@
+<!doctype html><html lang=en><head><title>Aufnahme von Ton mit pulseaudio · Erwähnenswert</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=color-scheme content="light dark"><meta name=author content="Lars K.W. Gohlke"><meta name=description content='Ich habe heute vergeblich versucht meinen Spotify Sound per Streaming auf meinen Raspberry PI zu streamen. Ich hatte leider regelmäßig immer wieder Aussetzer.
+Trotzdem schildere ich hier mal für andere. Vielleicht bekommt das jemand hin und schreibt mir das.
+
+  Anwendung finden
+  
+    
+    Link to heading
+  
+
+$ pacmd list-sink-inputs
+1 sink input(s) available.
+    index: 16
+	driver: <protocol-native.c>
+	flags: START_CORKED
+	state: RUNNING
+	sink: 1 <alsa_output.pci-0000_00_1b.0.analog-surround-41>
+	volume: front-left: 30309 /  46% / -20,09 dB,   front-right: 30309 /  46% / -20,09 dB
+	        balance 0,00
+	muted: no
+	current latency: 1887,44 ms
+	requested latency: 123,81 ms
+	sample spec: s16le 2ch 44100Hz
+	channel map: front-left,front-right
+	             Stereo
+	resample method: copy
+	module: 10
+	client: 136 <spotify>
+	properties:
+		media.role = "music"
+		media.name = "Spotify"
+		application.name = "spotify"
+		native-protocol.peer = "UNIX socket client"
+		native-protocol.version = "30"
+		application.process.id = "7869"
+		application.process.user = "lars"
+		...
+		module-stream-restore.id = "sink-input-by-media-role:music"
+Aufnehmen, als Opus Audio-Codec transkodieren und im VLC abspielen. (Der Enkoder erkennt das RAW-Format korrekt.)'><meta name=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Aufnahme von Ton mit pulseaudio"><meta name=twitter:description content='Ich habe heute vergeblich versucht meinen Spotify Sound per Streaming auf meinen Raspberry PI zu streamen. Ich hatte leider regelmäßig immer wieder Aussetzer.
+Trotzdem schildere ich hier mal für andere. Vielleicht bekommt das jemand hin und schreibt mir das.
+Anwendung finden Link to heading $ pacmd list-sink-inputs 1 sink input(s) available. index: 16 driver: <protocol-native.c> flags: START_CORKED state: RUNNING sink: 1 <alsa_output.pci-0000_00_1b.0.analog-surround-41> volume: front-left: 30309 / 46% / -20,09 dB, front-right: 30309 / 46% / -20,09 dB balance 0,00 muted: no current latency: 1887,44 ms requested latency: 123,81 ms sample spec: s16le 2ch 44100Hz channel map: front-left,front-right Stereo resample method: copy module: 10 client: 136 <spotify> properties: media.role = "music" media.name = "Spotify" application.name = "spotify" native-protocol.peer = "UNIX socket client" native-protocol.version = "30" application.process.id = "7869" application.process.user = "lars" ... module-stream-restore.id = "sink-input-by-media-role:music" Aufnehmen, als Opus Audio-Codec transkodieren und im VLC abspielen. (Der Enkoder erkennt das RAW-Format korrekt.)'><meta property="og:url" content="https://blog.lgohlke.de/posts/2015-04-29-pulseaudio-record-output/"><meta property="og:site_name" content="Erwähnenswert"><meta property="og:title" content="Aufnahme von Ton mit pulseaudio"><meta property="og:description" content='Ich habe heute vergeblich versucht meinen Spotify Sound per Streaming auf meinen Raspberry PI zu streamen. Ich hatte leider regelmäßig immer wieder Aussetzer.
+Trotzdem schildere ich hier mal für andere. Vielleicht bekommt das jemand hin und schreibt mir das.
+Anwendung finden Link to heading $ pacmd list-sink-inputs 1 sink input(s) available. index: 16 driver: <protocol-native.c> flags: START_CORKED state: RUNNING sink: 1 <alsa_output.pci-0000_00_1b.0.analog-surround-41> volume: front-left: 30309 / 46% / -20,09 dB, front-right: 30309 / 46% / -20,09 dB balance 0,00 muted: no current latency: 1887,44 ms requested latency: 123,81 ms sample spec: s16le 2ch 44100Hz channel map: front-left,front-right Stereo resample method: copy module: 10 client: 136 <spotify> properties: media.role = "music" media.name = "Spotify" application.name = "spotify" native-protocol.peer = "UNIX socket client" native-protocol.version = "30" application.process.id = "7869" application.process.user = "lars" ... module-stream-restore.id = "sink-input-by-media-role:music" Aufnehmen, als Opus Audio-Codec transkodieren und im VLC abspielen. (Der Enkoder erkennt das RAW-Format korrekt.)'><meta property="og:locale" content="de_de"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2015-04-29T21:23:07+00:00"><meta property="article:modified_time" content="2015-04-29T13:36:07+00:00"><meta property="article:tag" content="Pulseaudio"><meta property="article:tag" content="Ubuntu"><link rel=canonical href=https://blog.lgohlke.de/posts/2015-04-29-pulseaudio-record-output/><link rel=preload href=/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin><link rel=stylesheet href=/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin=anonymous media=screen><link rel=icon type=image/svg+xml href=/images/favicon.svg sizes=any><link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16><link rel=apple-touch-icon href=/images/apple-touch-icon.png><link rel=apple-touch-icon sizes=180x180 href=/images/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/images/safari-pinned-tab.svg color=#5bbad5></head><body class="preload-transitions colorscheme-light"><div class=float-container><a id=dark-mode-toggle class=colorscheme-toggle><i class="fa-solid fa-adjust fa-fw" aria-hidden=true></i></a></div><main class=wrapper><nav class=navigation><section class=container><a class=navigation-title href=https://blog.lgohlke.de/>Erwähnenswert</a></section></nav><div class=content><section class="container post"><article><header><div class=post-title><h1 class=title><a class=title-link href=https://blog.lgohlke.de/posts/2015-04-29-pulseaudio-record-output/>Aufnahme von Ton mit pulseaudio</a></h1></div><div class=post-meta><div class=date><span class=posted-on><i class="fa-solid fa-calendar" aria-hidden=true></i>
+<time datetime=2015-04-29T21:23:07Z>April 29, 2015
+</time></span><span class=reading-time><i class="fa-solid fa-clock" aria-hidden=true></i>
+2-minute read</span></div><div class=tags><i class="fa-solid fa-tag" aria-hidden=true></i>
+<span class=tag><a href=/tags/pulseaudio/>Pulseaudio</a>
+</span><span class=separator>•</span>
+<span class=tag><a href=/tags/ubuntu/>Ubuntu</a></span></div></div></header><div class=post-content><p>Ich habe heute vergeblich versucht meinen Spotify Sound per Streaming auf meinen Raspberry PI zu streamen. Ich hatte leider regelmäßig immer wieder Aussetzer.<br>Trotzdem schildere ich hier mal für andere. Vielleicht bekommt das jemand hin und schreibt mir das.</p><h2 id=anwendung-finden>Anwendung finden
+<a class=heading-link href=#anwendung-finden><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ pacmd list-sink-inputs
+</span></span><span style=display:flex><span><span style=color:#ae81ff>1</span> sink input<span style=color:#f92672>(</span>s<span style=color:#f92672>)</span> available.
+</span></span><span style=display:flex><span>    index: <span style=color:#ae81ff>16</span>
+</span></span><span style=display:flex><span>	driver: &lt;protocol-native.c&gt;
+</span></span><span style=display:flex><span>	flags: START_CORKED
+</span></span><span style=display:flex><span>	state: RUNNING
+</span></span><span style=display:flex><span>	sink: <span style=color:#ae81ff>1</span> &lt;alsa_output.pci-0000_00_1b.0.analog-surround-41&gt;
+</span></span><span style=display:flex><span>	volume: front-left: <span style=color:#ae81ff>30309</span> /  46% / -20,09 dB,   front-right: <span style=color:#ae81ff>30309</span> /  46% / -20,09 dB
+</span></span><span style=display:flex><span>	        balance 0,00
+</span></span><span style=display:flex><span>	muted: no
+</span></span><span style=display:flex><span>	current latency: 1887,44 ms
+</span></span><span style=display:flex><span>	requested latency: 123,81 ms
+</span></span><span style=display:flex><span>	sample spec: s16le 2ch 44100Hz
+</span></span><span style=display:flex><span>	channel map: front-left,front-right
+</span></span><span style=display:flex><span>	             Stereo
+</span></span><span style=display:flex><span>	resample method: copy
+</span></span><span style=display:flex><span>	module: <span style=color:#ae81ff>10</span>
+</span></span><span style=display:flex><span>	client: <span style=color:#ae81ff>136</span> &lt;spotify&gt;
+</span></span><span style=display:flex><span>	properties:
+</span></span><span style=display:flex><span>		media.role <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;music&#34;</span>
+</span></span><span style=display:flex><span>		media.name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;Spotify&#34;</span>
+</span></span><span style=display:flex><span>		application.name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;spotify&#34;</span>
+</span></span><span style=display:flex><span>		native-protocol.peer <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;UNIX socket client&#34;</span>
+</span></span><span style=display:flex><span>		native-protocol.version <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;30&#34;</span>
+</span></span><span style=display:flex><span>		application.process.id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;7869&#34;</span>
+</span></span><span style=display:flex><span>		application.process.user <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;lars&#34;</span>
+</span></span><span style=display:flex><span>		...
+</span></span><span style=display:flex><span>		module-stream-restore.id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;sink-input-by-media-role:music&#34;</span>
+</span></span></code></pre></div><p>Aufnehmen, als Opus Audio-Codec transkodieren und im VLC abspielen. (Der Enkoder erkennt das RAW-Format korrekt.)</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ pamon --monitor-stream<span style=color:#f92672>=</span><span style=color:#ae81ff>16</span> -r | opusenc --max-delay <span style=color:#ae81ff>100</span> --framesize <span style=color:#ae81ff>20</span> --raw - - | vlc -
+</span></span></code></pre></div><p>Eigentlich müsste nun nur noch folgendes fehlen (mp3 weil vlc es dann direkt erkennt, ja ich weiß eine Krücke.):</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ pamon --monitor-stream<span style=color:#f92672>=</span><span style=color:#ae81ff>16</span> -r | opusenc --max-delay <span style=color:#ae81ff>100</span> --framesize <span style=color:#ae81ff>20</span> --raw - - | avconv -f ogg -i - -acodec mp3 -f rtp rtp://226.0.0.1:1025
+</span></span></code></pre></div><p>Anhören und Aussetzer genießen.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ vlc rtp://226.0.0.1:1025
+</span></span></code></pre></div><p>Weiter komme ich leider nicht.</p></div><footer></footer></article></section></div><footer class=footer><section class=container>©
+2012 -
+2026
+Lars K.W. Gohlke
+·
+Licensed under GPLv3
+·
+Powered by <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> & <a href=https://github.com/luizdepra/hugo-coder/ target=_blank rel=noopener>Coder</a>.
+<a href=/index.xml>rss</a></section></footer></main><script src=/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script></body></html>

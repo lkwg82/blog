@@ -1,0 +1,123 @@
+<!doctype html><html lang=en><head><title>Truecrypt mit Keyfiles und pam_exec automatisch mounten · Erwähnenswert</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=color-scheme content="light dark"><meta name=author content="Lars K.W. Gohlke"><meta name=description content="Nachdem ich in im letzten Artikel kurz beschrieben habe, warum ich mich für truecrypt entschieden habe, möchte ich nun kurz zeigen, wie man mit Hilfe von pam_exec verschlüsselte Datenträger mit Schlüsseldateien einbindet.
+Mein System is effektiv hat nur einen menschlichen Nutzer, daher wird im Folgenden nicht nach unterschiedlichen Nutzern unterschieden.
+
+  Ziel
+  
+    
+    Link to heading
+  
+
+Eine Zeile pro Datenträger der mit einer Schlüsseldatei mit Hilfe von pam_exec gemountet wird."><meta name=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Truecrypt mit Keyfiles und pam_exec automatisch mounten"><meta name=twitter:description content="Nachdem ich in im letzten Artikel kurz beschrieben habe, warum ich mich für truecrypt entschieden habe, möchte ich nun kurz zeigen, wie man mit Hilfe von pam_exec verschlüsselte Datenträger mit Schlüsseldateien einbindet.
+Mein System is effektiv hat nur einen menschlichen Nutzer, daher wird im Folgenden nicht nach unterschiedlichen Nutzern unterschieden.
+Ziel Link to heading Eine Zeile pro Datenträger der mit einer Schlüsseldatei mit Hilfe von pam_exec gemountet wird."><meta property="og:url" content="https://blog.lgohlke.de/posts/2014-04-10-truecrypt-with-keyfiles-and-pam/"><meta property="og:site_name" content="Erwähnenswert"><meta property="og:title" content="Truecrypt mit Keyfiles und pam_exec automatisch mounten"><meta property="og:description" content="Nachdem ich in im letzten Artikel kurz beschrieben habe, warum ich mich für truecrypt entschieden habe, möchte ich nun kurz zeigen, wie man mit Hilfe von pam_exec verschlüsselte Datenträger mit Schlüsseldateien einbindet.
+Mein System is effektiv hat nur einen menschlichen Nutzer, daher wird im Folgenden nicht nach unterschiedlichen Nutzern unterschieden.
+Ziel Link to heading Eine Zeile pro Datenträger der mit einer Schlüsseldatei mit Hilfe von pam_exec gemountet wird."><meta property="og:locale" content="de_de"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2014-04-10T21:23:07+00:00"><meta property="article:modified_time" content="2014-04-10T21:23:07+00:00"><meta property="article:tag" content="Privacy"><meta property="article:tag" content="Security"><link rel=canonical href=https://blog.lgohlke.de/posts/2014-04-10-truecrypt-with-keyfiles-and-pam/><link rel=preload href=/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin><link rel=stylesheet href=/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin=anonymous media=screen><link rel=icon type=image/svg+xml href=/images/favicon.svg sizes=any><link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16><link rel=apple-touch-icon href=/images/apple-touch-icon.png><link rel=apple-touch-icon sizes=180x180 href=/images/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/images/safari-pinned-tab.svg color=#5bbad5></head><body class="preload-transitions colorscheme-light"><div class=float-container><a id=dark-mode-toggle class=colorscheme-toggle><i class="fa-solid fa-adjust fa-fw" aria-hidden=true></i></a></div><main class=wrapper><nav class=navigation><section class=container><a class=navigation-title href=https://blog.lgohlke.de/>Erwähnenswert</a></section></nav><div class=content><section class="container post"><article><header><div class=post-title><h1 class=title><a class=title-link href=https://blog.lgohlke.de/posts/2014-04-10-truecrypt-with-keyfiles-and-pam/>Truecrypt mit Keyfiles und pam_exec automatisch mounten</a></h1></div><div class=post-meta><div class=date><span class=posted-on><i class="fa-solid fa-calendar" aria-hidden=true></i>
+<time datetime=2014-04-10T21:23:07Z>April 10, 2014
+</time></span><span class=reading-time><i class="fa-solid fa-clock" aria-hidden=true></i>
+3-minute read</span></div><div class=tags><i class="fa-solid fa-tag" aria-hidden=true></i>
+<span class=tag><a href=/tags/privacy/>Privacy</a>
+</span><span class=separator>•</span>
+<span class=tag><a href=/tags/security/>Security</a></span></div></div></header><div class=post-content><p>Nachdem ich in im letzten <a href=/linux/2014/04/06/hibernate-and-resume-with-dm-crypt.html>Artikel</a> kurz beschrieben habe, warum ich mich für <a href=http://ww.truecrypt.org class=external-link target=_blank rel=noopener>truecrypt</a> entschieden habe, möchte ich nun kurz zeigen, wie man mit Hilfe von <a href=http://www.linux-pam.org/Linux-PAM-html/sag-pam_exec.html class=external-link target=_blank rel=noopener>pam_exec</a> verschlüsselte Datenträger mit <a href=http://www.truecrypt.org/docs/keyfiles class=external-link target=_blank rel=noopener>Schlüsseldateien</a> einbindet.</p><p>Mein System is effektiv hat nur einen menschlichen Nutzer, daher wird im Folgenden nicht nach unterschiedlichen Nutzern unterschieden.</p><h2 id=ziel>Ziel
+<a class=heading-link href=#ziel><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Eine Zeile pro Datenträger der mit einer Schlüsseldatei mit Hilfe von <code>pam_exec</code> gemountet wird.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>session    optional        pam_exec.so ...
+</span></span></code></pre></div><p>Die Integration mit <code>pam_mount</code> habe ich nicht in Betracht gezogen, weil mir keine Möglichkeit zum sicheren Identifizieren der Festplatten (siehe unten) ersichtlich war.</p><h2 id=vorgehensweise>Vorgehensweise
+<a class=heading-link href=#vorgehensweise><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><ol><li><a href=#enc>Verschlüsseln der Datenträger</a></li><li><a href=#id>Identifizieren der Datenträger</a></li><li><a href=#pam>Einbindung mit pam_exec</a></li><li><a href=#debug>Tipps zum Debugging</a></li></ol><hr><h2 id=enc>1. Verschlüsseln des Datenträgers
+<a class=heading-link href=#enc><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Hier verweise ich auf Truecrypt im <a href=https://wiki.archlinux.de/title/TrueCrypt class=external-link target=_blank rel=noopener>ArchLinux Wiki</a> oder man nimmt einfach die GUI.</p><h2 id=id>2. Identifizieren der Datenträger
+<a class=heading-link href=#id><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Mittels <code>blkid</code> erscheinen die verschlüsselten Datenträger leider nicht auf. Also muss man sie anders ermitteln. Da ich eine 2TB und eine 3TB Festplatte habe, musste ich <a href=http://wiki.ubuntuusers.de/gdisk class=external-link target=_blank rel=noopener><code>gdisk</code></a> (f<strong>disk</strong> für <strong>G</strong>PT) verwenden.</p><p>Weil ich gemischte Partitionstabellen habe (nach alter und neuer Bauart), sind die Identifizierungsnummern der Festplatten mit alter Partitionstablle mit <code>gdisk</code> bei aufeinanderfolgenden Aufrufen nicht identisch:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># erster Aufruf</span>
+</span></span><span style=display:flex><span>gdisk -l /dev/sdc | grep <span style=color:#e6db74>&#34;^Disk identifier&#34;</span> | cut -d<span style=color:#ae81ff>\ </span>  -f4
+</span></span><span style=display:flex><span>1DA8415E-997C-4264-8037-C159FEF26AAD
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># zweiter Aufruf</span>
+</span></span><span style=display:flex><span>gdisk -l /dev/sdc | grep <span style=color:#e6db74>&#34;^Disk identifier&#34;</span> | cut -d<span style=color:#ae81ff>\ </span>  -f4
+</span></span><span style=display:flex><span>A7A3912B-DE0F-4B0A-A6E3-A06DF8E4EDE7
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># dritter Aufruf</span>
+</span></span><span style=display:flex><span>gdisk -l /dev/sdc | grep <span style=color:#e6db74>&#34;^Disk identifier&#34;</span> | cut -d<span style=color:#ae81ff>\ </span>  -f4
+</span></span><span style=display:flex><span>D16AB7A6-B045-4398-84C2-1236EF6111E1
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><p>Da ich nicht schon wieder die ganzen Daten kopieren wollte, musste ein Workaround her. Ich habe mich dann an die Seriennummern von Festplatten erinnert und mit <code>hdparm</code> ermitteln können:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>hdparm -i /dev/sdc | grep SerialNo | cut -d<span style=color:#f92672>=</span> -f4
+</span></span><span style=display:flex><span>6XW139KA
+</span></span></code></pre></div><h2 id=pam>3. Einbindung mit pam_exec
+<a class=heading-link href=#pam><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Nun noch die Integration mit <code>PAM</code>.</p><p>Hierzu bitte ins Verzeichnis <code>/etc/pam.d</code> wechseln und die Datei <code>login</code> öffnen. Dort sehen wir, dass auf <code>common-session</code> verwiesen wird:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#75715e># Standard Un*x account and session</span>
+</span></span><span style=display:flex><span>@include common-account
+</span></span><span style=display:flex><span>@include common-session
+</span></span><span style=display:flex><span>@include common-password
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><p>Dort stand bei mir bisher:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>...
+</span></span><span style=display:flex><span>session required        pam_unix.so
+</span></span><span style=display:flex><span>session optional        pam_winbind.so
+</span></span><span style=display:flex><span>session optional        pam_mount.so    debug
+</span></span><span style=display:flex><span>session optional        pam_systemd.so
+</span></span><span style=display:flex><span>session optional        pam_ecryptfs.so unwrap
+</span></span><span style=display:flex><span>session optional        pam_ck_connector.so nox11
+</span></span></code></pre></div><blockquote><p><strong>Warnung:</strong> Bitte <code>pam_exec</code> nur als <strong>optional</strong> konfigurieren. Denn sollte etwas beim Anmelden schief gehen, würde man sich eventuell aussperren.</p></blockquote><p>Das sieht dann so aus:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>...
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>session optional        pam_ecryptfs.so unwrap
+</span></span><span style=display:flex><span>session optional        pam_ck_connector.so nox11
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>session optional        pam_exec.so     &lt;parameter&gt;
+</span></span></code></pre></div><p>Aus Gründen der Darstellung liste ich <code>&lt;parameter></code> hier separat auf:</p><ul><li><code>debug</code> - allg. Flag für das Logging</li><li><code>log=/var/log/pam_exec.log</code> - Skriptausgaben in diese Datei</li><li><code>mountTruecryptByGUID.sh</code> - Skript zum Mounten (siehe unten)</li><li><code>backup_disk.key</code> - Schlüsseldatei</li><li><code>Z1F1LF69</code> - Seriennummer der Festplatte</li><li><code>1</code> - Partitionsnummer z.B <code>/dev/sda**1**</code></li><li><code>/backup</code> - Mountpoint</li></ul><p>Alle Pfade sollten natürlich absolut sein ;).</p><p>Das Skript dazu sieht dann wie folgt aus:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>#!/bin/bash
+</span></span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>set -e
+</span></span><span style=display:flex><span><span style=color:#75715e>#set -x</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> $# -ne <span style=color:#ae81ff>4</span> <span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>  echo <span style=color:#e6db74>&#34;Usage: `basename </span>$0<span style=color:#e6db74>` &lt;keyfile&gt; &lt;serialNo&gt; &lt;partition-nr&gt; &lt;mountpoint&gt;&#34;</span>
+</span></span><span style=display:flex><span>  echo
+</span></span><span style=display:flex><span>  echo <span style=color:#e6db74>&#34;serialNo can be retrieved from &#39;hdparm -i /dev/sda&#39; &#34;</span>
+</span></span><span style=display:flex><span>  exit <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>keyfile<span style=color:#f92672>=</span>$1
+</span></span><span style=display:flex><span>serialNo<span style=color:#f92672>=</span>$2
+</span></span><span style=display:flex><span>partition<span style=color:#f92672>=</span>$3
+</span></span><span style=display:flex><span>mountpoint<span style=color:#f92672>=</span>$4
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> -z <span style=color:#e6db74>&#34;</span>$PAM_TYPE<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>        echo <span style=color:#e6db74>&#34;INFO running outside of pam&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;</span>$PAM_TYPE<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;close_session&#34;</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>                echo <span style=color:#e6db74>&#34;INFO skipping mounting (closing session)&#34;</span>
+</span></span><span style=display:flex><span>                exit <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> _mount<span style=color:#f92672>(){</span>
+</span></span><span style=display:flex><span>        local keyfile<span style=color:#f92672>=</span>$1
+</span></span><span style=display:flex><span>        local device<span style=color:#f92672>=</span>$2
+</span></span><span style=display:flex><span>        local mountpoint<span style=color:#f92672>=</span>$3
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        /usr/bin/truecrypt --text --protect-hidden<span style=color:#f92672>=</span>no --non-interactive --keyfiles<span style=color:#f92672>=</span>$keyfile $device $mountpoint
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> device in <span style=color:#66d9ef>$(</span>fdisk -l 2&gt;/dev/null| grep ^Disk | sed -e <span style=color:#e6db74>&#39;s#Disk\ \(.*\?\):.*#\1#g&#39;</span>| xargs <span style=color:#66d9ef>)</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>        serial<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>hdparm -i $device 2&gt;/dev/null| grep SerialNo | cut -d<span style=color:#f92672>=</span> -f4<span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;</span>$serial<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;</span>$serialNo<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]</span>;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>                echo <span style=color:#e6db74>&#34;</span>$device<span style=color:#e6db74> </span>$serial<span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                <span style=color:#75715e># skip if already mounted</span>
+</span></span><span style=display:flex><span>                truecrypt --text -l | cut -d<span style=color:#ae81ff>\ </span> -f2 | grep $device$partition &gt; /dev/null <span style=color:#f92672>||</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>                        _mount $keyfile $device$partition $mountpoint
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span></code></pre></div><p>Geschafft!</p><h2 id=debug>4. Tipps zum Debugging
+<a class=heading-link href=#debug><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><ul><li>das <code>debug</code> Flag in der Konfiguration</li><li>mit dem Schalter <code>set -x</code> im Skript kann man beim Anmelden in jeder Konsole mit <code>sudo su &lt;Nutzername></code> das Skript testen</li></ul></div><footer></footer></article></section></div><footer class=footer><section class=container>©
+2012 -
+2026
+Lars K.W. Gohlke
+·
+Licensed under GPLv3
+·
+Powered by <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> & <a href=https://github.com/luizdepra/hugo-coder/ target=_blank rel=noopener>Coder</a>.
+<a href=/index.xml>rss</a></section></footer></main><script src=/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script></body></html>

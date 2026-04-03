@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Security on Erwähnenswert</title><link>https://blog.lgohlke.de/tags/security/</link><description>Recent content in Security on Erwähnenswert</description><generator>Hugo</generator><language>de-de</language><lastBuildDate>Sun, 18 May 2014 21:23:07 +0000</lastBuildDate><atom:link href="https://blog.lgohlke.de/tags/security/index.xml" rel="self" type="application/rss+xml"/><item><title>SSH Agent Forwarding Is a Bug</title><link>https://blog.lgohlke.de/posts/2014-05-18-ssh-agent-forwarding-is-a-bug/</link><pubDate>Sun, 18 May 2014 21:23:07 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2014-05-18-ssh-agent-forwarding-is-a-bug/</guid><description>&lt;p&gt;SSH &lt;code&gt;Proxycommand&lt;/code&gt; sollte dem &lt;code&gt;Forward Agent&lt;/code&gt; vorgezogen werden:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://blog.lyte.id.au/2012/03/19/ssh-agent-forwarding-is-a-bug/" class="external-link" target="_blank" rel="noopener"&gt;SSH Agent Forwarding Is a Bug&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.clockwork.net/blog/2012/09/28/602/ssh_agent_hijacking" class="external-link" target="_blank" rel="noopener"&gt;SSH AGENT HIJACKING&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Truecrypt mit Keyfiles und pam_exec automatisch mounten</title><link>https://blog.lgohlke.de/posts/2014-04-10-truecrypt-with-keyfiles-and-pam/</link><pubDate>Thu, 10 Apr 2014 21:23:07 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2014-04-10-truecrypt-with-keyfiles-and-pam/</guid><description>&lt;p&gt;Nachdem ich in im letzten &lt;a href="https://blog.lgohlke.de/linux/2014/04/06/hibernate-and-resume-with-dm-crypt.html" &gt;Artikel&lt;/a&gt; kurz beschrieben habe, warum ich mich für &lt;a href="http://ww.truecrypt.org" class="external-link" target="_blank" rel="noopener"&gt;truecrypt&lt;/a&gt; entschieden habe, möchte ich nun kurz zeigen, wie man mit Hilfe von &lt;a href="http://www.linux-pam.org/Linux-PAM-html/sag-pam_exec.html" class="external-link" target="_blank" rel="noopener"&gt;pam_exec&lt;/a&gt; verschlüsselte Datenträger mit &lt;a href="http://www.truecrypt.org/docs/keyfiles" class="external-link" target="_blank" rel="noopener"&gt;Schlüsseldateien&lt;/a&gt; einbindet.&lt;/p&gt;
+&lt;p&gt;Mein System is effektiv hat nur einen menschlichen Nutzer, daher wird im Folgenden nicht nach unterschiedlichen Nutzern unterschieden.&lt;/p&gt;
+&lt;h2 id="ziel"&gt;
+ Ziel
+ &lt;a class="heading-link" href="#ziel"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;Eine Zeile pro Datenträger der mit einer Schlüsseldatei mit Hilfe von &lt;code&gt;pam_exec&lt;/code&gt; gemountet wird.&lt;/p&gt;</description></item><item><title>Sicheres und einfaches Backup mit Encfs in die Cloud</title><link>https://blog.lgohlke.de/posts/2013-04-08-sicheres-und-einfaches-backup-mit-encfs-in-die-cloud/</link><pubDate>Mon, 08 Apr 2013 21:53:04 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2013-04-08-sicheres-und-einfaches-backup-mit-encfs-in-die-cloud/</guid><description>&lt;p&gt;Wie in &lt;a href="http://blog.lgohlke.de/2013/02/encfs-reverse.html" class="external-link" target="_blank" rel="noopener"&gt;encfs &amp;ndash;reverse&lt;/a&gt; schon angekündigt, stellt &lt;a href="http://www.arg0.net/encfs" class="external-link" target="_blank" rel="noopener"&gt;encfs&lt;/a&gt; eine einfache praktikable Lösung bereit, Klartext-Verzeichnisse on-the-fly als verschlüsselte Verzeichnisse zu mounten.&lt;/p&gt;
+&lt;h2 id="übersicht"&gt;
+ Übersicht
+ &lt;a class="heading-link" href="#%c3%bcbersicht"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;Dazu bedarf es nur weniger Zeilen (1) und der Information zur Verschlüsselung im Klartextverzeichnis (2)&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;encfs --reverse clear-text-directory directory-to-show-as-encrypted
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ls -al
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;insgesamt &lt;span style="color:#ae81ff"&gt;2768&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;drwxr-xr-x &lt;span style="color:#ae81ff"&gt;10&lt;/span&gt; lars lars &lt;span style="color:#ae81ff"&gt;4096&lt;/span&gt; Mär &lt;span style="color:#ae81ff"&gt;15&lt;/span&gt; 15:18 .
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;drwxr-xr-x &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; lars lars &lt;span style="color:#ae81ff"&gt;4096&lt;/span&gt; Dez &lt;span style="color:#ae81ff"&gt;17&lt;/span&gt; 23:46 ..
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-rw-r--r-- &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; lars lars &lt;span style="color:#ae81ff"&gt;1090&lt;/span&gt; Feb &lt;span style="color:#ae81ff"&gt;13&lt;/span&gt; 10:39 .encfs6.xml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Die Datei aus (2) bekommt man durch den klassischen Weg (Anlegen eines verschlüsselten Verzeichnisses)&lt;/p&gt;</description></item><item><title>Vncserver nur von lokal erreichbar starten</title><link>https://blog.lgohlke.de/posts/2013-04-01-vncserver-nur-von-lokal-erreichbar-starten/</link><pubDate>Mon, 01 Apr 2013 14:54:55 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2013-04-01-vncserver-nur-von-lokal-erreichbar-starten/</guid><description>&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ vncserver :1 -depth &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt; -geometry 1600x900 -localhost -nolisten tcp
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;prüfen mit&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ netstat -tulpen | grep vnc
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;(&lt;/span&gt;Not all processes could be identified, non-owned process info
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; will not be shown, you would have to be root to see it all.&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;tcp &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; 127.0.0.1:5901 0.0.0.0:* LISTEN &lt;span style="color:#ae81ff"&gt;1000&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;19697&lt;/span&gt; 11916/Xtightvnc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item></channel></rss>

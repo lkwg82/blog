@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Packaging on Erwähnenswert</title><link>https://blog.lgohlke.de/tags/packaging/</link><description>Recent content in Packaging on Erwähnenswert</description><generator>Hugo</generator><language>de-de</language><lastBuildDate>Tue, 07 Apr 2015 13:36:07 +0000</lastBuildDate><atom:link href="https://blog.lgohlke.de/tags/packaging/index.xml" rel="self" type="application/rss+xml"/><item><title>Short debian package guide for dummies</title><link>https://blog.lgohlke.de/posts/2015-04-04-create-a-debian-package-for-dummies/</link><pubDate>Tue, 07 Apr 2015 21:23:07 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2015-04-04-create-a-debian-package-for-dummies/</guid><description>&lt;p&gt;As I always struggle with creating a debian so I decided to write the few steps down. Finally. This is more a kind of cheat sheet than a comprehensive guide.&lt;br&gt;
+In my example I will package &lt;a href="https://github.com/h2o/h2o" class="external-link" target="_blank" rel="noopener"&gt;h2o&lt;/a&gt; a very fast http/2 static file server capable to run as reverse proxy.&lt;/p&gt;
+&lt;p&gt;This is my environment:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ lsb_release -a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;No LSB modules are available.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Distributor ID:	Ubuntu
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Description:	Ubuntu 14.04.2 LTS
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Release:	14.04
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Codename:	trusty
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="1-creating-the-basic-structure"&gt;
+ 1. creating the basic structure
+ &lt;a class="heading-link" href="#1-creating-the-basic-structure"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;clone repository and change to newly created branch&lt;/p&gt;</description></item></channel></rss>

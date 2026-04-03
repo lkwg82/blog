@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on Erwähnenswert</title><link>https://blog.lgohlke.de/tags/blog/</link><description>Recent content in Blog on Erwähnenswert</description><generator>Hugo</generator><language>de-de</language><lastBuildDate>Fri, 31 Jan 2014 00:08:00 +0000</lastBuildDate><atom:link href="https://blog.lgohlke.de/tags/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>Blog relaunched mit Jekyll</title><link>https://blog.lgohlke.de/posts/2014-01-30-blog-relaunch-mit-jekyll/</link><pubDate>Fri, 31 Jan 2014 00:08:00 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2014-01-30-blog-relaunch-mit-jekyll/</guid><description>&lt;p&gt;Habe diesen Blog von &lt;a href="http://spassmitit.blogspot.de/" class="external-link" target="_blank" rel="noopener"&gt;blogger.com&lt;/a&gt; auf self-hosted mit &lt;a href="http://jekyllrb.com/" class="external-link" target="_blank" rel="noopener"&gt;jekyll&lt;/a&gt; umgestellt.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://blog.lgohlke.de/img/logo-2x.png" alt="jekyll"&gt;&lt;/p&gt;
+&lt;p&gt;Nach den ersten holprigen Schritten fühlt es sich richtig gut an.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Jekyll is a blog-aware, static site generator in Ruby&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="warum-mich-jekyll-angesprochen-hat"&gt;
+ Warum mich Jekyll angesprochen hat?
+ &lt;a class="heading-link" href="#warum-mich-jekyll-angesprochen-hat"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Einfach &amp;hellip; nur html schreiben.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://jekyllrb.com/docs/templates/" class="external-link" target="_blank" rel="noopener"&gt;Template Support&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Scripting so einfach wie in PHP/Javascript&lt;/li&gt;
+&lt;li&gt;Performance von statischen Seiten (von 3s auf 0,5s)&lt;/li&gt;
+&lt;li&gt;Import von Blogs möglich (ich habe davon Gebrauch gemacht)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Wie zu sehen ist, ist die Farbkomposition besser, als beim &lt;a href="http://spassmitit.blogspot.de/" class="external-link" target="_blank" rel="noopener"&gt;alten Blog&lt;/a&gt;, aber noch nicht ganz rund. Das wird kontinuierlich weiter entwickelt und Feedback ist willkommen!&lt;/p&gt;</description></item><item><title>The Battle we didn't choose - blog on cancer</title><link>https://blog.lgohlke.de/posts/2013-05-08-the-battle-we-didnt-choose---blog-on-cancer/</link><pubDate>Wed, 08 May 2013 05:00:11 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2013-05-08-the-battle-we-didnt-choose---blog-on-cancer/</guid><description>&lt;p&gt;&lt;a href="http://3.bp.blogspot.com/-HN5jgtclOu8/UYdV0_wT6DI/AAAAAAAACqE/u2iMbjMtPow/s1600/885100_470652359675257_565674413_o.jpg" class="external-link" target="_blank" rel="noopener"&gt;&lt;img src="http://3.bp.blogspot.com/-HN5jgtclOu8/UYdV0_wT6DI/AAAAAAAACqE/u2iMbjMtPow/s400/885100_470652359675257_565674413_o.jpg" alt="remarkable photo blog"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;remarkable photo blog&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;See &lt;a href="http://mywifesfightwithbreastcancer.com/" class="external-link" target="_blank" rel="noopener"&gt;http://mywifesfightwithbreastcancer.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Found on &lt;a href="http://www.zeit.de/2013/19/blog-merendino-krebs-abschied" class="external-link" target="_blank" rel="noopener"&gt;Zeit.de&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Erster Follower ;)</title><link>https://blog.lgohlke.de/posts/2013-04-17-erster-follower_/</link><pubDate>Wed, 17 Apr 2013 20:00:00 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2013-04-17-erster-follower_/</guid><description>&lt;p&gt;Juhu, ich habe meinen ersten Follower :)&lt;/p&gt;
+&lt;p&gt;Hiermit möchte ich meinen ersten regelmäßigen Leser begrüßen.&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;Hallo Jonas ;)&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;Diese Ehre ist nur dem ersten vorbehalten! Aber auch nur, weil er mich darauf hingewiesen hat.^^&lt;/p&gt;</description></item></channel></rss>

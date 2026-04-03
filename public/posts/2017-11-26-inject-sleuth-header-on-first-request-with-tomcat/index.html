@@ -1,0 +1,129 @@
+<!doctype html><html lang=en><head><title>sleuth valve for tomcat · Erwähnenswert</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=color-scheme content="light dark"><meta name=author content="Lars K.W. Gohlke"><meta name=description content="At idealo we do a lot of microservices with spring-boot.
+To trace request we use spring-cloud-sleuth as opentracing implementation.
+I&rsquo;m missing the injection of the trace header on the first request. You still need to deliver those with your request. So here follows my solution…
+
+  concept
+  
+    
+    Link to heading
+  
+
+Let me show my approach. It is aimed to be easy to implement and easy to comprehend."><meta name=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="sleuth valve for tomcat"><meta name=twitter:description content="At idealo we do a lot of microservices with spring-boot. To trace request we use spring-cloud-sleuth as opentracing implementation. I’m missing the injection of the trace header on the first request. You still need to deliver those with your request. So here follows my solution…
+concept Link to heading Let me show my approach. It is aimed to be easy to implement and easy to comprehend."><meta property="og:url" content="https://blog.lgohlke.de/posts/2017-11-26-inject-sleuth-header-on-first-request-with-tomcat/"><meta property="og:site_name" content="Erwähnenswert"><meta property="og:title" content="sleuth valve for tomcat"><meta property="og:description" content="At idealo we do a lot of microservices with spring-boot. To trace request we use spring-cloud-sleuth as opentracing implementation. I’m missing the injection of the trace header on the first request. You still need to deliver those with your request. So here follows my solution…
+concept Link to heading Let me show my approach. It is aimed to be easy to implement and easy to comprehend."><meta property="og:locale" content="de_de"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2017-11-26T14:00:07+01:00"><meta property="article:modified_time" content="2017-11-26T14:00:07+01:00"><link rel=canonical href=https://blog.lgohlke.de/posts/2017-11-26-inject-sleuth-header-on-first-request-with-tomcat/><link rel=preload href=/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin><link rel=stylesheet href=/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin=anonymous media=screen><link rel=icon type=image/svg+xml href=/images/favicon.svg sizes=any><link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16><link rel=apple-touch-icon href=/images/apple-touch-icon.png><link rel=apple-touch-icon sizes=180x180 href=/images/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/images/safari-pinned-tab.svg color=#5bbad5></head><body class="preload-transitions colorscheme-light"><div class=float-container><a id=dark-mode-toggle class=colorscheme-toggle><i class="fa-solid fa-adjust fa-fw" aria-hidden=true></i></a></div><main class=wrapper><nav class=navigation><section class=container><a class=navigation-title href=https://blog.lgohlke.de/>Erwähnenswert</a></section></nav><div class=content><section class="container post"><article><header><div class=post-title><h1 class=title><a class=title-link href=https://blog.lgohlke.de/posts/2017-11-26-inject-sleuth-header-on-first-request-with-tomcat/>sleuth valve for tomcat</a></h1></div><div class=post-meta><div class=date><span class=posted-on><i class="fa-solid fa-calendar" aria-hidden=true></i>
+<time datetime=2017-11-26T14:00:07+01:00>November 26, 2017
+</time></span><span class=reading-time><i class="fa-solid fa-clock" aria-hidden=true></i>
+2-minute read</span></div><div class=categories><i class="fa-solid fa-folder" aria-hidden=true></i>
+<a href=/categories/sleuth/>Sleuth</a>
+<span class=separator>•</span>
+<a href=/categories/tomcat/>Tomcat</a>
+<span class=separator>•</span>
+<a href=/categories/spring-cloud/>Spring-Cloud</a>
+<span class=separator>•</span>
+<a href=/categories/spring-boot/>Spring-Boot</a></div></div></header><div class=post-content><p>At idealo we do a lot of microservices with spring-boot.
+To trace request we use spring-cloud-sleuth as opentracing implementation.
+I&rsquo;m missing the injection of the trace header on the first request. You still need to deliver those with your request. So here follows my solution…</p><h1 id=concept>concept
+<a class=heading-link href=#concept><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h1><p>Let me show my approach. It is aimed to be easy to implement and easy to comprehend.</p><p>I follow these simple steps:</p><ol><li>add a custom tomcat valve named <a href=https://gist.github.com/lkwg82/0c19e00b65a34763a1b50d1ba26ca703#file-sleuthvalve-java class=external-link target=_blank rel=noopener>SleuthValve</a></li><li>configure tomcat with <a href=https://logback.qos.ch/access.html#tomcat class=external-link target=_blank rel=noopener>LogbackValve</a> and SleuthValve in <a href=https://gist.github.com/lkwg82/0c19e00b65a34763a1b50d1ba26ca703#file-accesslogautoconfiguration-java class=external-link target=_blank rel=noopener>AccessLogAutoConfiguration</a></li><li>configure <a href=https://gist.github.com/lkwg82/0c19e00b65a34763a1b50d1ba26ca703#file-logback-access-xml class=external-link target=_blank rel=noopener>logback-access.xml</a> to log traces</li></ol><p>This really nice integrates with <a href=https://github.com/idealo/logback-redis class=external-link target=_blank rel=noopener>logback-redis</a>.</p><hr><p><a href=https://gist.github.com/lkwg82/0c19e00b65a34763a1b50d1ba26ca703#file-sleuthvalve-java class=external-link target=_blank rel=noopener>SleuthValve.java</a>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@RequiredArgsConstructor</span> <span style=color:#75715e>// lombok</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>SleuthValve</span> <span style=color:#66d9ef>extends</span> ValveBase {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> Tracer tracer;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>invoke</span>(Request request, Response response) 
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>throws</span> IOException, ServletException {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        enrichWithSleuthHeaderWhenMissing(tracer, request);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        Valve next <span style=color:#f92672>=</span> getNext();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>null</span> <span style=color:#f92672>==</span> next) {
+</span></span><span style=display:flex><span>            <span style=color:#75715e>// no next valve</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span>;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        next.<span style=color:#a6e22e>invoke</span>(request, response);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>enrichWithSleuthHeaderWhenMissing</span>(Tracer tracer, 
+</span></span><span style=display:flex><span>                                                          Request request) {
+</span></span><span style=display:flex><span>        String header <span style=color:#f92672>=</span> request.<span style=color:#a6e22e>getHeader</span>(Span.<span style=color:#a6e22e>TRACE_ID_NAME</span>);
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>null</span> <span style=color:#f92672>==</span> header) {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            org.<span style=color:#a6e22e>apache</span>.<span style=color:#a6e22e>coyote</span>.<span style=color:#a6e22e>Request</span> coyoteRequest <span style=color:#f92672>=</span> request.<span style=color:#a6e22e>getCoyoteRequest</span>();
+</span></span><span style=display:flex><span>            MimeHeaders mimeHeaders <span style=color:#f92672>=</span> coyoteRequest.<span style=color:#a6e22e>getMimeHeaders</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            Span span <span style=color:#f92672>=</span> tracer.<span style=color:#a6e22e>createSpan</span>(<span style=color:#e6db74>&#34;SleuthValve&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            addHeader(mimeHeaders, Span.<span style=color:#a6e22e>TRACE_ID_NAME</span>, span.<span style=color:#a6e22e>traceIdString</span>());
+</span></span><span style=display:flex><span>            addHeader(mimeHeaders, Span.<span style=color:#a6e22e>SPAN_ID_NAME</span>, span.<span style=color:#a6e22e>traceIdString</span>());
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>addHeader</span>(MimeHeaders mimeHeaders, 
+</span></span><span style=display:flex><span>                                  String traceIdName, 
+</span></span><span style=display:flex><span>                                  String value) {
+</span></span><span style=display:flex><span>        MessageBytes messageBytes <span style=color:#f92672>=</span> mimeHeaders.<span style=color:#a6e22e>addValue</span>(traceIdName);
+</span></span><span style=display:flex><span>        messageBytes.<span style=color:#a6e22e>setString</span>(value);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>See <a href=https://gist.github.com/lkwg82/0c19e00b65a34763a1b50d1ba26ca703#file-sleuthvalvetest-java class=external-link target=_blank rel=noopener>SleuthValveTest.java</a> for the tests.</p><p><a href=https://gist.github.com/lkwg82/0c19e00b65a34763a1b50d1ba26ca703#file-accesslogautoconfiguration-java class=external-link target=_blank rel=noopener>AccessLogAutoConfiguration.java</a> for spring-boot:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Slf4j</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Configuration</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>AccessLogAutoConfiguration</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> EmbeddedServletContainerCustomizer <span style=color:#a6e22e>containerCustomizer</span>(SleuthValve sleuthValve, 
+</span></span><span style=display:flex><span>                                                                  LogbackValve logbackValve) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> container <span style=color:#f92672>-&gt;</span> {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> (container <span style=color:#66d9ef>instanceof</span> TomcatEmbeddedServletContainerFactory) {
+</span></span><span style=display:flex><span>                ((TomcatEmbeddedServletContainerFactory) container)
+</span></span><span style=display:flex><span>                        .<span style=color:#a6e22e>addContextCustomizers</span>((TomcatContextCustomizer) context <span style=color:#f92672>-&gt;</span> {
+</span></span><span style=display:flex><span>                            context.<span style=color:#a6e22e>getPipeline</span>().<span style=color:#a6e22e>addValve</span>(sleuthValve);
+</span></span><span style=display:flex><span>                            context.<span style=color:#a6e22e>getPipeline</span>().<span style=color:#a6e22e>addValve</span>(logbackValve);
+</span></span><span style=display:flex><span>                        });
+</span></span><span style=display:flex><span>            } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>                log.<span style=color:#a6e22e>warn</span>(<span style=color:#e6db74>&#34;no access-log auto-configuration for container: {}&#34;</span>, container);
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        };
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> SleuthValve <span style=color:#a6e22e>sleuthValve</span>(Tracer tracer) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> SleuthValve(tracer);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> LogbackValve <span style=color:#a6e22e>logbackValve</span>() {
+</span></span><span style=display:flex><span>        LogbackValve logbackValve <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> LogbackValve();
+</span></span><span style=display:flex><span>        logbackValve.<span style=color:#a6e22e>putProperty</span>(<span style=color:#e6db74>&#34;HOSTNAME&#34;</span>, <span style=color:#66d9ef>new</span> ContextUtil(<span style=color:#66d9ef>null</span>).<span style=color:#a6e22e>safelyGetLocalHostName</span>());
+</span></span><span style=display:flex><span>        logbackValve.<span style=color:#a6e22e>setFilename</span>(<span style=color:#e6db74>&#34;logback-access.xml&#34;</span>);
+</span></span><span style=display:flex><span>        logbackValve.<span style=color:#a6e22e>setQuiet</span>(<span style=color:#66d9ef>true</span>);
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> logbackValve;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><a href=https://gist.github.com/lkwg82/0c19e00b65a34763a1b50d1ba26ca703#file-logback-access-xml class=external-link target=_blank rel=noopener>logback-access.xml</a>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#75715e>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;configuration&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;appender</span> <span style=color:#a6e22e>name=</span><span style=color:#e6db74>&#34;FILE_ACCESS&#34;</span> <span style=color:#a6e22e>class=</span><span style=color:#e6db74>&#34;ch.qos.logback.core.FileAppender&#34;</span><span style=color:#f92672>&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;append&gt;</span>false<span style=color:#f92672>&lt;/append&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;file&gt;</span>target/logs/access.log<span style=color:#f92672>&lt;/file&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;encoder&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;pattern&gt;</span>ACCESS ${HOSTNAME} %i{X-B3-TraceId}<span style=color:#f92672>&lt;/pattern&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/encoder&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/appender&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;appender</span> <span style=color:#a6e22e>name=</span><span style=color:#e6db74>&#34;CONSOLE&#34;</span> <span style=color:#a6e22e>class=</span><span style=color:#e6db74>&#34;ch.qos.logback.core.ConsoleAppender&#34;</span><span style=color:#f92672>&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;encoder&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;pattern&gt;</span>ACCESS ${HOSTNAME} %i{X-B3-TraceId}<span style=color:#f92672>&lt;/pattern&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/encoder&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/appender&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;appender-ref</span> <span style=color:#a6e22e>ref=</span><span style=color:#e6db74>&#34;CONSOLE&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;appender-ref</span> <span style=color:#a6e22e>ref=</span><span style=color:#e6db74>&#34;FILE_ACCESS&#34;</span><span style=color:#f92672>/&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/configuration&gt;</span>
+</span></span></code></pre></div><p>Hint:</p><ul><li>all code is available via <a href=https://gist.github.com/lkwg82/0c19e00b65a34763a1b50d1ba26ca703 class=external-link target=_blank rel=noopener>gist</a></li><li>code uses <a href=https://projectlombok.org/ class=external-link target=_blank rel=noopener>lombok</a> annotation</li></ul></div><footer></footer></article></section></div><footer class=footer><section class=container>©
+2012 -
+2026
+Lars K.W. Gohlke
+·
+Licensed under GPLv3
+·
+Powered by <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> & <a href=https://github.com/luizdepra/hugo-coder/ target=_blank rel=noopener>Coder</a>.
+<a href=/index.xml>rss</a></section></footer></main><script src=/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script></body></html>

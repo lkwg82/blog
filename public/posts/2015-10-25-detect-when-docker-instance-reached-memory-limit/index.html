@@ -1,0 +1,86 @@
+<!doctype html><html lang=en><head><title>Detect when docker instance reached memory limit · Erwähnenswert</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=color-scheme content="light dark"><meta name=author content="Lars K.W. Gohlke"><meta name=description content="I&rsquo;d like to know if my test instance reached the memory limit and behaves a kind of different after that.
+
+  simple but slightly incorrect approach
+  
+    
+    Link to heading
+  
+
+Just grab the kernel logs for oom-killer for the particular container id.
+$ CONTAINER_ID=84ec6201e6a54
+$ dmesg -T | grep -B2 docker-$CONTAINER_ID | grep -B1 oom-killer
+outputs
+--
+[Sun Oct 25 22:06:17 2015] java invoked oom-killer: gfp_mask=0xd0, order=0, oom_score_adj=0
+Limitation: This implies that kernel logs before and after are about the same issue."><meta name=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Detect when docker instance reached memory limit"><meta name=twitter:description content="I’d like to know if my test instance reached the memory limit and behaves a kind of different after that.
+simple but slightly incorrect approach Link to heading Just grab the kernel logs for oom-killer for the particular container id.
+$ CONTAINER_ID=84ec6201e6a54 $ dmesg -T | grep -B2 docker-$CONTAINER_ID | grep -B1 oom-killer outputs
+-- [Sun Oct 25 22:06:17 2015] java invoked oom-killer: gfp_mask=0xd0, order=0, oom_score_adj=0 Limitation: This implies that kernel logs before and after are about the same issue."><meta property="og:url" content="https://blog.lgohlke.de/posts/2015-10-25-detect-when-docker-instance-reached-memory-limit/"><meta property="og:site_name" content="Erwähnenswert"><meta property="og:title" content="Detect when docker instance reached memory limit"><meta property="og:description" content="I’d like to know if my test instance reached the memory limit and behaves a kind of different after that.
+simple but slightly incorrect approach Link to heading Just grab the kernel logs for oom-killer for the particular container id.
+$ CONTAINER_ID=84ec6201e6a54 $ dmesg -T | grep -B2 docker-$CONTAINER_ID | grep -B1 oom-killer outputs
+-- [Sun Oct 25 22:06:17 2015] java invoked oom-killer: gfp_mask=0xd0, order=0, oom_score_adj=0 Limitation: This implies that kernel logs before and after are about the same issue."><meta property="og:locale" content="de_de"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2015-10-24T21:23:07+00:00"><meta property="article:modified_time" content="2015-10-24T13:36:07+00:00"><meta property="article:tag" content="Docker"><meta property="article:tag" content="Memory"><link rel=canonical href=https://blog.lgohlke.de/posts/2015-10-25-detect-when-docker-instance-reached-memory-limit/><link rel=preload href=/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin><link rel=stylesheet href=/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin=anonymous media=screen><link rel=icon type=image/svg+xml href=/images/favicon.svg sizes=any><link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16><link rel=apple-touch-icon href=/images/apple-touch-icon.png><link rel=apple-touch-icon sizes=180x180 href=/images/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/images/safari-pinned-tab.svg color=#5bbad5></head><body class="preload-transitions colorscheme-light"><div class=float-container><a id=dark-mode-toggle class=colorscheme-toggle><i class="fa-solid fa-adjust fa-fw" aria-hidden=true></i></a></div><main class=wrapper><nav class=navigation><section class=container><a class=navigation-title href=https://blog.lgohlke.de/>Erwähnenswert</a></section></nav><div class=content><section class="container post"><article><header><div class=post-title><h1 class=title><a class=title-link href=https://blog.lgohlke.de/posts/2015-10-25-detect-when-docker-instance-reached-memory-limit/>Detect when docker instance reached memory limit</a></h1></div><div class=post-meta><div class=date><span class=posted-on><i class="fa-solid fa-calendar" aria-hidden=true></i>
+<time datetime=2015-10-24T21:23:07Z>October 24, 2015
+</time></span><span class=reading-time><i class="fa-solid fa-clock" aria-hidden=true></i>
+2-minute read</span></div><div class=tags><i class="fa-solid fa-tag" aria-hidden=true></i>
+<span class=tag><a href=/tags/docker/>Docker</a>
+</span><span class=separator>•</span>
+<span class=tag><a href=/tags/memory/>Memory</a></span></div></div></header><div class=post-content><p>I&rsquo;d like to know if my test instance reached the memory limit and behaves a kind of different after that.</p><h2 id=simple-but-slightly-incorrect-approach>simple but slightly incorrect approach
+<a class=heading-link href=#simple-but-slightly-incorrect-approach><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Just grab the kernel logs for oom-killer for the particular container id.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ CONTAINER_ID<span style=color:#f92672>=</span>84ec6201e6a54
+</span></span><span style=display:flex><span>$ dmesg -T | grep -B2 docker-$CONTAINER_ID | grep -B1 oom-killer
+</span></span></code></pre></div><p>outputs</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>--
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>Sun Oct <span style=color:#ae81ff>25</span> 22:06:17 2015<span style=color:#f92672>]</span> java invoked oom-killer: gfp_mask<span style=color:#f92672>=</span>0xd0, order<span style=color:#f92672>=</span>0, oom_score_adj<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>
+</span></span></code></pre></div><p>Limitation: This implies that kernel logs before and after are about the same issue.</p><h2 id=more-exact-but-unprecise-approach>more exact but unprecise approach
+<a class=heading-link href=#more-exact-but-unprecise-approach><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ CONTAINER_ID<span style=color:#f92672>=</span>84ec6201e6a54
+</span></span><span style=display:flex><span>$ <span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> <span style=color:#66d9ef>$(</span>dmesg -T | grep docker-$CONTAINER_ID | wc -l<span style=color:#66d9ef>)</span> -gt <span style=color:#ae81ff>0</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>        echo <span style=color:#e6db74>&#34;there were issues with </span>$CONTAINER_ID<span style=color:#e6db74>:&#34;</span>;
+</span></span><span style=display:flex><span>        dmesg -T | grep docker-$CONTAINER_ID
+</span></span><span style=display:flex><span>        echo <span style=color:#e6db74>&#34;--&#34;</span>
+</span></span><span style=display:flex><span>        echo <span style=color:#e6db74>&#34;host config looks like (reduced)&#34;</span>
+</span></span><span style=display:flex><span>        FORMAT<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;{{json .HostConfig}}&#34;</span>
+</span></span><span style=display:flex><span>        docker inspect --format<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span>$FORMAT<span style=color:#e6db74>&#34;</span> $CONTAINER_ID | python -m json.tool <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>            | grep -v <span style=color:#e6db74>&#34;: \&#34;\&#34;&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>            | grep -v <span style=color:#e6db74>&#34;: null&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>            | grep -vE <span style=color:#e6db74>&#34;: 0|-1&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>            | grep -v <span style=color:#e6db74>&#34;: \[\]&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>            | grep -v <span style=color:#e6db74>&#34;: {}&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>fi</span>
+</span></span></code></pre></div><p>outputs</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>there were issues with 84ec6201e6a54:
+</span></span><span style=display:flex><span> <span style=color:#f92672>[</span>Sun Oct <span style=color:#ae81ff>25</span> 22:39:53 2015<span style=color:#f92672>]</span> perl cpuset<span style=color:#f92672>=</span>docker-84ec6201e6a54c9bf8118bcfa39870cb701961ad29bdb05776880cfe2c2572a2.scope mems_allowed<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>Sun Oct <span style=color:#ae81ff>25</span> 22:39:53 2015<span style=color:#f92672>]</span> Task in /system.slice/docker-84ec6201e6a54c9bf8118bcfa39870cb701961ad29bdb05776880cfe2c2572a2.scope killed as a result of limit of /system.slice/docker-84ec6201e6a54c9bf8118bcfa39870cb701961ad29bdb05776880cfe2c2572a2.scope
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>Sun Oct <span style=color:#ae81ff>25</span> 22:39:53 2015<span style=color:#f92672>]</span> Memory cgroup stats <span style=color:#66d9ef>for</span> /system.slice/docker-84ec6201e6a54c9bf8118bcfa39870cb701961ad29bdb05776880cfe2c2572a2.scope: cache:240KB rss:4194064KB rss_huge:14336KB mapped_file:0KB writeback:0KB inactive_anon:685848KB active_anon:3508408KB inactive_file:24KB active_file:24KB unevictable:0KB
+</span></span><span style=display:flex><span>--
+</span></span><span style=display:flex><span>host config looks like <span style=color:#f92672>(</span>reduced<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Binds&#34;</span>: <span style=color:#f92672>[</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;/dev/shm:/dev/shm&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;/tmp/docker_jenkins/m2:/home/build/.m2/repository&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;/tmp/docker_jenkins/webdriver:/home/build/tmp_webdrivers&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>]</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;ConsoleSize&#34;</span>: <span style=color:#f92672>[</span>
+</span></span><span style=display:flex><span>        0,
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>]</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;LogConfig&#34;</span>: <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;Type&#34;</span>: <span style=color:#e6db74>&#34;json-file&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Memory&#34;</span>: 4294967296,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;NetworkMode&#34;</span>: <span style=color:#e6db74>&#34;default&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;OomKillDisable&#34;</span>: false,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Privileged&#34;</span>: false,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;PublishAllPorts&#34;</span>: false,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;ReadonlyRootfs&#34;</span>: false,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;RestartPolicy&#34;</span>: <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;Name&#34;</span>: <span style=color:#e6db74>&#34;no&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>,
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>Comments and feedback is welcomed!</p></div><footer></footer></article></section></div><footer class=footer><section class=container>©
+2012 -
+2026
+Lars K.W. Gohlke
+·
+Licensed under GPLv3
+·
+Powered by <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> & <a href=https://github.com/luizdepra/hugo-coder/ target=_blank rel=noopener>Coder</a>.
+<a href=/index.xml>rss</a></section></footer></main><script src=/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script></body></html>

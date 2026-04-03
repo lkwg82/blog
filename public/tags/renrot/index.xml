@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Renrot on Erwähnenswert</title><link>https://blog.lgohlke.de/tags/renrot/</link><description>Recent content in Renrot on Erwähnenswert</description><generator>Hugo</generator><language>de-de</language><lastBuildDate>Wed, 20 May 2015 13:36:07 +0000</lastBuildDate><atom:link href="https://blog.lgohlke.de/tags/renrot/index.xml" rel="self" type="application/rss+xml"/><item><title>Automatischer Bilderimport beim Anschluss der Kamera</title><link>https://blog.lgohlke.de/posts/2015-05-20-autoimport-pictures-from-camera-with-xfce/</link><pubDate>Wed, 20 May 2015 21:23:07 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2015-05-20-autoimport-pictures-from-camera-with-xfce/</guid><description>&lt;p&gt;Da ich unter Ubuntu nichts adäquates finde, um automatisch meine Bilder zu importieren. Habe ich das Ganze mit einem Shellskript und &lt;a href="http://de.wikipedia.org/wiki/Thunar" class="external-link" target="_blank" rel="noopener"&gt;Thunar&lt;/a&gt; (ist der Dateimanager von &lt;a href="http://xfce.org/" class="external-link" target="_blank" rel="noopener"&gt;Xfce&lt;/a&gt;) gelöst. Der Import startet sobald die Kamera erkannt wird.&lt;/p&gt;
+&lt;p&gt;Folgende Anwendungen bitte installieren:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get install gphoto2 renrot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Dieses Skipt unter &lt;code&gt;~/bin/importBilder.sh&lt;/code&gt; ablegen.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#!/bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;set -e
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;exitEnter&lt;span style="color:#f92672"&gt;()&lt;/span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt; echo $1; echo &lt;span style="color:#e6db74"&gt;&amp;#34;press ENTER to exit&amp;#34;&lt;/span&gt;; read; exit 1; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;checkInstalled&lt;span style="color:#f92672"&gt;(){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; printf &lt;span style="color:#e6db74"&gt;&amp;#34;checking %-30s installed : &amp;#34;&lt;/span&gt; $1;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; type $1 &amp;gt;/dev/null 2&amp;gt;&amp;amp;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;ok&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;||&lt;/span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;fail&amp;#34;&lt;/span&gt;; exitEnter; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;checkInstalled gphoto2
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;checkInstalled renrot
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;checkInstalled thunar
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# optional&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# checkInstalled convertCamVideo2ArchivVideo.sh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;imageFolder&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;echo ~/Bilder&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;serialNumber&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt; gphoto2 --get-config /main/status/eosserialnumber | grep ^Current | cut -d&lt;span style="color:#ae81ff"&gt;\ &lt;/span&gt; -f2&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt; &lt;span style="color:#f92672"&gt;||&lt;/span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt; exitEnter; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;doImport&lt;span style="color:#f92672"&gt;(){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; timestamp&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;printf %s &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;date +&lt;span style="color:#e6db74"&gt;&amp;#34;%Y%m%d_%H%M&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; local folder&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$imageFolder&lt;span style="color:#e6db74"&gt;/autoimport_&lt;/span&gt;$timestamp&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mkdir -p $folder
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cd $folder &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; gphoto2 -P
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# use exif to rename the file&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; renrot --mtime --name-template &lt;span style="color:#e6db74"&gt;&amp;#34;%Y%m%d_%H%M_%n&amp;#34;&lt;/span&gt; *.JPG
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mkdir _jpeg_original
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mv *JPG_orig _jpeg_original/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mkdir raw
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mv *CR2 raw/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# transcoding video to lower file size&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# convertCamVideo2ArchivVideo.sh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;finished import into &amp;#39;&lt;/span&gt;$folder&lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;press Enter to exit&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; read
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; thunar $folder
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# only import from a specific camera, not any other&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt; $serialNumber -eq &lt;span style="color:#ae81ff"&gt;2131234489&lt;/span&gt; &lt;span style="color:#f92672"&gt;]&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; doImport
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="screenshots"&gt;
+ Screenshots
+ &lt;a class="heading-link" href="#screenshots"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://blog.lgohlke.de/img/posts/2015-05-20-version-thunrar.jpg" &gt;&lt;img src="https://blog.lgohlke.de/img/2015-05-20-version-thunrar-small.jpg" alt="Version von Thunar"&gt;&lt;/a&gt;
+&lt;a href="https://blog.lgohlke.de/img/posts/2015-05-20-advanced-settings-thunrar.jpg" &gt;&lt;img src="https://blog.lgohlke.de/img/2015-05-20-advanced-settings-thunrar-small.jpg" alt="Erweiterte Eigenschaften"&gt;&lt;/a&gt;
+&lt;a href="https://blog.lgohlke.de/img/posts/2015-05-20-camera-volumd.jpg" &gt;&lt;img src="https://blog.lgohlke.de/img/2015-05-20-camera-volumd-small.jpg" alt="Volumed Eigenschaften"&gt;&lt;/a&gt;
+&lt;a href="https://blog.lgohlke.de/img/posts/2015-05-20-terminal.jpg" &gt;&lt;img src="https://blog.lgohlke.de/img/2015-05-20-terminal-small.jpg" alt="Terminalausgabe wenn die Kamera angeschlossen wird"&gt;&lt;/a&gt;
+&lt;a href="https://blog.lgohlke.de/img/posts/2015-05-20-thunar.jpg" &gt;&lt;img src="https://blog.lgohlke.de/img/2015-05-20-thunar-small.jpg" alt="So sieht es dann im Browser aus"&gt;&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>

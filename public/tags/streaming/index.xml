@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Streaming on Erwähnenswert</title><link>https://blog.lgohlke.de/tags/streaming/</link><description>Recent content in Streaming on Erwähnenswert</description><generator>Hugo</generator><language>de-de</language><lastBuildDate>Sun, 09 Feb 2014 13:08:00 +0000</lastBuildDate><atom:link href="https://blog.lgohlke.de/tags/streaming/index.xml" rel="self" type="application/rss+xml"/><item><title>Howto Babyphone mit dem Raspberry PI</title><link>https://blog.lgohlke.de/posts/2014-02-09-babyphone-mit-dem-raspberry-pi/</link><pubDate>Sun, 09 Feb 2014 13:08:00 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2014-02-09-babyphone-mit-dem-raspberry-pi/</guid><description>&lt;p&gt;Bald ist es soweit und das Babyphone muss eingerichtet werden. Dazu habe ich mir die Webcam &lt;a href="http://www.logitech.com/de-de/product/hd-pro-webcam-c920" class="external-link" target="_blank" rel="noopener"&gt;Logitech C920&lt;/a&gt; und &lt;a href="http://de.wikipedia.org/wiki/Raspberry_Pi#Spezifikationen" class="external-link" target="_blank" rel="noopener"&gt;Raspberry Pi Modell B&lt;/a&gt; gekauft.&lt;/p&gt;
+&lt;p&gt;Hier nun meine kleine Anleitung um auf dem Handy Bild und Ton zu haben.&lt;/p&gt;
+&lt;h2 id="vorraussetzungen"&gt;
+ Vorraussetzungen
+ &lt;a class="heading-link" href="#vorraussetzungen"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;Der PI hat Netzzugang und ihr könnt per SSH rauf.&lt;/p&gt;
+&lt;h2 id="bild"&gt;
+ Schritte zum Erfolg - das Bild
+ &lt;a class="heading-link" href="#bild"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;Als erstes die Tools installieren:&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ubuntu on Erwähnenswert</title><link>https://blog.lgohlke.de/tags/ubuntu/</link><description>Recent content in Ubuntu on Erwähnenswert</description><generator>Hugo</generator><language>de-de</language><lastBuildDate>Wed, 20 May 2015 13:36:07 +0000</lastBuildDate><atom:link href="https://blog.lgohlke.de/tags/ubuntu/index.xml" rel="self" type="application/rss+xml"/><item><title>Automatischer Bilderimport beim Anschluss der Kamera</title><link>https://blog.lgohlke.de/posts/2015-05-20-autoimport-pictures-from-camera-with-xfce/</link><pubDate>Wed, 20 May 2015 21:23:07 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2015-05-20-autoimport-pictures-from-camera-with-xfce/</guid><description>&lt;p&gt;Da ich unter Ubuntu nichts adäquates finde, um automatisch meine Bilder zu importieren. Habe ich das Ganze mit einem Shellskript und &lt;a href="http://de.wikipedia.org/wiki/Thunar" class="external-link" target="_blank" rel="noopener"&gt;Thunar&lt;/a&gt; (ist der Dateimanager von &lt;a href="http://xfce.org/" class="external-link" target="_blank" rel="noopener"&gt;Xfce&lt;/a&gt;) gelöst. Der Import startet sobald die Kamera erkannt wird.&lt;/p&gt;
+&lt;p&gt;Folgende Anwendungen bitte installieren:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo apt-get install gphoto2 renrot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Dieses Skipt unter &lt;code&gt;~/bin/importBilder.sh&lt;/code&gt; ablegen.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#!/bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;set -e
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;exitEnter&lt;span style="color:#f92672"&gt;()&lt;/span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt; echo $1; echo &lt;span style="color:#e6db74"&gt;&amp;#34;press ENTER to exit&amp;#34;&lt;/span&gt;; read; exit 1; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;checkInstalled&lt;span style="color:#f92672"&gt;(){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; printf &lt;span style="color:#e6db74"&gt;&amp;#34;checking %-30s installed : &amp;#34;&lt;/span&gt; $1;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; type $1 &amp;gt;/dev/null 2&amp;gt;&amp;amp;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;ok&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;||&lt;/span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;fail&amp;#34;&lt;/span&gt;; exitEnter; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;checkInstalled gphoto2
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;checkInstalled renrot
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;checkInstalled thunar
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# optional&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# checkInstalled convertCamVideo2ArchivVideo.sh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;imageFolder&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;echo ~/Bilder&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;serialNumber&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt; gphoto2 --get-config /main/status/eosserialnumber | grep ^Current | cut -d&lt;span style="color:#ae81ff"&gt;\ &lt;/span&gt; -f2&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt; &lt;span style="color:#f92672"&gt;||&lt;/span&gt; &lt;span style="color:#f92672"&gt;{&lt;/span&gt; exitEnter; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;doImport&lt;span style="color:#f92672"&gt;(){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; timestamp&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;printf %s &lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;date +&lt;span style="color:#e6db74"&gt;&amp;#34;%Y%m%d_%H%M&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; local folder&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$imageFolder&lt;span style="color:#e6db74"&gt;/autoimport_&lt;/span&gt;$timestamp&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mkdir -p $folder
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cd $folder &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; gphoto2 -P
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# use exif to rename the file&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; renrot --mtime --name-template &lt;span style="color:#e6db74"&gt;&amp;#34;%Y%m%d_%H%M_%n&amp;#34;&lt;/span&gt; *.JPG
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mkdir _jpeg_original
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mv *JPG_orig _jpeg_original/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mkdir raw
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mv *CR2 raw/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# transcoding video to lower file size&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# convertCamVideo2ArchivVideo.sh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;finished import into &amp;#39;&lt;/span&gt;$folder&lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;press Enter to exit&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; read
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; thunar $folder
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# only import from a specific camera, not any other&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt; $serialNumber -eq &lt;span style="color:#ae81ff"&gt;2131234489&lt;/span&gt; &lt;span style="color:#f92672"&gt;]&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; doImport
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="screenshots"&gt;
+ Screenshots
+ &lt;a class="heading-link" href="#screenshots"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://blog.lgohlke.de/img/posts/2015-05-20-version-thunrar.jpg" &gt;&lt;img src="https://blog.lgohlke.de/img/2015-05-20-version-thunrar-small.jpg" alt="Version von Thunar"&gt;&lt;/a&gt;
+&lt;a href="https://blog.lgohlke.de/img/posts/2015-05-20-advanced-settings-thunrar.jpg" &gt;&lt;img src="https://blog.lgohlke.de/img/2015-05-20-advanced-settings-thunrar-small.jpg" alt="Erweiterte Eigenschaften"&gt;&lt;/a&gt;
+&lt;a href="https://blog.lgohlke.de/img/posts/2015-05-20-camera-volumd.jpg" &gt;&lt;img src="https://blog.lgohlke.de/img/2015-05-20-camera-volumd-small.jpg" alt="Volumed Eigenschaften"&gt;&lt;/a&gt;
+&lt;a href="https://blog.lgohlke.de/img/posts/2015-05-20-terminal.jpg" &gt;&lt;img src="https://blog.lgohlke.de/img/2015-05-20-terminal-small.jpg" alt="Terminalausgabe wenn die Kamera angeschlossen wird"&gt;&lt;/a&gt;
+&lt;a href="https://blog.lgohlke.de/img/posts/2015-05-20-thunar.jpg" &gt;&lt;img src="https://blog.lgohlke.de/img/2015-05-20-thunar-small.jpg" alt="So sieht es dann im Browser aus"&gt;&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Aufnahme von Ton mit pulseaudio</title><link>https://blog.lgohlke.de/posts/2015-04-29-pulseaudio-record-output/</link><pubDate>Wed, 29 Apr 2015 21:23:07 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2015-04-29-pulseaudio-record-output/</guid><description>&lt;p&gt;Ich habe heute vergeblich versucht meinen Spotify Sound per Streaming auf meinen Raspberry PI zu streamen. Ich hatte leider regelmäßig immer wieder Aussetzer.&lt;br&gt;
+Trotzdem schildere ich hier mal für andere. Vielleicht bekommt das jemand hin und schreibt mir das.&lt;/p&gt;
+&lt;h2 id="anwendung-finden"&gt;
+ Anwendung finden
+ &lt;a class="heading-link" href="#anwendung-finden"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ pacmd list-sink-inputs
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; sink input&lt;span style="color:#f92672"&gt;(&lt;/span&gt;s&lt;span style="color:#f92672"&gt;)&lt;/span&gt; available.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; index: &lt;span style="color:#ae81ff"&gt;16&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	driver: &amp;lt;protocol-native.c&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	flags: START_CORKED
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	state: RUNNING
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	sink: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &amp;lt;alsa_output.pci-0000_00_1b.0.analog-surround-41&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	volume: front-left: &lt;span style="color:#ae81ff"&gt;30309&lt;/span&gt; / 46% / -20,09 dB, front-right: &lt;span style="color:#ae81ff"&gt;30309&lt;/span&gt; / 46% / -20,09 dB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	 balance 0,00
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	muted: no
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	current latency: 1887,44 ms
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	requested latency: 123,81 ms
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	sample spec: s16le 2ch 44100Hz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	channel map: front-left,front-right
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	 Stereo
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	resample method: copy
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	module: &lt;span style="color:#ae81ff"&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	client: &lt;span style="color:#ae81ff"&gt;136&lt;/span&gt; &amp;lt;spotify&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;	properties:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		media.role &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;music&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		media.name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Spotify&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		application.name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;spotify&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		native-protocol.peer &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;UNIX socket client&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		native-protocol.version &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;30&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		application.process.id &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;7869&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		application.process.user &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;lars&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;		module-stream-restore.id &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;sink-input-by-media-role:music&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Aufnehmen, als Opus Audio-Codec transkodieren und im VLC abspielen. (Der Enkoder erkennt das RAW-Format korrekt.)&lt;/p&gt;</description></item><item><title>Short debian package guide for dummies</title><link>https://blog.lgohlke.de/posts/2015-04-04-create-a-debian-package-for-dummies/</link><pubDate>Tue, 07 Apr 2015 21:23:07 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2015-04-04-create-a-debian-package-for-dummies/</guid><description>&lt;p&gt;As I always struggle with creating a debian so I decided to write the few steps down. Finally. This is more a kind of cheat sheet than a comprehensive guide.&lt;br&gt;
+In my example I will package &lt;a href="https://github.com/h2o/h2o" class="external-link" target="_blank" rel="noopener"&gt;h2o&lt;/a&gt; a very fast http/2 static file server capable to run as reverse proxy.&lt;/p&gt;
+&lt;p&gt;This is my environment:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ lsb_release -a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;No LSB modules are available.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Distributor ID:	Ubuntu
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Description:	Ubuntu 14.04.2 LTS
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Release:	14.04
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Codename:	trusty
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="1-creating-the-basic-structure"&gt;
+ 1. creating the basic structure
+ &lt;a class="heading-link" href="#1-creating-the-basic-structure"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;clone repository and change to newly created branch&lt;/p&gt;</description></item><item><title>Packaged DSSIM Implementation of pornel</title><link>https://blog.lgohlke.de/posts/2015-03-21-packaged-dssim/</link><pubDate>Sat, 21 Mar 2015 10:23:07 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2015-03-21-packaged-dssim/</guid><description>&lt;p&gt;I just packaged &lt;a href="https://github.com/pornel/dssim" class="external-link" target="_blank" rel="noopener"&gt;dssim&lt;/a&gt; for ubuntu. So for now it can easily installed and removed as plain deb file.&lt;/p&gt;
+&lt;p&gt;To install just type:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo apt-add-repository ppa:lkwg82/dssim
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo apt-get update
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo apt-get install dssim
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Currently it is only available for ubuntu &lt;a href="https://launchpad.net/~lkwg82/&amp;#43;archive/ubuntu/dssim/&amp;#43;packages" class="external-link" target="_blank" rel="noopener"&gt;trusty&lt;/a&gt; (14.04 LTS). On request I&amp;rsquo;ll make it for other versions as well.&lt;/p&gt;</description></item></channel></rss>

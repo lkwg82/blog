@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Udev Luks Linux Backup on Erwähnenswert</title><link>https://blog.lgohlke.de/categories/udev-luks-linux-backup/</link><description>Recent content in Udev Luks Linux Backup on Erwähnenswert</description><generator>Hugo</generator><language>de-de</language><lastBuildDate>Sun, 08 Oct 2023 15:27:34 +0100</lastBuildDate><atom:link href="https://blog.lgohlke.de/categories/udev-luks-linux-backup/index.xml" rel="self" type="application/rss+xml"/><item><title>automatic secure backup on usb with Luks/Udev</title><link>https://blog.lgohlke.de/posts/2023-10-08-automatic-usb-backup/</link><pubDate>Sun, 08 Oct 2023 15:27:34 +0100</pubDate><guid>https://blog.lgohlke.de/posts/2023-10-08-automatic-usb-backup/</guid><description>&lt;p&gt;The goal is to automatically mount a specific encrypted usb device on plugin, run a backup and umount it.&lt;/p&gt;
+&lt;h2 id="minor-goals"&gt;
+ Minor goals
+ &lt;a class="heading-link" href="#minor-goals"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;simple and use standard linux tooling&lt;/li&gt;
+&lt;li&gt;do not break security&lt;/li&gt;
+&lt;li&gt;interactive, give user feedback&lt;/li&gt;
+&lt;li&gt;robust to interuptions&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="prerequisites"&gt;
+ Prerequisites
+ &lt;a class="heading-link" href="#prerequisites"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;have a spare usb device&lt;/li&gt;
+&lt;li&gt;have root access&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="steps"&gt;
+ Steps
+ &lt;a class="heading-link" href="#steps"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Prepare the encrypted usb device&lt;/li&gt;
+&lt;li&gt;Setup automounting&lt;/li&gt;
+&lt;li&gt;Setup automatic backup as root with visual feedback for an ordinary user&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="1-prepare-the-encrypted-usb-device"&gt;
+ 1. Prepare the encrypted usb device
+ &lt;a class="heading-link" href="#1-prepare-the-encrypted-usb-device"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h3&gt;
+&lt;p&gt;Encrypt the device with &lt;a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup" class="external-link" target="_blank" rel="noopener"&gt;luks&lt;/a&gt;.&lt;/p&gt;</description></item></channel></rss>

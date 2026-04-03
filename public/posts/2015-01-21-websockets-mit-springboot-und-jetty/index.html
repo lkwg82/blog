@@ -1,0 +1,392 @@
+<!doctype html><html lang=en><head><title>Websockets mit Spring-Boot und Jetty - Publish/Subscribe · Erwähnenswert</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=color-scheme content="light dark"><meta name=author content="Lars K.W. Gohlke"><meta name=description content="Hier mein kleines Tutorial wie man mit spring-boot und jetty&rsquo;s websocket Client ein Publish/Subscribe Szenario implementieren kann.
+Inhalt
+
+Simples Hello-World mit &ldquo;welcome&rdquo;
+Simples publish/subscribe um Zeitinformation zu erhalten
+
+
+  Simples Hello-World mit &ldquo;welcome&rdquo;
+  
+    
+    Link to heading
+  
+
+Die Idee ist, sich in Java sowohl auf Server- als auch auf Client-Seite mittels Websockets zu verbinden. Nach dem erfolgreichen Verbindungsaufbau sendet der Server eine Nachricht mit dem Text welcome als Inhalt."><meta name=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Websockets mit Spring-Boot und Jetty - Publish/Subscribe"><meta name=twitter:description content="Hier mein kleines Tutorial wie man mit spring-boot und jetty’s websocket Client ein Publish/Subscribe Szenario implementieren kann.
+Inhalt
+Simples Hello-World mit “welcome” Simples publish/subscribe um Zeitinformation zu erhalten Simples Hello-World mit “welcome” Link to heading Die Idee ist, sich in Java sowohl auf Server- als auch auf Client-Seite mittels Websockets zu verbinden. Nach dem erfolgreichen Verbindungsaufbau sendet der Server eine Nachricht mit dem Text welcome als Inhalt."><meta property="og:url" content="https://blog.lgohlke.de/posts/2015-01-21-websockets-mit-springboot-und-jetty/"><meta property="og:site_name" content="Erwähnenswert"><meta property="og:title" content="Websockets mit Spring-Boot und Jetty - Publish/Subscribe"><meta property="og:description" content="Hier mein kleines Tutorial wie man mit spring-boot und jetty’s websocket Client ein Publish/Subscribe Szenario implementieren kann.
+Inhalt
+Simples Hello-World mit “welcome” Simples publish/subscribe um Zeitinformation zu erhalten Simples Hello-World mit “welcome” Link to heading Die Idee ist, sich in Java sowohl auf Server- als auch auf Client-Seite mittels Websockets zu verbinden. Nach dem erfolgreichen Verbindungsaufbau sendet der Server eine Nachricht mit dem Text welcome als Inhalt."><meta property="og:locale" content="de_de"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2015-01-21T14:23:07+00:00"><meta property="article:modified_time" content="2015-01-21T14:23:07+00:00"><meta property="article:tag" content="Websockets"><meta property="article:tag" content="Java"><link rel=canonical href=https://blog.lgohlke.de/posts/2015-01-21-websockets-mit-springboot-und-jetty/><link rel=preload href=/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin><link rel=stylesheet href=/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin=anonymous media=screen><link rel=icon type=image/svg+xml href=/images/favicon.svg sizes=any><link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16><link rel=apple-touch-icon href=/images/apple-touch-icon.png><link rel=apple-touch-icon sizes=180x180 href=/images/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/images/safari-pinned-tab.svg color=#5bbad5></head><body class="preload-transitions colorscheme-light"><div class=float-container><a id=dark-mode-toggle class=colorscheme-toggle><i class="fa-solid fa-adjust fa-fw" aria-hidden=true></i></a></div><main class=wrapper><nav class=navigation><section class=container><a class=navigation-title href=https://blog.lgohlke.de/>Erwähnenswert</a></section></nav><div class=content><section class="container post"><article><header><div class=post-title><h1 class=title><a class=title-link href=https://blog.lgohlke.de/posts/2015-01-21-websockets-mit-springboot-und-jetty/>Websockets mit Spring-Boot und Jetty - Publish/Subscribe</a></h1></div><div class=post-meta><div class=date><span class=posted-on><i class="fa-solid fa-calendar" aria-hidden=true></i>
+<time datetime=2015-01-21T14:23:07Z>January 21, 2015
+</time></span><span class=reading-time><i class="fa-solid fa-clock" aria-hidden=true></i>
+6-minute read</span></div><div class=tags><i class="fa-solid fa-tag" aria-hidden=true></i>
+<span class=tag><a href=/tags/websockets/>Websockets</a>
+</span><span class=separator>•</span>
+<span class=tag><a href=/tags/java/>Java</a></span></div></div></header><div class=post-content><p>Hier mein kleines Tutorial wie man mit spring-boot und jetty&rsquo;s websocket Client ein Publish/Subscribe Szenario implementieren kann.</p><p><strong>Inhalt</strong></p><ol><li><a href=#hw>Simples Hello-World mit &ldquo;welcome&rdquo;</a></li><li><a href=#ps>Simples publish/subscribe um Zeitinformation zu erhalten</a></li></ol><h2 id=hw>Simples Hello-World mit &ldquo;welcome&rdquo;
+<a class=heading-link href=#hw><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Die Idee ist, sich in Java sowohl auf Server- als auch auf Client-Seite mittels Websockets zu verbinden. Nach dem erfolgreichen Verbindungsaufbau sendet der Server eine Nachricht mit dem Text <code>welcome</code> als Inhalt.</p><p>Hier die <code>pom.xml</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#f92672>&lt;project</span> <span style=color:#a6e22e>xmlns=</span><span style=color:#e6db74>&#34;http://maven.apache.org/POM/4.0.0&#34;</span> <span style=color:#a6e22e>xmlns:xsi=</span><span style=color:#e6db74>&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span style=display:flex><span>         <span style=color:#a6e22e>xsi:schemaLocation=</span><span style=color:#e6db74>&#34;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&#34;</span><span style=color:#f92672>&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;modelVersion&gt;</span>4.0.0<span style=color:#f92672>&lt;/modelVersion&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;groupId&gt;</span>de.lgohlke.blog.examples<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;artifactId&gt;</span>springbootwebsockets<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;version&gt;</span>0.1.0<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;prerequisites&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;maven&gt;</span>3<span style=color:#f92672>&lt;/maven&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/prerequisites&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;parent&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;groupId&gt;</span>org.springframework.boot<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;artifactId&gt;</span>spring-boot-starter-parent<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;version&gt;</span>1.2.1.RELEASE<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/parent&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;properties&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;java.version&gt;</span>8<span style=color:#f92672>&lt;/java.version&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/properties&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;dependencies&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;groupId&gt;</span>org.springframework.boot<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>spring-boot-starter-web<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;groupId&gt;</span>org.springframework.boot<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>spring-boot-starter-websocket<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;groupId&gt;</span>org.eclipse.jetty.websocket<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>websocket-client<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;version&gt;</span>${jetty.version}<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;groupId&gt;</span>org.springframework.boot<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>spring-boot-starter-test<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;scope&gt;</span>test<span style=color:#f92672>&lt;/scope&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;groupId&gt;</span>org.assertj<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>assertj-core<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;version&gt;</span>1.7.1<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;scope&gt;</span>test<span style=color:#f92672>&lt;/scope&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;dependency&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;groupId&gt;</span>org.json<span style=color:#f92672>&lt;/groupId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;artifactId&gt;</span>json<span style=color:#f92672>&lt;/artifactId&gt;</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&lt;version&gt;</span>20140107<span style=color:#f92672>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&lt;/dependency&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/dependencies&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/project&gt;</span>
+</span></span></code></pre></div><p>die spring configuration <code>config.java</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Configuration</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@EnableWebSocket</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Config</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>
+</span></span><span style=display:flex><span>    WebSocketConfigurer <span style=color:#a6e22e>webSocketConfigurer</span>(<span style=color:#66d9ef>final</span> WebSocketHandler webSocketHandler) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> WebSocketConfigurer() {
+</span></span><span style=display:flex><span>            <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>registerWebSocketHandlers</span>(WebSocketHandlerRegistry registry) {
+</span></span><span style=display:flex><span>                registry.<span style=color:#a6e22e>addHandler</span>(webSocketHandler, <span style=color:#e6db74>&#34;/ws/test&#34;</span>);
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        };
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Bean</span>
+</span></span><span style=display:flex><span>    WebSocketHandler <span style=color:#a6e22e>myWebsocketHandler</span>(DateProvider dateProvider) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> MyTextWebSocketHandler(dateProvider);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Ein einfacher Websockethandler für Textnachrichten kann dann so aussehen.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MyTextWebSocketHandler</span> <span style=color:#66d9ef>extends</span> TextWebSocketHandler {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> List<span style=color:#f92672>&lt;</span>WebSocketSession<span style=color:#f92672>&gt;</span> sessions <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> CopyOnWriteArrayList<span style=color:#f92672>&lt;&gt;</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>afterConnectionEstablished</span>(WebSocketSession session) <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>        sessions.<span style=color:#a6e22e>add</span>(session);
+</span></span><span style=display:flex><span>        session.<span style=color:#a6e22e>sendMessage</span>(<span style=color:#66d9ef>new</span> TextMessage(<span style=color:#e6db74>&#34;{message:&#39;welcome&#39;}&#34;</span>));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>afterConnectionClosed</span>(WebSocketSession session, CloseStatus status) <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>        sessions.<span style=color:#a6e22e>remove</span>(session);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>protected</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>handleTextMessage</span>(WebSocketSession session, TextMessage message) <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Nach jedem Verbindungsaufbau wird eine Willkommensnachricht verschickt.</p><p>Der Test dazu würde so aussehen:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@RunWith</span>(SpringJUnit4ClassRunner.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@WebIntegrationTest</span>(randomPort <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>)
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@SpringApplicationConfiguration</span>(classes <span style=color:#f92672>=</span> Application.<span style=color:#a6e22e>class</span>)
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@DirtiesContext</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MyTextWebSocketHandlerTest</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Value</span>(<span style=color:#e6db74>&#34;${local.server.port}&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>int</span> port;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> WebSocketClient client; <span style=color:#75715e>// from jetty</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> SimpleWebSocket socket; <span style=color:#75715e>// pojo with some annotation</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> URI uri;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Before</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>setup</span>() <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>        client <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> WebSocketClient();
+</span></span><span style=display:flex><span>        socket <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> SimpleWebSocket();
+</span></span><span style=display:flex><span>        uri <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> URI(<span style=color:#e6db74>&#34;ws://localhost:&#34;</span> <span style=color:#f92672>+</span> port <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;/ws/test&#34;</span>);
+</span></span><span style=display:flex><span>        client.<span style=color:#a6e22e>start</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>cleanup</span>() <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>        client.<span style=color:#a6e22e>stop</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>testConnect</span>() <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        Future<span style=color:#f92672>&lt;</span>Session<span style=color:#f92672>&gt;</span> sessionFuture <span style=color:#f92672>=</span> client.<span style=color:#a6e22e>connect</span>(socket, uri, <span style=color:#66d9ef>new</span> ClientUpgradeRequest());
+</span></span><span style=display:flex><span>        sessionFuture.<span style=color:#a6e22e>get</span>(5, TimeUnit.<span style=color:#a6e22e>SECONDS</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// message exchange need some time</span>
+</span></span><span style=display:flex><span>        TimeUnit.<span style=color:#a6e22e>MILLISECONDS</span>.<span style=color:#a6e22e>sleep</span>(500);
+</span></span><span style=display:flex><span>        assertThat(socket.<span style=color:#a6e22e>getMessages</span>().<span style=color:#a6e22e>get</span>(0)).<span style=color:#a6e22e>isEqualTo</span>(<span style=color:#e6db74>&#34;welcome&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        assertThat(socket.<span style=color:#a6e22e>isConnected</span>()).<span style=color:#a6e22e>isTrue</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Der von Client benötigte Websocket in der <code>SimpleWebSocket.java</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@WebSocket</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>SimpleWebSocket</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Session session;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>&gt;</span> messages <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ArrayList<span style=color:#f92672>&lt;&gt;</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@OnWebSocketClose</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onClose</span>(<span style=color:#66d9ef>int</span> statusCode, String reason) {
+</span></span><span style=display:flex><span>        System.<span style=color:#a6e22e>out</span>.<span style=color:#a6e22e>printf</span>(<span style=color:#e6db74>&#34;Connection closed: %d - %s%n&#34;</span>, statusCode, reason);
+</span></span><span style=display:flex><span>        session <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@OnWebSocketConnect</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onConnect</span>(Session session) {
+</span></span><span style=display:flex><span>        System.<span style=color:#a6e22e>out</span>.<span style=color:#a6e22e>printf</span>(<span style=color:#e6db74>&#34;Got connect: %s%n&#34;</span>, session);
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>session</span> <span style=color:#f92672>=</span> session;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@OnWebSocketError</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onError</span>(Session session, Throwable throwable) {
+</span></span><span style=display:flex><span>        System.<span style=color:#a6e22e>err</span>.<span style=color:#a6e22e>println</span>(<span style=color:#e6db74>&#34;error:&#34;</span> <span style=color:#f92672>+</span> throwable.<span style=color:#a6e22e>getMessage</span>());
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@OnWebSocketMessage</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onMessage</span>(String msg) {
+</span></span><span style=display:flex><span>        System.<span style=color:#a6e22e>out</span>.<span style=color:#a6e22e>printf</span>(<span style=color:#e6db74>&#34;Got msg: %s%n&#34;</span>, msg);
+</span></span><span style=display:flex><span>        messages.<span style=color:#a6e22e>add</span>(msg);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>isConnected</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> session <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>&amp;&amp;</span> session.<span style=color:#a6e22e>isOpen</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>getMessages</span>() {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> messages;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Abschließend für das erste &ldquo;Hello-World&rdquo; der Aufruf des Tests durch Maven und die passende Ausgabe mit Auslassungen (&mldr;):</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ mvn test -Dtest<span style=color:#f92672>=</span>MyTextWebSocketHandlerTest#testConnect
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> Scanning <span style=color:#66d9ef>for</span> projects...
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> ------------------------------------------------------------------------
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> Building springbootwebsockets 0.1.0
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> ------------------------------------------------------------------------
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>-------------------------------------------------------
+</span></span><span style=display:flex><span> T E S T S
+</span></span><span style=display:flex><span>-------------------------------------------------------
+</span></span><span style=display:flex><span>Running de.lgohlke.blog.examples.MyTextWebSocketHandlerTest
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>  .   ____          _            __ _ _
+</span></span><span style=display:flex><span> /<span style=color:#ae81ff>\\</span> / ___<span style=color:#e6db74>&#39;_ __ _ _(_)_ __  __ _ \ \ \ \
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>( ( )\___ | &#39;</span>_ | <span style=color:#e6db74>&#39;_| | &#39;</span>_ <span style=color:#ae81ff>\/</span> _<span style=color:#e6db74>`</span> | <span style=color:#ae81ff>\ \ \ \
+</span></span></span><span style=display:flex><span> <span style=color:#ae81ff>\\</span>/  ___<span style=color:#f92672>)</span>| |_<span style=color:#f92672>)</span>| | | | | <span style=color:#f92672>||</span> <span style=color:#f92672>(</span>_| |  <span style=color:#f92672>)</span> <span style=color:#f92672>)</span> <span style=color:#f92672>)</span> <span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>  <span style=color:#960050;background-color:#1e0010>&#39;</span>  |____| .__|_| |_|_| |_<span style=color:#ae81ff>\_</span>_, | / / / /
+</span></span><span style=display:flex><span> <span style=color:#f92672>=========</span>|_|<span style=color:#f92672>==============</span>|___/<span style=color:#f92672>=</span>/_/_/_/
+</span></span><span style=display:flex><span> :: Spring Boot ::        <span style=color:#f92672>(</span>v1.2.1.RELEASE<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>Got connect: WebSocketSession<span style=color:#f92672>[</span>websocket<span style=color:#f92672>=</span>...<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>Got msg: welcome
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.474 sec - in de.lgohlke.blog.examples.MyTextWebSocketHandlerTest
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Results :
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Tests run: 1, Failures: 0, Errors: 0, Skipped: <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> ------------------------------------------------------------------------
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> BUILD SUCCESS
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> ------------------------------------------------------------------------
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><p> </p><h2 id=ps>Simples publish/subscribe um Zeitinformation zu erhalten
+<a class=heading-link href=#ps><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Jetzt soll es darum gehen mit einem rudimentären Protokoll sich für die Zeitansage anzumelden.</p><p>Der Kommunikationsablauf (S:Server, C=Client):</p><ul><li>C: baut Verbindung auf</li><li>S: antwortet mit <code>welcome</code></li><li>C: schickt seine Anmeldung für das Thema &rsquo;time&rsquo; <code>{type:'subscribe',subscription:'time'}</code></li><li>S: antwortet mit <code>{type:'info',message: 'subscribed to time'}</code></li><li>S: schickt regelmäßig Daten wofür sich C eingeschrieben hat <code>{ type: 'date', data: 'Wed Jan 21 16:46:57 CET 2015'}</code></li><li>C: meldet sich vom Thema &rsquo;time&rsquo; ab: <code>{type:'unsubscribe',subscription:'time'}</code></li><li>C: meldet sich vom Thema &rsquo;time&rsquo; ab: <code>{type:'unsubscribe',subscription:'time'}</code></li><li>S: antwortet mit <code>{type:'info',message: 'unsubscribed from time'}</code></li><li>C: beendet die Verbindung</li></ul><p>Ich werde jetzt noch neue Klassen bzw. die Erweiterungen pro Klasse zeigen.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MyTextWebSocketHandler</span> <span style=color:#66d9ef>extends</span> TextWebSocketHandler {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> Logger LOG <span style=color:#f92672>=</span> LoggerFactory.<span style=color:#a6e22e>getLogger</span>(MyTextWebSocketHandler.<span style=color:#a6e22e>class</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// ...</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> Map<span style=color:#f92672>&lt;</span>WebSocketSession, Map<span style=color:#f92672>&lt;</span>Consumer, DateProvider<span style=color:#f92672>&gt;&gt;</span> sessionConsumer <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>&lt;&gt;</span>();
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> DateProvider dateProvider;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>MyTextWebSocketHandler</span>(DateProvider dateProvider) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>dateProvider</span> <span style=color:#f92672>=</span> dateProvider;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// ...</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>afterConnectionClosed</span>(WebSocketSession session, CloseStatus status) <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (sessionConsumer.<span style=color:#a6e22e>containsKey</span>(session)) {
+</span></span><span style=display:flex><span>            sessionConsumer.<span style=color:#a6e22e>get</span>(session).<span style=color:#a6e22e>forEach</span>((consumer, dateProvider) <span style=color:#f92672>-&gt;</span> {
+</span></span><span style=display:flex><span>                dateProvider.<span style=color:#a6e22e>unscubscribe</span>(consumer);
+</span></span><span style=display:flex><span>            });
+</span></span><span style=display:flex><span>            sessionConsumer.<span style=color:#a6e22e>remove</span>(session);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        sessions.<span style=color:#a6e22e>remove</span>(session);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>protected</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>handleTextMessage</span>(WebSocketSession session, TextMessage message) <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>        String payload <span style=color:#f92672>=</span> message.<span style=color:#a6e22e>getPayload</span>();
+</span></span><span style=display:flex><span>        JSONObject jsonObject <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> JSONObject(payload);
+</span></span><span style=display:flex><span>        String type <span style=color:#f92672>=</span> jsonObject.<span style=color:#a6e22e>getString</span>(<span style=color:#e6db74>&#34;type&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (<span style=color:#e6db74>&#34;subscribe&#34;</span>.<span style=color:#a6e22e>equals</span>(type)) {
+</span></span><span style=display:flex><span>            String subscription <span style=color:#f92672>=</span> jsonObject.<span style=color:#a6e22e>getString</span>(<span style=color:#e6db74>&#34;subscription&#34;</span>);
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> (<span style=color:#e6db74>&#34;time&#34;</span>.<span style=color:#a6e22e>equals</span>(subscription)) {
+</span></span><span style=display:flex><span>                LOG.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;{} subscribed to {}&#34;</span>, session.<span style=color:#a6e22e>getId</span>(), subscription);
+</span></span><span style=display:flex><span>                WebsocketTextConsumer consumer <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> WebsocketTextConsumer(session);
+</span></span><span style=display:flex><span>                dateProvider.<span style=color:#a6e22e>subscribe</span>(consumer);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>sessionConsumer.<span style=color:#a6e22e>containsKey</span>(session)) {
+</span></span><span style=display:flex><span>                    sessionConsumer.<span style=color:#a6e22e>put</span>(session, <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>&lt;&gt;</span>());
+</span></span><span style=display:flex><span>                }
+</span></span><span style=display:flex><span>                sessionConsumer.<span style=color:#a6e22e>get</span>(session).<span style=color:#a6e22e>put</span>(consumer, dateProvider);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                session.<span style=color:#a6e22e>sendMessage</span>(<span style=color:#66d9ef>new</span> TextMessage(<span style=color:#e6db74>&#34;{type:&#39;info&#39;,message: &#39;subscribed to time&#39;}&#34;</span>));
+</span></span><span style=display:flex><span>            } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>                LOG.<span style=color:#a6e22e>warn</span>(<span style=color:#e6db74>&#34;invalid subscription &#39;{}&#39;&#34;</span>, subscription);
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> (<span style=color:#e6db74>&#34;unsubscribe&#34;</span>.<span style=color:#a6e22e>equals</span>(type)) {
+</span></span><span style=display:flex><span>                String subscription <span style=color:#f92672>=</span> jsonObject.<span style=color:#a6e22e>getString</span>(<span style=color:#e6db74>&#34;subscription&#34;</span>);
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>if</span> (<span style=color:#e6db74>&#34;time&#34;</span>.<span style=color:#a6e22e>equals</span>(subscription)) {
+</span></span><span style=display:flex><span>                    LOG.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;{} subscribed to {}&#34;</span>, session.<span style=color:#a6e22e>getId</span>(), subscription);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                    <span style=color:#75715e>// not checking if formerly subscribed</span>
+</span></span><span style=display:flex><span>                    <span style=color:#66d9ef>if</span> (sessionConsumer.<span style=color:#a6e22e>containsKey</span>(session)) {
+</span></span><span style=display:flex><span>                        sessionConsumer.<span style=color:#a6e22e>get</span>(session).<span style=color:#a6e22e>forEach</span>((consumer, provider) <span style=color:#f92672>-&gt;</span> {
+</span></span><span style=display:flex><span>                            provider.<span style=color:#a6e22e>unscubscribe</span>(consumer);
+</span></span><span style=display:flex><span>                        });
+</span></span><span style=display:flex><span>                    }
+</span></span><span style=display:flex><span>                    session.<span style=color:#a6e22e>sendMessage</span>(<span style=color:#66d9ef>new</span> TextMessage(<span style=color:#e6db74>&#34;{type:&#39;info&#39;,message: &#39;unsubscribed from time&#39;}&#34;</span>));
+</span></span><span style=display:flex><span>                } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>                    LOG.<span style=color:#a6e22e>warn</span>(<span style=color:#e6db74>&#34;invalid subscription &#39;{}&#39;&#34;</span>, subscription);
+</span></span><span style=display:flex><span>                }
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>WebsocketTextConsumer</span> <span style=color:#66d9ef>implements</span> Consumer {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> Logger LOG <span style=color:#f92672>=</span> LoggerFactory.<span style=color:#a6e22e>getLogger</span>(WebsocketTextConsumer.<span style=color:#a6e22e>class</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>private</span> WebSocketSession session;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>WebsocketTextConsumer</span>(WebSocketSession session) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>session</span> <span style=color:#f92672>=</span> session;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>sendData</span>(String json) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>try</span> {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> (session.<span style=color:#a6e22e>isOpen</span>()) {
+</span></span><span style=display:flex><span>                session.<span style=color:#a6e22e>sendMessage</span>(<span style=color:#66d9ef>new</span> TextMessage(json));
+</span></span><span style=display:flex><span>            }<span style=color:#66d9ef>else</span>{
+</span></span><span style=display:flex><span>                LOG.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;session closed&#34;</span>);
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>catch</span> (IOException e) {
+</span></span><span style=display:flex><span>            e.<span style=color:#a6e22e>printStackTrace</span>();
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>DateProvider</span> <span style=color:#66d9ef>extends</span> DataProvider {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Scheduled</span>(fixedRate <span style=color:#f92672>=</span> 1000)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>onEvent</span>() {
+</span></span><span style=display:flex><span>        Date date <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Date();
+</span></span><span style=display:flex><span>        getConsumers().<span style=color:#a6e22e>forEach</span>(consumer <span style=color:#f92672>-&gt;</span> {
+</span></span><span style=display:flex><span>            consumer.<span style=color:#a6e22e>sendData</span>(<span style=color:#e6db74>&#34;{ type: &#39;date&#39;, data: &#39;&#34;</span> <span style=color:#f92672>+</span> date <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;&#39;}&#34;</span>);
+</span></span><span style=display:flex><span>        });
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Der Test muss demzufolge so erweitert werden:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MyTextWebSocketHandlerTest</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// ...</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@Test</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>testProtocol</span>() <span style=color:#66d9ef>throws</span> Exception {
+</span></span><span style=display:flex><span>        Future<span style=color:#f92672>&lt;</span>Session<span style=color:#f92672>&gt;</span> sessionFuture <span style=color:#f92672>=</span> client.<span style=color:#a6e22e>connect</span>(socket, uri, <span style=color:#66d9ef>new</span> ClientUpgradeRequest());
+</span></span><span style=display:flex><span>        Session session <span style=color:#f92672>=</span> sessionFuture.<span style=color:#a6e22e>get</span>(5, TimeUnit.<span style=color:#a6e22e>SECONDS</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        session.<span style=color:#a6e22e>getRemote</span>().<span style=color:#a6e22e>sendString</span>(<span style=color:#e6db74>&#34;{type:&#39;subscribe&#39;,subscription:&#39;time&#39;}&#34;</span>);
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// we need to wait for time-tick - at least 1s</span>
+</span></span><span style=display:flex><span>        TimeUnit.<span style=color:#a6e22e>SECONDS</span>.<span style=color:#a6e22e>sleep</span>(1);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        session.<span style=color:#a6e22e>getRemote</span>().<span style=color:#a6e22e>sendString</span>(<span style=color:#e6db74>&#34;{type:&#39;unsubscribe&#39;,subscription:&#39;time&#39;}&#34;</span>);
+</span></span><span style=display:flex><span>        TimeUnit.<span style=color:#a6e22e>MILLISECONDS</span>.<span style=color:#a6e22e>sleep</span>(800);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        assertThat(socket.<span style=color:#a6e22e>getMessages</span>()).<span style=color:#a6e22e>hasSize</span>(4);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        session.<span style=color:#a6e22e>close</span>();
+</span></span><span style=display:flex><span>        TimeUnit.<span style=color:#a6e22e>MILLISECONDS</span>.<span style=color:#a6e22e>sleep</span>(100);
+</span></span><span style=display:flex><span>        assertThat(socket.<span style=color:#a6e22e>isConnected</span>()).<span style=color:#a6e22e>isFalse</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Und heraus kommt:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ mvn test -Dtest<span style=color:#f92672>=</span>MyTextWebSocketHandlerTest#testProtocol
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> Scanning <span style=color:#66d9ef>for</span> projects...
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>-------------------------------------------------------
+</span></span><span style=display:flex><span> T E S T S
+</span></span><span style=display:flex><span>-------------------------------------------------------
+</span></span><span style=display:flex><span>Running de.lgohlke.blog.examples.MyTextWebSocketHandlerTest
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>  .   ____          _            __ _ _
+</span></span><span style=display:flex><span> /<span style=color:#ae81ff>\\</span> / ___<span style=color:#e6db74>&#39;_ __ _ _(_)_ __  __ _ \ \ \ \
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>( ( )\___ | &#39;</span>_ | <span style=color:#e6db74>&#39;_| | &#39;</span>_ <span style=color:#ae81ff>\/</span> _<span style=color:#e6db74>`</span> | <span style=color:#ae81ff>\ \ \ \
+</span></span></span><span style=display:flex><span> <span style=color:#ae81ff>\\</span>/  ___<span style=color:#f92672>)</span>| |_<span style=color:#f92672>)</span>| | | | | <span style=color:#f92672>||</span> <span style=color:#f92672>(</span>_| |  <span style=color:#f92672>)</span> <span style=color:#f92672>)</span> <span style=color:#f92672>)</span> <span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#39;  |____| .__|_| |_|_| |_\__, | / / / /
+</span></span></span><span style=display:flex><span><span style=color:#e6db74> =========|_|==============|___/=/_/_/_/
+</span></span></span><span style=display:flex><span><span style=color:#e6db74> :: Spring Boot ::        (v1.2.1.RELEASE)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>...
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Got connect: WebSocketSession[websocket=...]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Got msg: welcome
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>2015-01-21 20:06:57.812  INFO 10817 --- [o-auto-1-exec-2] d.l.b.examples.MyTextWebSocketHandler    : 0 subscribed to time
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Got msg: {type:&#39;</span>info<span style=color:#e6db74>&#39;,message: &#39;</span>subscribed to time<span style=color:#e6db74>&#39;}
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Got msg: { type: &#39;</span>date<span style=color:#e6db74>&#39;, data: &#39;</span>Wed Jan <span style=color:#ae81ff>21</span> 20:06:58 CET 2015<span style=color:#e6db74>&#39;}
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>2015-01-21 20:06:58.810  INFO 10817 --- [o-auto-1-exec-3] d.l.b.examples.MyTextWebSocketHandler    : 0 subscribed to time
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Got msg: {type:&#39;</span>info<span style=color:#e6db74>&#39;,message: &#39;</span>unsubscribed from time<span style=color:#960050;background-color:#1e0010>&#39;</span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>Connection closed: <span style=color:#ae81ff>1000</span> - null
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.996 sec - in de.lgohlke.blog.examples.MyTextWebSocketHandlerTest
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Results :
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Tests run: 1, Failures: 0, Errors: 0, Skipped: <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> ------------------------------------------------------------------------
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> BUILD SUCCESS
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> ------------------------------------------------------------------------
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div></div><footer></footer></article></section></div><footer class=footer><section class=container>©
+2012 -
+2026
+Lars K.W. Gohlke
+·
+Licensed under GPLv3
+·
+Powered by <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> & <a href=https://github.com/luizdepra/hugo-coder/ target=_blank rel=noopener>Coder</a>.
+<a href=/index.xml>rss</a></section></footer></main><script src=/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script></body></html>

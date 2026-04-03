@@ -1,0 +1,226 @@
+<!doctype html><html lang=en><head><title>Howto: Duplikate mit rdfind finden und mit einem Hardlink ersetzen · Erwähnenswert</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=color-scheme content="light dark"><meta name=author content="Lars K.W. Gohlke"><meta name=description content="Am Wochenende habe ich mir wieder mein lokales Backup angeschaut, um es dann wie jeden Monat auf die externe Platte zu spiegeln. Dabei ist aufgefallen, dass backintime sehr intelligent nur die geänderten oder neuen Dateien übernimmt. Allerdings sind fallen Umbenennungen bzw. verschobene Dateien jedes Mal mit der vollen Größe ins Gewicht.
+Nun kommt rdfind ins Spiel.
+Mit dem Paketmanager installieren:
+$ sudo apt-get install rdfind
+
+  Step-by-Step Demo
+  
+    
+    Link to heading
+  
+
+# emuliere eine Backupverzeichnisstruktur in /tmp
+$ cd /tmp/
+$ mkdir backup
+$ cd backup/
+$ mkdir -p 2013/{01..08}/home/lars
+# in jedem Verzeichnis 'lars' eine 100M Datei erstellen
+$ find -type d -name lars -exec dd if=/dev/zero bs=1M count=100 of={}/x \;
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,326316 s, 321 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,274126 s, 383 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,24677 s, 425 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,243897 s, 430 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,301347 s, 348 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,268799 s, 390 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,325733 s, 322 MB/s
+100+0 Datensätze ein
+100+0 Datensätze aus
+104857600 Bytes (105 MB) kopiert, 0,248939 s, 421 MB/s
+# aktuelle Platzverbrauch
+$ du -sh
+801M    .
+
+$ rdfind -makehardlinks true *
+Now scanning &#34;2013&#34;, found 8 files.
+Now have 8 files in total.
+Removed 0 files due to nonunique device and inode.
+Now removing files with zero size from list...removed 0 files
+Total size is 838860800 bytes or 800 Mib
+Now sorting on size:removed 0 files due to unique sizes from list.8 files left.
+Now eliminating candidates based on first bytes:removed 0 files from list.8 files left.
+Now eliminating candidates based on last bytes:removed 0 files from list.8 files left.
+Now eliminating candidates based on md5 checksum:removed 0 files from list.8 files left.
+It seems like you have 8 files that are not unique
+Totally, 700 Mib can be reduced.
+Now making results file results.txt
+Now making hard links.
+Making 7 links.
+
+$ du -sh
+101M .
+Das wurde hier an einer Datei demonstriert die in all ihren Kopien identisch ist, weil sie aus &lsquo;0&rsquo; besteht."><meta name=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Howto: Duplikate mit rdfind finden und mit einem Hardlink ersetzen"><meta name=twitter:description content="Am Wochenende habe ich mir wieder mein lokales Backup angeschaut, um es dann wie jeden Monat auf die externe Platte zu spiegeln. Dabei ist aufgefallen, dass backintime sehr intelligent nur die geänderten oder neuen Dateien übernimmt. Allerdings sind fallen Umbenennungen bzw. verschobene Dateien jedes Mal mit der vollen Größe ins Gewicht.
+Nun kommt rdfind ins Spiel.
+Mit dem Paketmanager installieren:
+$ sudo apt-get install rdfind Step-by-Step Demo Link to heading # emuliere eine Backupverzeichnisstruktur in /tmp $ cd /tmp/ $ mkdir backup $ cd backup/ $ mkdir -p 2013/{01..08}/home/lars # in jedem Verzeichnis 'lars' eine 100M Datei erstellen $ find -type d -name lars -exec dd if=/dev/zero bs=1M count=100 of={}/x \; 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,326316 s, 321 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,274126 s, 383 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,24677 s, 425 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,243897 s, 430 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,301347 s, 348 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,268799 s, 390 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,325733 s, 322 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,248939 s, 421 MB/s # aktuelle Platzverbrauch $ du -sh 801M . $ rdfind -makehardlinks true * Now scanning &#34;2013&#34;, found 8 files. Now have 8 files in total. Removed 0 files due to nonunique device and inode. Now removing files with zero size from list...removed 0 files Total size is 838860800 bytes or 800 Mib Now sorting on size:removed 0 files due to unique sizes from list.8 files left. Now eliminating candidates based on first bytes:removed 0 files from list.8 files left. Now eliminating candidates based on last bytes:removed 0 files from list.8 files left. Now eliminating candidates based on md5 checksum:removed 0 files from list.8 files left. It seems like you have 8 files that are not unique Totally, 700 Mib can be reduced. Now making results file results.txt Now making hard links. Making 7 links. $ du -sh 101M . Das wurde hier an einer Datei demonstriert die in all ihren Kopien identisch ist, weil sie aus ‘0’ besteht."><meta property="og:url" content="https://blog.lgohlke.de/posts/2013-08-20-howto-duplikate-mit-rdfind-finden-und-mit-einem-hardlink-ersetzen/"><meta property="og:site_name" content="Erwähnenswert"><meta property="og:title" content="Howto: Duplikate mit rdfind finden und mit einem Hardlink ersetzen"><meta property="og:description" content="Am Wochenende habe ich mir wieder mein lokales Backup angeschaut, um es dann wie jeden Monat auf die externe Platte zu spiegeln. Dabei ist aufgefallen, dass backintime sehr intelligent nur die geänderten oder neuen Dateien übernimmt. Allerdings sind fallen Umbenennungen bzw. verschobene Dateien jedes Mal mit der vollen Größe ins Gewicht.
+Nun kommt rdfind ins Spiel.
+Mit dem Paketmanager installieren:
+$ sudo apt-get install rdfind Step-by-Step Demo Link to heading # emuliere eine Backupverzeichnisstruktur in /tmp $ cd /tmp/ $ mkdir backup $ cd backup/ $ mkdir -p 2013/{01..08}/home/lars # in jedem Verzeichnis 'lars' eine 100M Datei erstellen $ find -type d -name lars -exec dd if=/dev/zero bs=1M count=100 of={}/x \; 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,326316 s, 321 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,274126 s, 383 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,24677 s, 425 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,243897 s, 430 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,301347 s, 348 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,268799 s, 390 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,325733 s, 322 MB/s 100+0 Datensätze ein 100+0 Datensätze aus 104857600 Bytes (105 MB) kopiert, 0,248939 s, 421 MB/s # aktuelle Platzverbrauch $ du -sh 801M . $ rdfind -makehardlinks true * Now scanning &#34;2013&#34;, found 8 files. Now have 8 files in total. Removed 0 files due to nonunique device and inode. Now removing files with zero size from list...removed 0 files Total size is 838860800 bytes or 800 Mib Now sorting on size:removed 0 files due to unique sizes from list.8 files left. Now eliminating candidates based on first bytes:removed 0 files from list.8 files left. Now eliminating candidates based on last bytes:removed 0 files from list.8 files left. Now eliminating candidates based on md5 checksum:removed 0 files from list.8 files left. It seems like you have 8 files that are not unique Totally, 700 Mib can be reduced. Now making results file results.txt Now making hard links. Making 7 links. $ du -sh 101M . Das wurde hier an einer Datei demonstriert die in all ihren Kopien identisch ist, weil sie aus ‘0’ besteht."><meta property="og:locale" content="de_de"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2013-08-20T21:10:32+00:00"><meta property="article:modified_time" content="2013-08-20T21:10:32+00:00"><meta property="article:tag" content="Linux"><meta property="article:tag" content="Rdfind"><meta property="article:tag" content="Backup"><link rel=canonical href=https://blog.lgohlke.de/posts/2013-08-20-howto-duplikate-mit-rdfind-finden-und-mit-einem-hardlink-ersetzen/><link rel=preload href=/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin><link rel=stylesheet href=/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin=anonymous media=screen><link rel=icon type=image/svg+xml href=/images/favicon.svg sizes=any><link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16><link rel=apple-touch-icon href=/images/apple-touch-icon.png><link rel=apple-touch-icon sizes=180x180 href=/images/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/images/safari-pinned-tab.svg color=#5bbad5></head><body class="preload-transitions colorscheme-light"><div class=float-container><a id=dark-mode-toggle class=colorscheme-toggle><i class="fa-solid fa-adjust fa-fw" aria-hidden=true></i></a></div><main class=wrapper><nav class=navigation><section class=container><a class=navigation-title href=https://blog.lgohlke.de/>Erwähnenswert</a></section></nav><div class=content><section class="container post"><article><header><div class=post-title><h1 class=title><a class=title-link href=https://blog.lgohlke.de/posts/2013-08-20-howto-duplikate-mit-rdfind-finden-und-mit-einem-hardlink-ersetzen/>Howto: Duplikate mit rdfind finden und mit einem Hardlink ersetzen</a></h1></div><div class=post-meta><div class=date><span class=posted-on><i class="fa-solid fa-calendar" aria-hidden=true></i>
+<time datetime=2013-08-20T21:10:32Z>August 20, 2013
+</time></span><span class=reading-time><i class="fa-solid fa-clock" aria-hidden=true></i>
+5-minute read</span></div><div class=tags><i class="fa-solid fa-tag" aria-hidden=true></i>
+<span class=tag><a href=/tags/linux/>Linux</a>
+</span><span class=separator>•</span>
+<span class=tag><a href=/tags/rdfind/>Rdfind</a>
+</span><span class=separator>•</span>
+<span class=tag><a href=/tags/backup/>Backup</a></span></div></div></header><div class=post-content><p>Am Wochenende habe ich mir wieder mein lokales Backup angeschaut, um es dann wie jeden Monat auf die externe Platte zu spiegeln. Dabei ist aufgefallen, dass <a href=http://backintime.le-web.org/ class=external-link target=_blank rel=noopener>backintime</a> sehr intelligent nur die geänderten oder neuen Dateien übernimmt. Allerdings sind fallen Umbenennungen bzw. verschobene Dateien jedes Mal mit der vollen Größe ins Gewicht.</p><p>Nun kommt <a href=http://rdfind.pauldreik.se/ class=external-link target=_blank rel=noopener>rdfind</a> ins Spiel.</p><p>Mit dem Paketmanager installieren:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo apt-get install rdfind
+</span></span></code></pre></div><h2 id=step-by-step-demo>Step-by-Step Demo
+<a class=heading-link href=#step-by-step-demo><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># emuliere eine Backupverzeichnisstruktur in /tmp</span>
+</span></span><span style=display:flex><span>$ cd /tmp/
+</span></span><span style=display:flex><span>$ mkdir backup
+</span></span><span style=display:flex><span>$ cd backup/
+</span></span><span style=display:flex><span>$ mkdir -p 2013/<span style=color:#f92672>{</span>01..08<span style=color:#f92672>}</span>/home/lars
+</span></span><span style=display:flex><span><span style=color:#75715e># in jedem Verzeichnis &#39;lars&#39; eine 100M Datei erstellen</span>
+</span></span><span style=display:flex><span>$ find -type d -name lars -exec dd <span style=color:#66d9ef>if</span><span style=color:#f92672>=</span>/dev/zero bs<span style=color:#f92672>=</span>1M count<span style=color:#f92672>=</span><span style=color:#ae81ff>100</span> of<span style=color:#f92672>={}</span>/x <span style=color:#ae81ff>\;</span>
+</span></span><span style=display:flex><span>100+0 Datensätze ein
+</span></span><span style=display:flex><span>100+0 Datensätze aus
+</span></span><span style=display:flex><span><span style=color:#ae81ff>104857600</span> Bytes <span style=color:#f92672>(</span><span style=color:#ae81ff>105</span> MB<span style=color:#f92672>)</span> kopiert, 0,326316 s, <span style=color:#ae81ff>321</span> MB/s
+</span></span><span style=display:flex><span>100+0 Datensätze ein
+</span></span><span style=display:flex><span>100+0 Datensätze aus
+</span></span><span style=display:flex><span><span style=color:#ae81ff>104857600</span> Bytes <span style=color:#f92672>(</span><span style=color:#ae81ff>105</span> MB<span style=color:#f92672>)</span> kopiert, 0,274126 s, <span style=color:#ae81ff>383</span> MB/s
+</span></span><span style=display:flex><span>100+0 Datensätze ein
+</span></span><span style=display:flex><span>100+0 Datensätze aus
+</span></span><span style=display:flex><span><span style=color:#ae81ff>104857600</span> Bytes <span style=color:#f92672>(</span><span style=color:#ae81ff>105</span> MB<span style=color:#f92672>)</span> kopiert, 0,24677 s, <span style=color:#ae81ff>425</span> MB/s
+</span></span><span style=display:flex><span>100+0 Datensätze ein
+</span></span><span style=display:flex><span>100+0 Datensätze aus
+</span></span><span style=display:flex><span><span style=color:#ae81ff>104857600</span> Bytes <span style=color:#f92672>(</span><span style=color:#ae81ff>105</span> MB<span style=color:#f92672>)</span> kopiert, 0,243897 s, <span style=color:#ae81ff>430</span> MB/s
+</span></span><span style=display:flex><span>100+0 Datensätze ein
+</span></span><span style=display:flex><span>100+0 Datensätze aus
+</span></span><span style=display:flex><span><span style=color:#ae81ff>104857600</span> Bytes <span style=color:#f92672>(</span><span style=color:#ae81ff>105</span> MB<span style=color:#f92672>)</span> kopiert, 0,301347 s, <span style=color:#ae81ff>348</span> MB/s
+</span></span><span style=display:flex><span>100+0 Datensätze ein
+</span></span><span style=display:flex><span>100+0 Datensätze aus
+</span></span><span style=display:flex><span><span style=color:#ae81ff>104857600</span> Bytes <span style=color:#f92672>(</span><span style=color:#ae81ff>105</span> MB<span style=color:#f92672>)</span> kopiert, 0,268799 s, <span style=color:#ae81ff>390</span> MB/s
+</span></span><span style=display:flex><span>100+0 Datensätze ein
+</span></span><span style=display:flex><span>100+0 Datensätze aus
+</span></span><span style=display:flex><span><span style=color:#ae81ff>104857600</span> Bytes <span style=color:#f92672>(</span><span style=color:#ae81ff>105</span> MB<span style=color:#f92672>)</span> kopiert, 0,325733 s, <span style=color:#ae81ff>322</span> MB/s
+</span></span><span style=display:flex><span>100+0 Datensätze ein
+</span></span><span style=display:flex><span>100+0 Datensätze aus
+</span></span><span style=display:flex><span><span style=color:#ae81ff>104857600</span> Bytes <span style=color:#f92672>(</span><span style=color:#ae81ff>105</span> MB<span style=color:#f92672>)</span> kopiert, 0,248939 s, <span style=color:#ae81ff>421</span> MB/s
+</span></span><span style=display:flex><span><span style=color:#75715e># aktuelle Platzverbrauch</span>
+</span></span><span style=display:flex><span>$ du -sh
+</span></span><span style=display:flex><span>801M    .
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ rdfind -makehardlinks true *
+</span></span><span style=display:flex><span>Now scanning <span style=color:#e6db74>&#34;2013&#34;</span>, found <span style=color:#ae81ff>8</span> files.
+</span></span><span style=display:flex><span>Now have <span style=color:#ae81ff>8</span> files in total.
+</span></span><span style=display:flex><span>Removed <span style=color:#ae81ff>0</span> files due to nonunique device and inode.
+</span></span><span style=display:flex><span>Now removing files with zero size from list...removed <span style=color:#ae81ff>0</span> files
+</span></span><span style=display:flex><span>Total size is <span style=color:#ae81ff>838860800</span> bytes or <span style=color:#ae81ff>800</span> Mib
+</span></span><span style=display:flex><span>Now sorting on size:removed <span style=color:#ae81ff>0</span> files due to unique sizes from list.8 files left.
+</span></span><span style=display:flex><span>Now eliminating candidates based on first bytes:removed <span style=color:#ae81ff>0</span> files from list.8 files left.
+</span></span><span style=display:flex><span>Now eliminating candidates based on last bytes:removed <span style=color:#ae81ff>0</span> files from list.8 files left.
+</span></span><span style=display:flex><span>Now eliminating candidates based on md5 checksum:removed <span style=color:#ae81ff>0</span> files from list.8 files left.
+</span></span><span style=display:flex><span>It seems like you have <span style=color:#ae81ff>8</span> files that are not unique
+</span></span><span style=display:flex><span>Totally, <span style=color:#ae81ff>700</span> Mib can be reduced.
+</span></span><span style=display:flex><span>Now making results file results.txt
+</span></span><span style=display:flex><span>Now making hard links.
+</span></span><span style=display:flex><span>Making <span style=color:#ae81ff>7</span> links.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ du -sh
+</span></span><span style=display:flex><span>101M .
+</span></span></code></pre></div><p>Das wurde hier an einer Datei demonstriert die in all ihren Kopien identisch ist, weil sie aus &lsquo;0&rsquo; besteht.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># nun das ganze mit wild verstreuten Dateien</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># alte wegräumen</span>
+</span></span><span style=display:flex><span>$ find -type f -name x -exec rm <span style=color:#f92672>{}</span> <span style=color:#ae81ff>\;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># in jedem Verzeichnis eine &#39;x&#39; 1MB groß</span>
+</span></span><span style=display:flex><span>$ find -type d -exec dd <span style=color:#66d9ef>if</span><span style=color:#f92672>=</span>/dev/zero bs<span style=color:#f92672>=</span>1M count<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span> of<span style=color:#f92672>={}</span>/x <span style=color:#ae81ff>\;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ find
+</span></span><span style=display:flex><span>.
+</span></span><span style=display:flex><span>./2013
+</span></span><span style=display:flex><span>./2013/01
+</span></span><span style=display:flex><span>./2013/01/x
+</span></span><span style=display:flex><span>./2013/01/home
+</span></span><span style=display:flex><span>./2013/01/home/lars
+</span></span><span style=display:flex><span>./2013/01/home/lars/x
+</span></span><span style=display:flex><span>./2013/01/home/x
+</span></span><span style=display:flex><span>./2013/03
+</span></span><span style=display:flex><span>./2013/03/home/lars
+</span></span><span style=display:flex><span>./2013/03/home/lars/x
+</span></span><span style=display:flex><span>./2013/03/home/x
+</span></span><span style=display:flex><span>./2013/07
+</span></span><span style=display:flex><span>./2013/07/x
+</span></span><span style=display:flex><span>./2013/07/home
+</span></span><span style=display:flex><span>./2013/07/home/lars
+</span></span><span style=display:flex><span>./2013/07/home/lars/x
+</span></span><span style=display:flex><span>./2013/07/home/x
+</span></span><span style=display:flex><span>./2013/08
+</span></span><span style=display:flex><span>./2013/08/x
+</span></span><span style=display:flex><span>./2013/08/home
+</span></span><span style=display:flex><span>./2013/08/home/lars
+</span></span><span style=display:flex><span>./2013/08/home/lars/x
+</span></span><span style=display:flex><span>./2013/08/home/x
+</span></span><span style=display:flex><span>./2013/06
+</span></span><span style=display:flex><span>./2013/06/x
+</span></span><span style=display:flex><span>./2013/06/home
+</span></span><span style=display:flex><span>./2013/06/home/lars
+</span></span><span style=display:flex><span>./2013/06/home/lars/x
+</span></span><span style=display:flex><span>./2013/04/x
+</span></span><span style=display:flex><span>./2013/04/home
+</span></span><span style=display:flex><span>./2013/04/home/lars
+</span></span><span style=display:flex><span>./2013/04/home/lars/x
+</span></span><span style=display:flex><span>./2013/04/home/x
+</span></span><span style=display:flex><span>./2013/02
+</span></span><span style=display:flex><span>./2013/02/x
+</span></span><span style=display:flex><span>./2013/02/home
+</span></span><span style=display:flex><span>./2013/02/home/lars
+</span></span><span style=display:flex><span>./2013/02/home/lars/x
+</span></span><span style=display:flex><span>./2013/02/home/x
+</span></span><span style=display:flex><span>./2013/05
+</span></span><span style=display:flex><span>./2013/05/x
+</span></span><span style=display:flex><span>./2013/05/home
+</span></span><span style=display:flex><span>./2013/05/home/lars
+</span></span><span style=display:flex><span>./2013/05/home/lars/x
+</span></span><span style=display:flex><span>./2013/05/home/x
+</span></span><span style=display:flex><span>./x
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># vorher</span>
+</span></span><span style=display:flex><span>$ du -sh
+</span></span><span style=display:flex><span>27M .
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$ rdfind -makehardlinks true *
+</span></span><span style=display:flex><span>Now scanning <span style=color:#e6db74>&#34;2013&#34;</span>, found <span style=color:#ae81ff>25</span> files.
+</span></span><span style=display:flex><span>Now scanning <span style=color:#e6db74>&#34;x&#34;</span>, found <span style=color:#ae81ff>1</span> files.
+</span></span><span style=display:flex><span>Now have <span style=color:#ae81ff>26</span> files in total.
+</span></span><span style=display:flex><span>Removed <span style=color:#ae81ff>0</span> files due to nonunique device and inode.
+</span></span><span style=display:flex><span>Now removing files with zero size from list...removed <span style=color:#ae81ff>0</span> files
+</span></span><span style=display:flex><span>Total size is <span style=color:#ae81ff>27262976</span> bytes or <span style=color:#ae81ff>26</span> Mib
+</span></span><span style=display:flex><span>Now sorting on size:removed <span style=color:#ae81ff>0</span> files due to unique sizes from list.26 files left.
+</span></span><span style=display:flex><span>Now eliminating candidates based on first bytes:removed <span style=color:#ae81ff>0</span> files from list.26 files left.
+</span></span><span style=display:flex><span>Now eliminating candidates based on last bytes:removed <span style=color:#ae81ff>0</span> files from list.26 files left.
+</span></span><span style=display:flex><span>Now eliminating candidates based on md5 checksum:removed <span style=color:#ae81ff>0</span> files from list.26 files left.
+</span></span><span style=display:flex><span>It seems like you have <span style=color:#ae81ff>26</span> files that are not unique
+</span></span><span style=display:flex><span>Totally, <span style=color:#ae81ff>25</span> Mib can be reduced.
+</span></span><span style=display:flex><span>Now making results file results.txt
+</span></span><span style=display:flex><span>Now making hard links.
+</span></span><span style=display:flex><span>Making <span style=color:#ae81ff>25</span> links.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># nachher</span>
+</span></span><span style=display:flex><span>$ du -sh
+</span></span><span style=display:flex><span>1,2M .
+</span></span></code></pre></div><p>Auf der Homepage <a href=http://rdfind.pauldreik.se/ class=external-link target=_blank rel=noopener>rdfind</a> ist der Algorithmus einfach dargestellt.</p><h2 id=algorithm>Algorithm
+<a class=heading-link href=#algorithm><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Rdfind uses the following algorithm. If N is the number of files to search through, the effort required is in worst case O(Nlog(N)). Because it sorts files on inodes prior to disk reading, it is quite fast. It also only reads from disk when it is needed.</p><ol><li>Loop over each argument on the command line. Assign each argument a priority number, in increasing order.</li><li>For each argument, list the directory contents recursively and assign it to the file list. Assign a directory depth number, starting at 0 for every argument.</li><li>If the input argument is a file, add it to the file list.</li><li>Loop over the list, and find out the sizes of all files.</li><li>If flag -removeidentinode true: Remove items from the list which already are added, based on the combination of inode and device number. A group of files that are hardlinked to the same file are collapsed to one entry. Also see the comment on hardlinks under &ldquo;caveats below&rdquo;!</li><li>Sort files on size. Remove files from the list, which have unique sizes.</li><li>Sort on device and inode(speeds up file reading). Read a few bytes from the beginning of each file (first bytes).</li><li>Remove files from list that have the same size but different first bytes.</li><li>Sort on device and inode(speeds up file reading). Read a few bytes from the end of each file (last bytes).</li><li>Remove files from list that have the same size but different last bytes.</li><li>Sort on device and inode(speeds up file reading). Perform a checksum calculation for each file.</li><li>Only keep files on the list with the same size and checksum. These are duplicates.</li><li>Sort list on size, priority number, and depth. The first file for every set of duplicates is considered to be the original.</li><li>If flag &ldquo;-makeresultsfile true&rdquo;, then print results file (default). Exit.(?)</li><li>If flag &ldquo;-deleteduplicates true&rdquo;, then delete (unlink) duplicate files. Exit.</li><li>If flag &ldquo;-makesymlinks true&rdquo;, then replace duplicates with a symbolic link to the original. Exit.</li><li>If flag &ldquo;-makehardlinks true&rdquo;, then replace duplicates with a hard link to the original. Exit.</li></ol><h2 id=fazit>Fazit
+<a class=heading-link href=#fazit><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Einfach zu lernen. Ich hatte eine sehr gute <em>user experience</em> ;).</p></div><footer></footer></article></section></div><footer class=footer><section class=container>©
+2012 -
+2026
+Lars K.W. Gohlke
+·
+Licensed under GPLv3
+·
+Powered by <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> & <a href=https://github.com/luizdepra/hugo-coder/ target=_blank rel=noopener>Coder</a>.
+<a href=/index.xml>rss</a></section></footer></main><script src=/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script></body></html>

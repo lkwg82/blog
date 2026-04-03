@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Encfs on Erwähnenswert</title><link>https://blog.lgohlke.de/tags/encfs/</link><description>Recent content in Encfs on Erwähnenswert</description><generator>Hugo</generator><language>de-de</language><lastBuildDate>Mon, 08 Apr 2013 21:53:04 +0000</lastBuildDate><atom:link href="https://blog.lgohlke.de/tags/encfs/index.xml" rel="self" type="application/rss+xml"/><item><title>Sicheres und einfaches Backup mit Encfs in die Cloud</title><link>https://blog.lgohlke.de/posts/2013-04-08-sicheres-und-einfaches-backup-mit-encfs-in-die-cloud/</link><pubDate>Mon, 08 Apr 2013 21:53:04 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2013-04-08-sicheres-und-einfaches-backup-mit-encfs-in-die-cloud/</guid><description>&lt;p&gt;Wie in &lt;a href="http://blog.lgohlke.de/2013/02/encfs-reverse.html" class="external-link" target="_blank" rel="noopener"&gt;encfs &amp;ndash;reverse&lt;/a&gt; schon angekündigt, stellt &lt;a href="http://www.arg0.net/encfs" class="external-link" target="_blank" rel="noopener"&gt;encfs&lt;/a&gt; eine einfache praktikable Lösung bereit, Klartext-Verzeichnisse on-the-fly als verschlüsselte Verzeichnisse zu mounten.&lt;/p&gt;
+&lt;h2 id="übersicht"&gt;
+ Übersicht
+ &lt;a class="heading-link" href="#%c3%bcbersicht"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;Dazu bedarf es nur weniger Zeilen (1) und der Information zur Verschlüsselung im Klartextverzeichnis (2)&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;encfs --reverse clear-text-directory directory-to-show-as-encrypted
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ls -al
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;insgesamt &lt;span style="color:#ae81ff"&gt;2768&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;drwxr-xr-x &lt;span style="color:#ae81ff"&gt;10&lt;/span&gt; lars lars &lt;span style="color:#ae81ff"&gt;4096&lt;/span&gt; Mär &lt;span style="color:#ae81ff"&gt;15&lt;/span&gt; 15:18 .
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;drwxr-xr-x &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; lars lars &lt;span style="color:#ae81ff"&gt;4096&lt;/span&gt; Dez &lt;span style="color:#ae81ff"&gt;17&lt;/span&gt; 23:46 ..
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-rw-r--r-- &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; lars lars &lt;span style="color:#ae81ff"&gt;1090&lt;/span&gt; Feb &lt;span style="color:#ae81ff"&gt;13&lt;/span&gt; 10:39 .encfs6.xml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Die Datei aus (2) bekommt man durch den klassischen Weg (Anlegen eines verschlüsselten Verzeichnisses)&lt;/p&gt;</description></item><item><title>EncFS --reverse</title><link>https://blog.lgohlke.de/posts/2013-02-17-encfs---reverse/</link><pubDate>Sun, 17 Feb 2013 22:42:00 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2013-02-17-encfs---reverse/</guid><description>&lt;p&gt;Gerade habe ich in der Manpage von EncFS eine sehr schöne Lösung für ein sicheres Backup in der Cloud gefunden.&lt;/p&gt;
+&lt;p&gt;Encfs ist ein Dateisystem im Userspace und bietet eine Sicht auf Verzeichnisse an. Ursprünglich ging es darum verschlüsselte Verzeichnisse entschlüsselt anzuzeigen. Der &lt;em&gt;Reverse&lt;/em&gt; Modus bietet genau den umgekehrten Weg an. Somit können beliebige (unverschlüsselte) Verzeichnisse mittels &lt;code&gt;EncFs&lt;/code&gt; als verschlüsselte Verzeichnisse angezeigt werden.&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;Wow. Wtf?&amp;rdquo; Werden sich gerade einige fragen. Aber mit dieser umgekehrten Sicht, kann man einfach mit einem Synchronisationswerkzeug das Ganze an syncronisieren. &amp;ldquo;Wow!&amp;rdquo;&lt;/p&gt;</description></item></channel></rss>

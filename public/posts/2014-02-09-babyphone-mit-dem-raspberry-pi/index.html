@@ -1,0 +1,217 @@
+<!doctype html><html lang=en><head><title>Howto Babyphone mit dem Raspberry PI · Erwähnenswert</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=color-scheme content="light dark"><meta name=author content="Lars K.W. Gohlke"><meta name=description content="Bald ist es soweit und das Babyphone muss eingerichtet werden. Dazu habe ich mir die Webcam Logitech C920 und Raspberry Pi Modell B gekauft.
+Hier nun meine kleine Anleitung um auf dem Handy Bild und Ton zu haben.
+
+  Vorraussetzungen
+  
+    
+    Link to heading
+  
+
+Der PI hat Netzzugang und ihr könnt per SSH rauf.
+
+  Schritte zum Erfolg - das Bild
+  
+    
+    Link to heading
+  
+
+Als erstes die Tools installieren:"><meta name=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Howto Babyphone mit dem Raspberry PI"><meta name=twitter:description content="Bald ist es soweit und das Babyphone muss eingerichtet werden. Dazu habe ich mir die Webcam Logitech C920 und Raspberry Pi Modell B gekauft.
+Hier nun meine kleine Anleitung um auf dem Handy Bild und Ton zu haben.
+Vorraussetzungen Link to heading Der PI hat Netzzugang und ihr könnt per SSH rauf.
+Schritte zum Erfolg - das Bild Link to heading Als erstes die Tools installieren:"><meta property="og:url" content="https://blog.lgohlke.de/posts/2014-02-09-babyphone-mit-dem-raspberry-pi/"><meta property="og:site_name" content="Erwähnenswert"><meta property="og:title" content="Howto Babyphone mit dem Raspberry PI"><meta property="og:description" content="Bald ist es soweit und das Babyphone muss eingerichtet werden. Dazu habe ich mir die Webcam Logitech C920 und Raspberry Pi Modell B gekauft.
+Hier nun meine kleine Anleitung um auf dem Handy Bild und Ton zu haben.
+Vorraussetzungen Link to heading Der PI hat Netzzugang und ihr könnt per SSH rauf.
+Schritte zum Erfolg - das Bild Link to heading Als erstes die Tools installieren:"><meta property="og:locale" content="de_de"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2014-02-09T13:08:00+00:00"><meta property="article:modified_time" content="2014-02-09T13:08:00+00:00"><meta property="article:tag" content="Raspberry-Pi"><meta property="article:tag" content="Webcam"><meta property="article:tag" content="Streaming"><link rel=canonical href=https://blog.lgohlke.de/posts/2014-02-09-babyphone-mit-dem-raspberry-pi/><link rel=preload href=/fonts/fa-brands-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-regular-400.woff2 as=font type=font/woff2 crossorigin><link rel=preload href=/fonts/fa-solid-900.woff2 as=font type=font/woff2 crossorigin><link rel=stylesheet href=/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin=anonymous media=screen><link rel=icon type=image/svg+xml href=/images/favicon.svg sizes=any><link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16><link rel=apple-touch-icon href=/images/apple-touch-icon.png><link rel=apple-touch-icon sizes=180x180 href=/images/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/images/safari-pinned-tab.svg color=#5bbad5></head><body class="preload-transitions colorscheme-light"><div class=float-container><a id=dark-mode-toggle class=colorscheme-toggle><i class="fa-solid fa-adjust fa-fw" aria-hidden=true></i></a></div><main class=wrapper><nav class=navigation><section class=container><a class=navigation-title href=https://blog.lgohlke.de/>Erwähnenswert</a></section></nav><div class=content><section class="container post"><article><header><div class=post-title><h1 class=title><a class=title-link href=https://blog.lgohlke.de/posts/2014-02-09-babyphone-mit-dem-raspberry-pi/>Howto Babyphone mit dem Raspberry PI</a></h1></div><div class=post-meta><div class=date><span class=posted-on><i class="fa-solid fa-calendar" aria-hidden=true></i>
+<time datetime=2014-02-09T13:08:00Z>February 9, 2014
+</time></span><span class=reading-time><i class="fa-solid fa-clock" aria-hidden=true></i>
+4-minute read</span></div><div class=tags><i class="fa-solid fa-tag" aria-hidden=true></i>
+<span class=tag><a href=/tags/raspberry-pi/>Raspberry-Pi</a>
+</span><span class=separator>•</span>
+<span class=tag><a href=/tags/webcam/>Webcam</a>
+</span><span class=separator>•</span>
+<span class=tag><a href=/tags/streaming/>Streaming</a></span></div></div></header><div class=post-content><p>Bald ist es soweit und das Babyphone muss eingerichtet werden. Dazu habe ich mir die Webcam <a href=http://www.logitech.com/de-de/product/hd-pro-webcam-c920 class=external-link target=_blank rel=noopener>Logitech C920</a> und <a href=http://de.wikipedia.org/wiki/Raspberry_Pi#Spezifikationen class=external-link target=_blank rel=noopener>Raspberry Pi Modell B</a> gekauft.</p><p>Hier nun meine kleine Anleitung um auf dem Handy Bild und Ton zu haben.</p><h2 id=vorraussetzungen>Vorraussetzungen
+<a class=heading-link href=#vorraussetzungen><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Der PI hat Netzzugang und ihr könnt per SSH rauf.</p><h2 id=bild>Schritte zum Erfolg - das Bild
+<a class=heading-link href=#bild><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Als erstes die Tools installieren:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo apt-get update
+</span></span><span style=display:flex><span>$ sudo apt-get install build-essential libjpeg-dev imagemagick subversion libv4l-dev
+</span></span></code></pre></div><p>Dann <a href=http://sourceforge.net/projects/mjpg-streamer/ class=external-link target=_blank rel=noopener>mjpg-streamer</a> installieren (leider gibt es noch kein Binärpaket):</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ cd /tmp
+</span></span><span style=display:flex><span>$ svn co https://svn.code.sf.net/p/mjpg-streamer/code/mjpg-streamer mjpg-streamer
+</span></span><span style=display:flex><span>$ cd mjpg-streamer
+</span></span><span style=display:flex><span>$ make USE_LIBV4L2<span style=color:#f92672>=</span>true
+</span></span><span style=display:flex><span>$ sudo make install
+</span></span></code></pre></div><p>MJPEG-Streamer als Dienst installieren mit diesem Init-skript:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>#!/bin/sh
+</span></span></span><span style=display:flex><span><span style=color:#75715e># /etc/init.d/mjpg_streamer</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Creation:    04.02.2013</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Last Update: 04.02.2013</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Written by Georg Kainzbauer (http://www.gtkdb.de)</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### BEGIN INIT INFO</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Provides:          mjpg_streamer</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Required-Start:    $all</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Required-Stop:     $all</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Default-Start:     2 3 4 5</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Default-Stop:      0 1 6</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Short-Description: MJPG-Streamer</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Description:       MJPG-Streamer takes JPGs from Linux-UVC compatible webcams and streams them as M-JPEG via HTTP.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### END INIT INFO</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>start<span style=color:#f92672>()</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  echo <span style=color:#e6db74>&#34;Starting mjpg-streamer...&#34;</span>
+</span></span><span style=display:flex><span>  /usr/local/bin/mjpg_streamer -i <span style=color:#e6db74>&#34;/usr/local/lib/input_uvc.so -d /dev/video0 -n&#34;</span> -o <span style=color:#e6db74>&#34;/usr/local/lib/output_http.so -n -w /usr/local/www -p 8080&#34;</span> &gt;/dev/null 2&gt;&amp;<span style=color:#ae81ff>1</span> &amp;
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>stop<span style=color:#f92672>()</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  echo <span style=color:#e6db74>&#34;Stopping mjpg-streamer...&#34;</span>
+</span></span><span style=display:flex><span>  kill -9 <span style=color:#66d9ef>$(</span>pidof mjpg_streamer<span style=color:#66d9ef>)</span> &gt;/dev/null 2&gt;&amp;<span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>case</span> <span style=color:#e6db74>&#34;</span>$1<span style=color:#e6db74>&#34;</span> in
+</span></span><span style=display:flex><span>  start<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    start
+</span></span><span style=display:flex><span>    ;;
+</span></span><span style=display:flex><span>  stop<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    stop
+</span></span><span style=display:flex><span>    ;;
+</span></span><span style=display:flex><span>  restart<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    stop
+</span></span><span style=display:flex><span>    start
+</span></span><span style=display:flex><span>    ;;
+</span></span><span style=display:flex><span>  *<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;Usage: </span>$0<span style=color:#e6db74> {start|stop|restart}&#34;</span>
+</span></span><span style=display:flex><span>    ;;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>esac</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>exit <span style=color:#ae81ff>0</span>
+</span></span></code></pre></div><p>und bitte beim nächsten Booten automatisch mitstarten</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo chmod <span style=color:#ae81ff>0755</span> /etc/init.d/mjpg_streamer
+</span></span><span style=display:flex><span>$ sudo update-rc.d mjpg_streamer defaults
+</span></span></code></pre></div><p>Zum Testen einfach den Dienst starten und dann unter <code>http://&lt;ip>:8080/</code> anschauen.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo service mjpg_streamer start
+</span></span></code></pre></div><p>Falls eure Webcam direkt MJPEG unterstützt, gibt es dieses Streaming für unter 5% cpu Last ;).</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>sudo v4l2-ctl --list-formats
+</span></span><span style=display:flex><span>ioctl: VIDIOC_ENUM_FMT
+</span></span><span style=display:flex><span>	Index       : <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>	Type        : Video Capture
+</span></span><span style=display:flex><span>	Pixel Format: <span style=color:#e6db74>&#39;YUYV&#39;</span>
+</span></span><span style=display:flex><span>	Name        : YUV 4:2:2 <span style=color:#f92672>(</span>YUYV<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	Index       : <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>	Type        : Video Capture
+</span></span><span style=display:flex><span>	Pixel Format: <span style=color:#e6db74>&#39;H264&#39;</span> <span style=color:#f92672>(</span>compressed<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>	Name        : H.264
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	Index       : <span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>	Type        : Video Capture
+</span></span><span style=display:flex><span>	Pixel Format: <span style=color:#e6db74>&#39;MJPG&#39;</span> <span style=color:#f92672>(</span>compressed<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>	Name        : MJPEG
+</span></span></code></pre></div><p>Details können unter <a href=#ubuntuusers>[1]</a> und <a href=#gtkdb>[2]</a> nachgelesen werden.</p><h2 id=ton>Schritte zum Erfolg - der Ton
+<a class=heading-link href=#ton><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Ich habe mich dazu entschieden den Ton über http als mp3 anzubieten:</p><p>Tools zum Aufnehmen und Konvertieren installieren:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo apt-get install libav-tools alsa-utils
+</span></span></code></pre></div><p>Mikrophon der Soundkarte herausfinden</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo arecord -l
+</span></span><span style=display:flex><span>**** Liste der Hardware-Geraete <span style=color:#f92672>(</span>CAPTURE<span style=color:#f92672>)</span> ****
+</span></span><span style=display:flex><span>Karte 1: C920 <span style=color:#f92672>[</span>HD Pro Webcam C920<span style=color:#f92672>]</span>, Geraet 0: USB Audio <span style=color:#f92672>[</span>USB Audio<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>  Sub-Geraete: 0/1
+</span></span><span style=display:flex><span>  Sub-Geraet <span style=color:#75715e>#0: subdevice #0</span>
+</span></span></code></pre></div><p>Daraus ergibt sich die Alsa-Adresse <code>plughw:1,0</code>, die wir in den folgenden Init-skript verwenden. Dabei nehmen wir den Ton von der Webcam auf und schicken ihn als mp3 kodiert und als <a href=https://libav.org/avconv.html#rtp class=external-link target=_blank rel=noopener>rtp</a> verpackt an localhost. (Dieser Umweg ist deswegen notwendig, weil vlc in der Version vor 2.1 es nicht hinbekommt den Ton direkt von einem Alsa-Gerät auszulesen.)</p><p><code>/etc/init.d/audio-record</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>#!/bin/sh
+</span></span></span><span style=display:flex><span><span style=color:#75715e># /etc/init.d/audio-record</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### BEGIN INIT INFO</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Provides:          audio-record</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Required-Start:    $all</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Required-Stop:     $all</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Default-Start:     2 3 4 5</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Default-Stop:      0 1 6</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Short-Description: audio-record</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Description:       streams soundcard via rtp over localhost</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### END INIT INFO</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>start<span style=color:#f92672>()</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  echo <span style=color:#e6db74>&#34;Starting audiorecord..&#34;</span>
+</span></span><span style=display:flex><span>  arecord -f cd -D plughw:1,0 2&gt;/dev/null | avconv -i - -acodec libmp3lame -ac <span style=color:#ae81ff>1</span> -ab 128k -re -f mp3 -f rtp rtp://127.0.0.1:1234  1&gt;/dev/null 2&gt;&amp;<span style=color:#ae81ff>1</span> &amp;
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>stop<span style=color:#f92672>()</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  echo <span style=color:#e6db74>&#34;Stopping audiorecord ...&#34;</span>
+</span></span><span style=display:flex><span>  kill -9 <span style=color:#66d9ef>$(</span>pidof arecord<span style=color:#66d9ef>)</span> &gt;/dev/null 2&gt;&amp;<span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>  kill -9 <span style=color:#66d9ef>$(</span>pidof avconv<span style=color:#66d9ef>)</span> &gt;/dev/null 2&gt;&amp;<span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>case</span> <span style=color:#e6db74>&#34;</span>$1<span style=color:#e6db74>&#34;</span> in
+</span></span><span style=display:flex><span>  start<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    start
+</span></span><span style=display:flex><span>    ;;
+</span></span><span style=display:flex><span>  stop<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    stop
+</span></span><span style=display:flex><span>    ;;
+</span></span><span style=display:flex><span>  restart<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    stop
+</span></span><span style=display:flex><span>    start
+</span></span><span style=display:flex><span>    ;;
+</span></span><span style=display:flex><span>  *<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;Usage: </span>$0<span style=color:#e6db74> {start|stop|restart}&#34;</span>
+</span></span><span style=display:flex><span>    ;;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>esac</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>exit <span style=color:#ae81ff>0</span>
+</span></span></code></pre></div><p>Das Ganze greife ich mit vlc ab und biete es als http-stream <code>/etc/init.d/vlc-http</code> wieder an:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>#!/bin/sh
+</span></span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### BEGIN INIT INFO</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Provides:          vlc-http</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Required-Start:    $all</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Required-Stop:     $all</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Default-Start:     2 3 4 5</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Default-Stop:      0 1 6</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Short-Description: vlc-http</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Description:       transport rtp from localhost to http</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### END INIT INFO</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>start<span style=color:#f92672>()</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  echo <span style=color:#e6db74>&#34;Starting vlc-http ..&#34;</span>
+</span></span><span style=display:flex><span>  su lars -c <span style=color:#e6db74>&#34;cvlc rtp://127.0.0.1:1234 --sout &#39;#http{dst=:8081/baby.mp3}&#39;&#34;</span> &gt; /dev/null 2&gt;&amp;<span style=color:#ae81ff>1</span>  &amp;
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>stop<span style=color:#f92672>()</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  echo <span style=color:#e6db74>&#34;Stopping vlc-http ...&#34;</span>
+</span></span><span style=display:flex><span>  kill -9 <span style=color:#66d9ef>$(</span>pidof vlc<span style=color:#66d9ef>)</span> &gt;/dev/null 2&gt;&amp;<span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>case</span> <span style=color:#e6db74>&#34;</span>$1<span style=color:#e6db74>&#34;</span> in
+</span></span><span style=display:flex><span>  start<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    start
+</span></span><span style=display:flex><span>    ;;
+</span></span><span style=display:flex><span>  stop<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    stop
+</span></span><span style=display:flex><span>    ;;
+</span></span><span style=display:flex><span>  restart<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    stop
+</span></span><span style=display:flex><span>    start
+</span></span><span style=display:flex><span>    ;;
+</span></span><span style=display:flex><span>  *<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;Usage: </span>$0<span style=color:#e6db74> {start|stop|restart}&#34;</span>
+</span></span><span style=display:flex><span>    ;;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>esac</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>exit <span style=color:#ae81ff>0</span>
+</span></span></code></pre></div><p>Jetzt wieder beide neuen Init-skripte mit &mldr; aktivieren.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo chmod <span style=color:#ae81ff>0755</span> /etc/init.d/audio-record
+</span></span><span style=display:flex><span>$ sudo update-rc.d audio-record defaults
+</span></span><span style=display:flex><span>$ sudo chmod <span style=color:#ae81ff>0755</span> /etc/init.d/vlc-http
+</span></span><span style=display:flex><span>$ sudo update-rc.d vlc-http defaults
+</span></span></code></pre></div><p>Zum Testen einfach <code>http://&lt;ip>:8081/baby.mp3</code> aufrufen und sich nicht über die 2 Sekunden Verzögerung wundern ;).</p><p>Alles für nur 50% CPU auf dem PI.</p><p><a href=/img/posts/2014-02-09-htop-pi.jpeg><img src=/img/2014-02-09-htop-pi_small.jpeg alt="Auslastung mittels htop auf dem PI"></a></p><h2 id=referenzen>Referenzen
+<a class=heading-link href=#referenzen><i class="fa-solid fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><ol><li><a href=http://wiki.ubuntuusers.de/MJPG-Streamer class=external-link target=_blank rel=noopener>http://wiki.ubuntuusers.de/MJPG-Streamer</a></li><li><a href=http://www.gtkdb.de/index_36_2098.html class=external-link target=_blank rel=noopener>Raspbian: MJPG-Streamer einrichten</a></li></ol></div><footer></footer></article></section></div><footer class=footer><section class=container>©
+2012 -
+2026
+Lars K.W. Gohlke
+·
+Licensed under GPLv3
+·
+Powered by <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> & <a href=https://github.com/luizdepra/hugo-coder/ target=_blank rel=noopener>Coder</a>.
+<a href=/index.xml>rss</a></section></footer></main><script src=/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script></body></html>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Backup on Erwähnenswert</title><link>https://blog.lgohlke.de/tags/backup/</link><description>Recent content in Backup on Erwähnenswert</description><generator>Hugo</generator><language>de-de</language><lastBuildDate>Sun, 18 May 2014 21:23:07 +0000</lastBuildDate><atom:link href="https://blog.lgohlke.de/tags/backup/index.xml" rel="self" type="application/rss+xml"/><item><title>new release of clever-backup fixed compatibility issue with ubuntu 14.04</title><link>https://blog.lgohlke.de/posts/2014-05-18-clever-backup-compatibility-with-ubuntu-14.04/</link><pubDate>Sun, 18 May 2014 21:23:07 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2014-05-18-clever-backup-compatibility-with-ubuntu-14.04/</guid><description>&lt;p&gt;I released a new version of &lt;a href="https://github.com/lkwg82/clever-backup" class="external-link" target="_blank" rel="noopener"&gt;clever-backup&lt;/a&gt; which fixes incompatibility with ubuntu 14.04 available from &lt;a href="https://launchpad.net/~lkwg82/&amp;#43;archive/clever-backup" class="external-link" target="_blank" rel="noopener"&gt;ppa:lkwg82/clever-backup&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>Howto: Duplikate mit rdfind finden und mit einem Hardlink ersetzen</title><link>https://blog.lgohlke.de/posts/2013-08-20-howto-duplikate-mit-rdfind-finden-und-mit-einem-hardlink-ersetzen/</link><pubDate>Tue, 20 Aug 2013 21:10:32 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2013-08-20-howto-duplikate-mit-rdfind-finden-und-mit-einem-hardlink-ersetzen/</guid><description>&lt;p&gt;Am Wochenende habe ich mir wieder mein lokales Backup angeschaut, um es dann wie jeden Monat auf die externe Platte zu spiegeln. Dabei ist aufgefallen, dass &lt;a href="http://backintime.le-web.org/" class="external-link" target="_blank" rel="noopener"&gt;backintime&lt;/a&gt; sehr intelligent nur die geänderten oder neuen Dateien übernimmt. Allerdings sind fallen Umbenennungen bzw. verschobene Dateien jedes Mal mit der vollen Größe ins Gewicht.&lt;/p&gt;
+&lt;p&gt;Nun kommt &lt;a href="http://rdfind.pauldreik.se/" class="external-link" target="_blank" rel="noopener"&gt;rdfind&lt;/a&gt; ins Spiel.&lt;/p&gt;
+&lt;p&gt;Mit dem Paketmanager installieren:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ sudo apt-get install rdfind
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="step-by-step-demo"&gt;
+ Step-by-Step Demo
+ &lt;a class="heading-link" href="#step-by-step-demo"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# emuliere eine Backupverzeichnisstruktur in /tmp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cd /tmp/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ mkdir backup
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cd backup/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ mkdir -p 2013/&lt;span style="color:#f92672"&gt;{&lt;/span&gt;01..08&lt;span style="color:#f92672"&gt;}&lt;/span&gt;/home/lars
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# in jedem Verzeichnis &amp;#39;lars&amp;#39; eine 100M Datei erstellen&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ find -type d -name lars -exec dd &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;/dev/zero bs&lt;span style="color:#f92672"&gt;=&lt;/span&gt;1M count&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;100&lt;/span&gt; of&lt;span style="color:#f92672"&gt;={}&lt;/span&gt;/x &lt;span style="color:#ae81ff"&gt;\;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze ein
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze aus
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;104857600&lt;/span&gt; Bytes &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;105&lt;/span&gt; MB&lt;span style="color:#f92672"&gt;)&lt;/span&gt; kopiert, 0,326316 s, &lt;span style="color:#ae81ff"&gt;321&lt;/span&gt; MB/s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze ein
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze aus
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;104857600&lt;/span&gt; Bytes &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;105&lt;/span&gt; MB&lt;span style="color:#f92672"&gt;)&lt;/span&gt; kopiert, 0,274126 s, &lt;span style="color:#ae81ff"&gt;383&lt;/span&gt; MB/s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze ein
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze aus
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;104857600&lt;/span&gt; Bytes &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;105&lt;/span&gt; MB&lt;span style="color:#f92672"&gt;)&lt;/span&gt; kopiert, 0,24677 s, &lt;span style="color:#ae81ff"&gt;425&lt;/span&gt; MB/s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze ein
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze aus
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;104857600&lt;/span&gt; Bytes &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;105&lt;/span&gt; MB&lt;span style="color:#f92672"&gt;)&lt;/span&gt; kopiert, 0,243897 s, &lt;span style="color:#ae81ff"&gt;430&lt;/span&gt; MB/s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze ein
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze aus
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;104857600&lt;/span&gt; Bytes &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;105&lt;/span&gt; MB&lt;span style="color:#f92672"&gt;)&lt;/span&gt; kopiert, 0,301347 s, &lt;span style="color:#ae81ff"&gt;348&lt;/span&gt; MB/s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze ein
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze aus
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;104857600&lt;/span&gt; Bytes &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;105&lt;/span&gt; MB&lt;span style="color:#f92672"&gt;)&lt;/span&gt; kopiert, 0,268799 s, &lt;span style="color:#ae81ff"&gt;390&lt;/span&gt; MB/s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze ein
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze aus
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;104857600&lt;/span&gt; Bytes &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;105&lt;/span&gt; MB&lt;span style="color:#f92672"&gt;)&lt;/span&gt; kopiert, 0,325733 s, &lt;span style="color:#ae81ff"&gt;322&lt;/span&gt; MB/s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze ein
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;100+0 Datensätze aus
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;104857600&lt;/span&gt; Bytes &lt;span style="color:#f92672"&gt;(&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;105&lt;/span&gt; MB&lt;span style="color:#f92672"&gt;)&lt;/span&gt; kopiert, 0,248939 s, &lt;span style="color:#ae81ff"&gt;421&lt;/span&gt; MB/s
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# aktuelle Platzverbrauch&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ du -sh
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;801M .
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ rdfind -makehardlinks true *
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Now scanning &lt;span style="color:#e6db74"&gt;&amp;#34;2013&amp;#34;&lt;/span&gt;, found &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt; files.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Now have &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt; files in total.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Removed &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; files due to nonunique device and inode.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Now removing files with zero size from list...removed &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; files
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Total size is &lt;span style="color:#ae81ff"&gt;838860800&lt;/span&gt; bytes or &lt;span style="color:#ae81ff"&gt;800&lt;/span&gt; Mib
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Now sorting on size:removed &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; files due to unique sizes from list.8 files left.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Now eliminating candidates based on first bytes:removed &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; files from list.8 files left.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Now eliminating candidates based on last bytes:removed &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; files from list.8 files left.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Now eliminating candidates based on md5 checksum:removed &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt; files from list.8 files left.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;It seems like you have &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt; files that are not unique
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Totally, &lt;span style="color:#ae81ff"&gt;700&lt;/span&gt; Mib can be reduced.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Now making results file results.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Now making hard links.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Making &lt;span style="color:#ae81ff"&gt;7&lt;/span&gt; links.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ du -sh
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;101M .
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Das wurde hier an einer Datei demonstriert die in all ihren Kopien identisch ist, weil sie aus &amp;lsquo;0&amp;rsquo; besteht.&lt;/p&gt;</description></item><item><title>Sicheres und einfaches Backup mit Encfs in die Cloud</title><link>https://blog.lgohlke.de/posts/2013-04-08-sicheres-und-einfaches-backup-mit-encfs-in-die-cloud/</link><pubDate>Mon, 08 Apr 2013 21:53:04 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2013-04-08-sicheres-und-einfaches-backup-mit-encfs-in-die-cloud/</guid><description>&lt;p&gt;Wie in &lt;a href="http://blog.lgohlke.de/2013/02/encfs-reverse.html" class="external-link" target="_blank" rel="noopener"&gt;encfs &amp;ndash;reverse&lt;/a&gt; schon angekündigt, stellt &lt;a href="http://www.arg0.net/encfs" class="external-link" target="_blank" rel="noopener"&gt;encfs&lt;/a&gt; eine einfache praktikable Lösung bereit, Klartext-Verzeichnisse on-the-fly als verschlüsselte Verzeichnisse zu mounten.&lt;/p&gt;
+&lt;h2 id="übersicht"&gt;
+ Übersicht
+ &lt;a class="heading-link" href="#%c3%bcbersicht"&gt;
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"&gt;&lt;/i&gt;
+ &lt;span class="sr-only"&gt;Link to heading&lt;/span&gt;
+ &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;Dazu bedarf es nur weniger Zeilen (1) und der Information zur Verschlüsselung im Klartextverzeichnis (2)&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;encfs --reverse clear-text-directory directory-to-show-as-encrypted
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ls -al
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;insgesamt &lt;span style="color:#ae81ff"&gt;2768&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;drwxr-xr-x &lt;span style="color:#ae81ff"&gt;10&lt;/span&gt; lars lars &lt;span style="color:#ae81ff"&gt;4096&lt;/span&gt; Mär &lt;span style="color:#ae81ff"&gt;15&lt;/span&gt; 15:18 .
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;drwxr-xr-x &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt; lars lars &lt;span style="color:#ae81ff"&gt;4096&lt;/span&gt; Dez &lt;span style="color:#ae81ff"&gt;17&lt;/span&gt; 23:46 ..
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-rw-r--r-- &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; lars lars &lt;span style="color:#ae81ff"&gt;1090&lt;/span&gt; Feb &lt;span style="color:#ae81ff"&gt;13&lt;/span&gt; 10:39 .encfs6.xml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Die Datei aus (2) bekommt man durch den klassischen Weg (Anlegen eines verschlüsselten Verzeichnisses)&lt;/p&gt;</description></item><item><title>EncFS --reverse</title><link>https://blog.lgohlke.de/posts/2013-02-17-encfs---reverse/</link><pubDate>Sun, 17 Feb 2013 22:42:00 +0000</pubDate><guid>https://blog.lgohlke.de/posts/2013-02-17-encfs---reverse/</guid><description>&lt;p&gt;Gerade habe ich in der Manpage von EncFS eine sehr schöne Lösung für ein sicheres Backup in der Cloud gefunden.&lt;/p&gt;
+&lt;p&gt;Encfs ist ein Dateisystem im Userspace und bietet eine Sicht auf Verzeichnisse an. Ursprünglich ging es darum verschlüsselte Verzeichnisse entschlüsselt anzuzeigen. Der &lt;em&gt;Reverse&lt;/em&gt; Modus bietet genau den umgekehrten Weg an. Somit können beliebige (unverschlüsselte) Verzeichnisse mittels &lt;code&gt;EncFs&lt;/code&gt; als verschlüsselte Verzeichnisse angezeigt werden.&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;Wow. Wtf?&amp;rdquo; Werden sich gerade einige fragen. Aber mit dieser umgekehrten Sicht, kann man einfach mit einem Synchronisationswerkzeug das Ganze an syncronisieren. &amp;ldquo;Wow!&amp;rdquo;&lt;/p&gt;</description></item></channel></rss>

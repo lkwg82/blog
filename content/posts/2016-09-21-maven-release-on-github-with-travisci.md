@@ -10,7 +10,7 @@ categories: ["maven", "github", "travisci"]
 As a passionate developer I always strive to optimise my build chain for speed and simplicity. In this example I'd like to publish a library on [maven central](http://search.maven.org/) without any onsite build tooling except my IDE. So lets see how to get rid of gpg key management and implement a trivial *push-button release process* with [Github](https://github.com/lkwg82) and [TravisCI](https://travis-ci.org).
 
 
-<small>(This is reblogged originally from [idealo/logback-redis/wiki/Release-Process](https://github.com/idealo/logback-redis/wiki/Release-Process) and sponsored by [Idealo](https:/www.idealo.de))</small>
+<small>(This is reblogged originally from [idealo/logback-redis/wiki/Release-Process](https://github.com/idealo/logback-redis/wiki/Release-Process) and sponsored by [Idealo] `https:/www.idealo.de`)</small>
 
 We based the release process on [this tutorial](https://dracoblue.net/dev/uploading-snapshots-and-releases-to-maven-central-with-travis/) and simplified the process by using adhoc created gpg keys just once, so there is no hassle with key management.
 
@@ -27,8 +27,8 @@ Guide](http://central.sonatype.org/pages/ossrh-guide.html)):
     Sonatype](https://issues.sonatype.org/secure/Signup!default.jspa)
 2.  [Create a Project
     Ticket](https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&pid=10134)
-3.  Deploy to <https://oss.sonatype.org/content/repositories/snapshots>
-    or <https://oss.sonatype.org/service/local/staging/deploy/maven2/>.
+3.  Deploy to `https://oss.sonatype.org/content/repositories/snapshots`
+    or `https://oss.sonatype.org/service/local/staging/deploy/maven2/`.
     Therefor you need to:
     -   Modify your pom.xml
     -   Add build plugins for binaries, javadoc and sources jar files

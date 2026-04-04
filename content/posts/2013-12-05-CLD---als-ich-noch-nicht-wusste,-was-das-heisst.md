@@ -6,7 +6,7 @@ draft: false
 tags: ["devops", "cld", "continuous-delivery"]
 ---
 
-Im letzten Artikel über meinen Alltag DevOps [Wie ich das Monitoring kaputt machte](http://blog.lgohlke.de/2013/12/alltag-eines-devops-wie-ich-das.html) habe ich CLD angesprochen. Dabei ist mir eine Geschichte aus meiner Anfangszeit bei meinem jetzigen Arbeitgeber eingefallen. Im Nachhinein lustig, damals etwas verunsichernd.
+Im letzten Artikel über meinen Alltag DevOps [Wie ich das Monitoring kaputt machte](/posts/2013-12-03-alltag-eines-devops---wie-ich-das-produktive-monitoring-kaputt-machte/) habe ich CLD angesprochen. Dabei ist mir eine Geschichte aus meiner Anfangszeit bei meinem jetzigen Arbeitgeber eingefallen. Im Nachhinein lustig, damals etwas verunsichernd.
 
 Ich bin also neu in meiner Firma und committe Code. Kurz darauf geht die Live-Plattform aus. Was mir in dem Moment noch nicht bewußt war, dass wir gerade CLD *leben* und ich gerade eine Kehrseite von CLD intensiv erfahre.
 

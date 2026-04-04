@@ -6,7 +6,7 @@ draft: false
 tags: ["agile", "change-management", "leadership"]
 ---
 
-Wie kann ich erfolgreich mein Umfeld verändern? Welche Hebel muss ich in Bewegung setzen, um Ideen umzusetzen? Wie kann ich meinen Chef überzeugen? Diesen oder ähnliche lautenden Fragen werden in dem Artikel von [John P. Kotter](http://de.wikipedia.org/wiki/John_P._Kotter) in [Leading Change - Why Transformation Efforts Fail](http://leading%20change/) eine Methodik zur Lösung angeboten.
+Wie kann ich erfolgreich mein Umfeld verändern? Welche Hebel muss ich in Bewegung setzen, um Ideen umzusetzen? Wie kann ich meinen Chef überzeugen? Diesen oder ähnliche lautenden Fragen werden in dem Artikel von [John P. Kotter](http://de.wikipedia.org/wiki/John_P._Kotter) in [Leading Change - Why Transformation Efforts Fail](https://hbr.org/1995/05/leading-change-why-transformation-efforts-fail-2) eine Methodik zur Lösung angeboten.
 
 Wenn mich jemand fragt, wie eine Firma sein muss, in der ich gerne arbeite, dann würde ich sicher antworten "*... offen für Veränderungen.*". Damit allein ist es jedoch nicht getan. Es braucht Menschen die diese auch leiten, begleiten und mittragen.
 

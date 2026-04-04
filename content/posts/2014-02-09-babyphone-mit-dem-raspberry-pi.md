@@ -5,7 +5,7 @@ draft: false
 tags: ["raspberry-pi", "webcam", "streaming"]
 ---
 
-Bald ist es soweit und das Babyphone muss eingerichtet werden. Dazu habe ich mir die Webcam [Logitech C920](http://www.logitech.com/de-de/product/hd-pro-webcam-c920) und [Raspberry Pi Modell B](http://de.wikipedia.org/wiki/Raspberry_Pi#Spezifikationen) gekauft.
+Bald ist es soweit und das Babyphone muss eingerichtet werden. Dazu habe ich mir die Webcam [Logitech C920] `https://www.logitech.com/de-de/shop/p/c920s-pro-hd-webcam` und [Raspberry Pi Modell B](http://de.wikipedia.org/wiki/Raspberry_Pi#Spezifikationen) gekauft.
 
 Hier nun meine kleine Anleitung um auf dem Handy Bild und Ton zu haben.
 
@@ -142,7 +142,7 @@ Karte 1: C920 [HD Pro Webcam C920], Geraet 0: USB Audio [USB Audio]
   Sub-Geraet #0: subdevice #0
 ```
 
-Daraus ergibt sich die Alsa-Adresse `plughw:1,0`, die wir in den folgenden Init-skript verwenden. Dabei nehmen wir den Ton von der Webcam auf und schicken ihn als mp3 kodiert und als [rtp](https://libav.org/avconv.html#rtp) verpackt an localhost. (Dieser Umweg ist deswegen notwendig, weil vlc in der Version vor 2.1 es nicht hinbekommt den Ton direkt von einem Alsa-Gerät auszulesen.)
+Daraus ergibt sich die Alsa-Adresse `plughw:1,0`, die wir in den folgenden Init-skript verwenden. Dabei nehmen wir den Ton von der Webcam auf und schicken ihn als mp3 kodiert und als [rtp](https://web.archive.org/web/20140713011304/https://libav.org/avconv.html#rtp) verpackt an localhost. (Dieser Umweg ist deswegen notwendig, weil vlc in der Version vor 2.1 es nicht hinbekommt den Ton direkt von einem Alsa-Gerät auszulesen.)
 
 `/etc/init.d/audio-record`
 
@@ -251,10 +251,10 @@ Zum Testen einfach `http://<ip>:8081/baby.mp3` aufrufen und sich nicht über die
 
 Alles für nur 50% CPU auf dem PI.
 
-[![Auslastung mittels htop auf dem PI](/img/2014-02-09-htop-pi_small.jpeg)](/img/posts/2014-02-09-htop-pi.jpeg)
+[![Auslastung mittels htop auf dem PI](/img/2014-02-09-htop-pi_small.jpeg)](/img/2014-02-09-htop-pi.jpeg)
 
 ## Referenzen
 
-1. <a id="ubuntuusers"></a>[http://wiki.ubuntuusers.de/MJPG-Streamer](http://wiki.ubuntuusers.de/MJPG-Streamer)
+1. <a id="ubuntuusers"></a>[http://wiki.ubuntuusers.de/MJPG-Streamer](https://web.archive.org/web/20140228172657/http://wiki.ubuntuusers.de/MJPG-Streamer)
 2. <a id="gtkdb"></a>[Raspbian: MJPG-Streamer einrichten](http://www.gtkdb.de/index_36_2098.html)
 

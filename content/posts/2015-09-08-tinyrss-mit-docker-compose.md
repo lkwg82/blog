@@ -83,8 +83,6 @@ ttrss:
 
 Build the setup with `docker-compose build` from the directory where the `docker-compose.yml` is. First it will build the `pgdb` container and then the `ttrss`. After they are built call `docker-compose up`. (For this setup watch the `run.sh`! There are some additional setup calls.)
 
-You watch a complete a shell recording [here](https://showterm.io/b93061c6e38115a4a56a5#fast).
-
 **Disclaimer 1:** For simplicity reasons I deployed the db ... no I let it to you, to find this little nasty thing ;).  
 **Disclaimer 2:** Maybe the downloads take longer than while my tests.
 

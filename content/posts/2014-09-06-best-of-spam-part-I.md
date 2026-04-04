@@ -23,5 +23,5 @@ Durch eine Gesetzeslücke muss die Bank sogar Garantien aussprechen!
 
 Dieses Angebot wird in wenigen Stunden ausverkauft sein! Nutzen Sie jetzt die Chance und sichern Sie sich einer der letzten Plätze!
 
->>>Hier geht es zur Software<<< (toter Link, zeigte zu http://www.code150150.com/ (offline))
+>>>Hier geht es zur Software<<< (toter Link, zeigte zu `http://www.code150150.com/` (offline))
 

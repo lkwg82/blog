@@ -14,16 +14,13 @@ Start it with:
 java -cp checkstyle-5.6-all.jar com.puppycrawl.tools.checkstyle.gui.Main PomSourceImporter.java
 ```
 
-It shows this file [de/lgohlke/sonar/PomSourceImporter](https://github.com/SonarCommunity/sonar-maven-checks/blob/master/src/main/java/de/lgohlke/sonar/PomSourceImporter.java)
-
-![Checkstyle Gui](http://3.bp.blogspot.com/-TaJHxTYe2Us/UYEVNUGpD3I/AAAAAAAACpc/d8WiG96NsVI/s400/AstExplorer.png)
-*Checkstyle Gui*
+It shows this file [de/lgohlke/sonar/PomSourceImporter]`https://github.com/SonarCommunity/sonar-maven-checks/blob/master/src/main/java/de/lgohlke/sonar/PomSourceImporter.java` (💀link)
 
 A nice feature is typing ENTER on an ast node and the corresponding source code will be highlighted as well.
 
 You can get it with checkstyle from [checkstyle.sourceforge.net](http://checkstyle.sourceforge.net), it is also described here [The Checkstyle SDK Gui](http://checkstyle.sourceforge.net/writingchecks.html).
 
-I really appreciated this tool a while ago, when I worked on my [thesis](http://www.lgohlke.de/arbeiten/study-thesis-master.html) and [SelectorMethodArgumentCheck.java](https://github.com/lkwg82/sonar-java/blob/9dcb5e1864d9deb6ce77c4f5e9c32e856b5a5505/java-checks/src/main/java/org/sonar/java/checks/SelectorMethodArgumentCheck.java).
+I really appreciated this tool a while ago, when I worked on my [thesis](https://www.lgohlke.de/#arbeiten) and [SelectorMethodArgumentCheck.java] `https://github.com/lkwg82/sonar-java/blob/9dcb5e1864d9deb6ce77c4f5e9c32e856b5a5505/java-checks/src/main/java/org/sonar/java/checks/SelectorMethodArgumentCheck.java` (💀link).
 
 Alternative tools are:
 

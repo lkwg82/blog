@@ -59,7 +59,7 @@ Line 7 does timout the test run after specified time. I do have in mind a range 
 
 ## 2. Creating the Dockerfile
 
-I prefer to have a `Dockerfile` to build a fresh container for each run. For my example I choose [lkwg82/mitmproxy-0.11-maven3-jdk8](https://hub.docker.com/r/lkwg82/mitmproxy-0.11-maven3-jdk8/~/dockerfile/) (contains maven, jdk8, google-chrome and ...).
+I prefer to have a `Dockerfile` to build a fresh container for each run. For my example I choose `https://hub.docker.com/r/lkwg82/mitmproxy-0.11-maven3-jdk8/~/dockerfile/` (contains maven, jdk8, google-chrome and ...).
 
 ```dockerfile
 FROM lkwg82/mitmproxy-0.11-maven3-jdk8
@@ -334,7 +334,7 @@ docker rmi   $IMAGE_ID
 
 - line 10-26: add a check and let the build fail
 
-For more details read [this separate post](/memory/docker/2015/10/24/detect-when-docker-instance-reached-memory-limit.html) on this issue.
+For more details read [this separate post](/posts/2015-10-25-detect-when-docker-instance-reached-memory-limit/) on this issue.
 
 ---
 

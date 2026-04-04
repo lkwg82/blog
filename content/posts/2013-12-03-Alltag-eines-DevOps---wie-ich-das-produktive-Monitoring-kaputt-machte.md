@@ -15,13 +15,13 @@ Ich arbeite in einer (wirklich tollen) Firma, die sich vielen modernen Themen an
 
 So ist das auch bei Continuous Live Deployment (kurz CLD). Kurz beschrieben ist CLD die Weiterentwicklung von Continuous Integration zu kleinen kurzen Releasezyklen. Bei [Martin Fowler](http://martinfowler.com/delivery.html) sind dazu verschiedene verwandte Themen beschrieben.
 
-Nun das klingt sehr interessant. Schnell und oft neue Versionen dem Nutzer bereitstellen. Allerdings wird vergessen, dass einige [Vorraussetzungen](http://www.pingworks.de/continuous-delivery-umsetzung/) erfüllt werden müssen (Automatisierte Tests, CI, CM, DevOps).
+Nun das klingt sehr interessant. Schnell und oft neue Versionen dem Nutzer bereitstellen. Allerdings wird vergessen, dass einige [Vorraussetzungen]`http://www.pingworks.de/continuous-delivery-umsetzung/` (💀link) erfüllt werden müssen (Automatisierte Tests, CI, CM, DevOps).
 
 Wir sind mittlerweile so doll CLDisiert, dass wir einige Vorbedingungen vergessen. Das ist der Moment des *intensiven Durchlebens*. Ich glaube wir haben Phasen jugendlicher Leichtigkeit bei der Umsetzung neuer Trends.
 
 Bei uns ist CLD mittlerweile in der Administration unserer produktiven System angekommen. Wir sind soweit, dass wir nicht nur Software, die unsere Geschäftslogik enthält, à la CLD herausgeben, sondern auch Software die für den Betrieb eben dieser erforderlich ist, so handhaben. So auch das Monitoring.
 
-So kam es nun, dass ein Entwickler (ich) gegen 19 Uhr nach langem Kampf als DevOps mit [Icinga](https://www.icinga.org/) Änderungen in der Konfiguration committed hat. Mit CLD vergeht ein Fingerschnippen und alle Tests sind durchlaufen, es wird gestaged und wieder laufen alle Tests und im Nu ist es live.
+So kam es nun, dass ein Entwickler (ich) gegen 19 Uhr nach langem Kampf als DevOps mit [Icinga](https://web.archive.org/web/20130113185502/https://www.icinga.org/) Änderungen in der Konfiguration committed hat. Mit CLD vergeht ein Fingerschnippen und alle Tests sind durchlaufen, es wird gestaged und wieder laufen alle Tests und im Nu ist es live.
 
 Oder auch nicht - weil .... wir leider kontinuierlichen stagen und sofort live schieben, aber an eben dieser kleinen spröden Monitoringkonfiguration das Testen vergessen haben.
 

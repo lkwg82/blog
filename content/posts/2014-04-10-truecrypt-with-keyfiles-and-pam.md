@@ -6,7 +6,7 @@ draft: false
 tags: ["privacy" , "security"]
 ---
 
-Nachdem ich in im letzten [Artikel](/linux/2014/04/06/hibernate-and-resume-with-dm-crypt.html) kurz beschrieben habe, warum ich mich für [truecrypt](http://ww.truecrypt.org) entschieden habe, möchte ich nun kurz zeigen, wie man mit Hilfe von [pam_exec](http://www.linux-pam.org/Linux-PAM-html/sag-pam_exec.html) verschlüsselte Datenträger mit [Schlüsseldateien](http://www.truecrypt.org/docs/keyfiles) einbindet.
+Nachdem ich in im letzten [Artikel](/posts/2014-04-06-hibernate-and-resume-with-dm-crypt/) kurz beschrieben habe, warum ich mich für [truecrypt] `http://ww.truecrypt.org` entschieden habe, möchte ich nun kurz zeigen, wie man mit Hilfe von [pam_exec](https://web.archive.org/web/20140226152417/http://www.linux-pam.org/Linux-PAM-html/sag-pam_exec.html) verschlüsselte Datenträger mit [Schlüsseldateien] `http://www.truecrypt.org/docs/keyfiles` einbindet.
 
 Mein System is effektiv hat nur einen menschlichen Nutzer, daher wird im Folgenden nicht nach unterschiedlichen Nutzern unterschieden.
 

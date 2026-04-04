@@ -60,7 +60,7 @@ W: h2o-server source: debian-watch-file-in-native-package
 
 I publish my packages on [launchpad](https://launchpad.net/~lkwg82). For this I recommend to make sure every needed [build dependency](https://www.debian.org/doc/debian-policy/ch-relationships.html) is met.
 
-I struggled with [pbuilder](http://pbuilder.alioth.debian.org/) so I chose [docker](http://www.docker.com) to have a clean build environment. For this I wrote [docker-debian-build-env](https://github.com/lkwg82/docker-debian-build-env).
+I struggled with [pbuilder] `http://pbuilder.alioth.debian.org/` so I chose [docker](http://www.docker.com) to have a clean build environment. For this I wrote [docker-debian-build-env](https://github.com/lkwg82/docker-debian-build-env).
 
 A single command runs a clean ubuntu instance and build everything:
 

@@ -8,4 +8,4 @@ Ich fand den Comic von Xkcd ziemlich interessant, meiner Meinung steckt da zieml
 
 ![xkcd: LEGO](http://imgs.xkcd.com/comics/lego.png)
 
-Gefunden bei Telepolis: [Organspende: Für und Wider](http://www.heise.de/tp/artikel/38/38321/1.html)
+Gefunden bei Telepolis: [Organspende: Für und Wider](https://web.archive.org/web/20130214004322/http://www.heise.de:80/tp/artikel/38/38321/1.html)

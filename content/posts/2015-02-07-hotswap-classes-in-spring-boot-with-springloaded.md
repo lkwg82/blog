@@ -8,7 +8,7 @@ tags: ["intellij", "spring-boot", "springloaded", "java"]
 
 Spring-Boot is fast, but changing some controller for prototyping still requires some slow restart cycle of some 5s. With [spring-loaded](https://github.com/spring-projects/spring-loaded) you can shortcut this to 1s, depending of your project. Just hit CTRL-F9 to compile.
 
-[![screenshot from intellij](/img/2015-02-07-spring-loaded-in-intellij.jpeg)](/img/posts/2015-02-07-spring-loaded-in-intellij.jpeg)
+[![screenshot from intellij](/img/2015-02-07-spring-loaded-in-intellij.jpeg)](/img/2015-02-07-spring-loaded-in-intellij.jpeg)
  
 See also:
 

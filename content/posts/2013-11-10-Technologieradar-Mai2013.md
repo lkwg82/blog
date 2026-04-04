@@ -6,7 +6,7 @@ tags: ["thoughtworks", "technology-radar"]
 --- 
 
 
-Auf der vergangenen [Goto in Berlin](http://gotocon.com/berlin-2013/) wurde von ThoughtWorks das [Technology Radar](http://thoughtworks.fileburst.com/assets/technology-radar-may-2013.pdf) erwähnt.
+Auf der vergangenen [Goto in Berlin](http://gotocon.com/berlin-2013/) wurde von ThoughtWorks das [Technology Radar](https://web.archive.org/web/20130711071417/http://www.thoughtworks.com/de/radar) erwähnt.
 
 Ich kann nur jedem - der den Anspruch an sich hat, auf der Höhe der Zeit zu sein - empfehlen es zu lesen.
 
@@ -179,5 +179,5 @@ Ich kann nur jedem - der den Anspruch an sich hat, auf der Höhe der Zeit zu sei
 
 ---
 
-Quelle: [http://www.thoughtworks.com/de/radar](http://www.thoughtworks.com/de/radar)
+Quelle: [http://www.thoughtworks.com/de/radar](https://web.archive.org/web/20130711071417/http://www.thoughtworks.com/de/radar)
 

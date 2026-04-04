@@ -6,8 +6,6 @@ draft: false
 tags: ["blog", "cancer", "photography"]
 ---
 
-[![remarkable photo blog](http://3.bp.blogspot.com/-HN5jgtclOu8/UYdV0_wT6DI/AAAAAAAACqE/u2iMbjMtPow/s400/885100_470652359675257_565674413_o.jpg)](http://3.bp.blogspot.com/-HN5jgtclOu8/UYdV0_wT6DI/AAAAAAAACqE/u2iMbjMtPow/s1600/885100_470652359675257_565674413_o.jpg)
-
 *remarkable photo blog*
 
 See [http://mywifesfightwithbreastcancer.com/](http://mywifesfightwithbreastcancer.com/)

@@ -6,7 +6,7 @@ tags: ["docker", "h2o"]
 categories: ["docker", "h2o"]
 ---
 
-[h2o](https://h2o.examp1e.net/) was one of the earliest webserver supporting [http2](https://searchenginewatch.com/2016/02/29/what-is-http2-and-how-does-it-affect-us/). To make the usability just a bit more convinient I packaged it as Docker image. Available at [lkwg82/h2o-http2-server](https://hub.docker.com/r/lkwg82/h2o-http2-server/) and will be kept in sync with new versions. 
+[h2o](https://h2o.examp1e.net/) was one of the earliest webserver supporting [http2](https://web.archive.org/web/20170320065739/https://searchenginewatch.com/2016/02/29/what-is-http2-and-how-does-it-affect-us/). To make the usability just a bit more convinient I packaged it as Docker image. Available at [lkwg82/h2o-http2-server](https://hub.docker.com/r/lkwg82/h2o-http2-server/) and will be kept in sync with new versions. 
 
 ## What is h2o?
    

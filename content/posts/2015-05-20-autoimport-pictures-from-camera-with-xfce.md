@@ -73,11 +73,11 @@ fi
 
 ## Screenshots
 
-[![Version von Thunar](/img/2015-05-20-version-thunrar-small.jpg)](/img/posts/2015-05-20-version-thunrar.jpg)
-[![Erweiterte Eigenschaften](/img/2015-05-20-advanced-settings-thunrar-small.jpg)](/img/posts/2015-05-20-advanced-settings-thunrar.jpg)
-[![Volumed Eigenschaften](/img/2015-05-20-camera-volumd-small.jpg)](/img/posts/2015-05-20-camera-volumd.jpg)
-[![Terminalausgabe wenn die Kamera angeschlossen wird](/img/2015-05-20-terminal-small.jpg)](/img/posts/2015-05-20-terminal.jpg)
-[![So sieht es dann im Browser aus](/img/2015-05-20-thunar-small.jpg)](/img/posts/2015-05-20-thunar.jpg)
+[![Version von Thunar](/img/2015-05-20-version-thunrar-small.jpg)](/img/2015-05-20-version-thunrar.jpg)
+[![Erweiterte Eigenschaften](/img/2015-05-20-advanced-settings-thunrar-small.jpg)](/img/2015-05-20-advanced-settings-thunrar.jpg)
+[![Volumed Eigenschaften](/img/2015-05-20-camera-volumd-small.jpg)](/img/2015-05-20-camera-volumd.jpg)
+[![Terminalausgabe wenn die Kamera angeschlossen wird](/img/2015-05-20-terminal-small.jpg)](/img/2015-05-20-terminal.jpg)
+[![So sieht es dann im Browser aus](/img/2015-05-20-thunar-small.jpg)](/img/2015-05-20-thunar.jpg)
 
 So sieht dann die Ausgabe aus:
 

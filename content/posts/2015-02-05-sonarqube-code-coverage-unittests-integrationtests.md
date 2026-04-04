@@ -8,7 +8,7 @@ tags: ["sonarqube", "coverage", "maven", "java"]
 
 Simple compute distinct code coverage for unit tests and integration tests. I used jacoco 0.7.2, sonarqube 5.0 and maven 3.2.5 to cook the numbers ;).
 
-[![screenshot from sonarqube](/img/2015-02-05-combined-code-coverage.jpg)](/img/posts/2015-02-05-combined-code-coverage.jpg)
+[![screenshot from sonarqube](/img/2015-02-05-combined-code-coverage.jpg)](/img/2015-02-05-combined-code-coverage.jpg)
 
 ```xml
 <project ...>
@@ -69,10 +69,10 @@ mvn sonar:sonar
 
 See also:
 
-- [example configuration from sonar itself](https://github.com/SonarSource/sonar-examples/tree/master/projects/languages/java/code-coverage/combined%20ut-it)
-- [some blog entries on coverage in the sonar-blog](http://www.sonarqube.org/tag/coverage/)
+- [example configuration from sonar itself] `https://github.com/SonarSource/sonar-examples/tree/master/projects/languages/java/code-coverage/combined%20ut-it`
+- [some blog entries on coverage in the sonar-blog] `http://www.sonarqube.org/tag/coverage/`
 - [jacoco maven-plugin](http://www.eclemma.org/jacoco/trunk/doc/maven.html)
-- [older outdated config sample](http://developer.immobilienscout24.de/2013/06/maven-profile-for-combined-unit-and-integration-test-code-coverage-for-sonar/)
+- [older outdated config sample] `http://developer.immobilienscout24.de/2013/06/maven-profile-for-combined-unit-and-integration-test-code-coverage-for-sonar/`
 
 **Updates:**
 

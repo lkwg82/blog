@@ -15,7 +15,7 @@ pagination:
   pagerSize: 100
 
 params:
-  hideColorSchemeToggle: true
+  colorScheme: auto
   homepage: https://www.lgohlke.de
   author: Lars K.W. Gohlke
   since: 2012

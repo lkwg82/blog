@@ -16,5 +16,5 @@ Ich verweise einfach nur auf den Artikel: [Daten sicher in der Synchro-Wolke dan
 
 Habe leider keine Ahnung, ob dieser Modus auch für Mac bzw. auch für Windows via dokan verfügbar ist. :|
 
-P.S. Python WrapperSkript [encfs –reverse + rsync = encrb](http://blog.fealdia.org/2012/12/06/encfs-reverse-rsync-encrb/)
+P.S. Python WrapperSkript [encfs –reverse + rsync = encrb](https://web.archive.org/web/20160304071850/http://blog.fealdia.org/2012/12/06/encfs-reverse-rsync-encrb/)
 

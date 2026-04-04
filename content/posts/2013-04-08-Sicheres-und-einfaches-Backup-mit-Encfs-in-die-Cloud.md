@@ -6,7 +6,7 @@ draft: false
 tags: ["encfs", "backup", "cloud", "security"]
 ---
 
-Wie in [encfs --reverse](http://blog.lgohlke.de/2013/02/encfs-reverse.html) schon angekündigt, stellt [encfs](http://www.arg0.net/encfs) eine einfache praktikable Lösung bereit, Klartext-Verzeichnisse on-the-fly als verschlüsselte Verzeichnisse zu mounten.
+Wie in [encfs --reverse](/posts/2013-02-17-encfs---reverse/) schon angekündigt, stellt [encfs](http://www.arg0.net/encfs) eine einfache praktikable Lösung bereit, Klartext-Verzeichnisse on-the-fly als verschlüsselte Verzeichnisse zu mounten.
 
 ## Übersicht
 

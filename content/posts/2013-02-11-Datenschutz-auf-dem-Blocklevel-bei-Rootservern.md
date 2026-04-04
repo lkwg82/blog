@@ -6,7 +6,7 @@ draft: false
 tags: ["linux", "server", "encryption", "cryptsetup"]
 ---
 
-Ich habe vor kurzem meinen Server umgezogen, wie in [Serverbörse bei Hetzner](http://blog.lgohlke.de/2013/01/serverborse-bei-hetzner.html) angekündigt. Dabei ging es mir vorallem um mehr Speicherplatz. Die Kapazität ohne monatliche Mehrkosten konnte ich von 750GB auf 3TB erhöhen.
+Ich habe vor kurzem meinen Server umgezogen. Dabei ging es mir vorallem um mehr Speicherplatz. Die Kapazität ohne monatliche Mehrkosten konnte ich von 750GB auf 3TB erhöhen.
 
 So ein Umzug ist auch immer ein Neuanfang. Ja, so pathetisch wie es klingt, so denkt man auch ... ganz kurz. Ich habe mir vorgenommen einige Sachen besser zu machen.
 
@@ -20,7 +20,7 @@ Bei meinem neuen Rootserver habe ich mir überlegt mit einer Basisverschlüsselu
 
 ### Vorgehensweise:
 
-Aufbauend auf diesen Anleitungen [Festplattenverschlüsselung mit Debian GNU/Linux](http://www.andreas-janssen.de/cryptodisk.html) und [CryptoPartitionHowTo](https://systemausfall.org/wikis/howto/CryptoPartitionHowTo) habe ich `cryptsetup` eingesetzt.
+Aufbauend auf diesen Anleitungen [Festplattenverschlüsselung mit Debian GNU/Linux](http://www.andreas-janssen.de/cryptodisk.html) und [CryptoPartitionHowTo](https://web.archive.org/web/20131205032212/https://systemausfall.org/wikis/howto/CryptoPartitionHowTo) habe ich `cryptsetup` eingesetzt.
 
 Die Formatierung, wie in den Anleitungen angegeben (mit luks) und dann ...
 

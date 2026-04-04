@@ -1,5 +1,5 @@
 ---
-title: "CLD - als ich noch nicht wußte, was das heißt"
+title: "CLD - als ich noch nicht wusste, was das heisst"
 date: 2013-12-05T22:39:00Z
 lastmod: 2013-12-05T22:39:00Z
 draft: false

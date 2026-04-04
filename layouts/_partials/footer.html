@@ -1,11 +1,6 @@
 <footer class="footer">
     <section class="container">
-        ©
-        {{ if (and .Site.Params.since (lt .Site.Params.since now.Year)) }}
-        {{ .Site.Params.since }} -
-        {{ end }}
-        {{ now.Year }}
-        <a href="{{.Site.Params.homepage}}" target="_homepage">{{.Site.Params.author }}</a>
+        © {{ .Site.Params.since }} - {{ now.Year }} <a href="{{.Site.Params.homepage}}" target="_homepage">{{.Site.Params.author }}</a> |
         {{ with .GitInfo }}
         last updated <a href="https://github.com/lkwg82/blog/commit/{{ .Hash }}" target="_source" rel="noopener">{{
         .AbbreviatedHash }}</a> at {{ .CommitDate.Format "2006-01-02" }}

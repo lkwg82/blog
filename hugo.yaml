@@ -15,6 +15,14 @@ pagination:
   pagerSize: 100
 
 params:
+  # created with https://realfavicongenerator.net/
+  faviconSVG: /favicons/favicon.svg
+  mask_icon: /favicons/favicon.svg
+  favicon_32: /favicons/favicon-96x96.png
+  favicon_16: /favicons/favicon-96x96.png
+  touchicon: /favicons/apple-touch-icon.png
+  manifest: /favicons/site.webmanifest
+
   colorScheme: auto
   homepage: https://www.lgohlke.de
   author: Lars K.W. Gohlke

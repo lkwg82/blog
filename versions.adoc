@@ -1,0 +1,3 @@
+hugo v0.159.2+extended+withdeploy darwin/arm64 BuildDate=2026-04-01T12:59:20Z VendorInfo=Homebrew
+
+lychee 0.23.0

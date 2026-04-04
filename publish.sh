@@ -22,7 +22,17 @@ if [[ -z "$changed" ]]; then
   exit 0
 fi
 
+./check-links.sh
+
 git add public/ resources/
+
+(
+  hugo version
+  echo
+  lychee --version
+) > versions.adoc
+git add versions.adoc || true
+
 git commit -m "chore: publish site"
 
 if gum confirm "Push to remote?"; then

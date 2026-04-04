@@ -22,6 +22,7 @@ LYCHEE_OPTS=(--accept "200,302" --cache --max-cache-age 1h --suggest --archive w
 # Collect all post page URLs
 post_pages=$(mktemp)
 lychee --dump "$BASE_URL" | sort -u | grep "^${BASE_URL}/posts/" > "$post_pages"
+echo "$BASE_URL" >> "$post_pages"
 
 echo "🔍 Found $(wc -l < "$post_pages") post pages to check..."
 cat "$post_pages"

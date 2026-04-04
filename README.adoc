@@ -1,0 +1,31 @@
+this is the repository to track the blog itself and related code examples
+
+see http://blog.lgohlke.de
+
+== installation
+
+=== tools
+
+include::versions.adoc[]
+
+=== commands
+run dev locally
+
+[source,bash]
+----
+./run.sh dev
+----
+
+(while running `./run.sh dev` or alone)
+[source,bash]
+----
+./check-links
+----
+
+build release
+
+[source,bash]
+----
+./run.sh prod
+----
+

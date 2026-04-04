@@ -1,20 +1,26 @@
 <footer class="footer">
-  <section class="container">
-    ©
-    {{ if (and .Site.Params.since (lt .Site.Params.since now.Year)) }}
-      {{ .Site.Params.since }} -
-    {{ end }}
-    {{ now.Year }}
-    {{ with .Site.Params.author }} {{ . }} {{ end }}
-    ·
-    {{ if (and .Site.Params.license) }}
-      {{ i18n "licensed_under" }} {{ .Site.Params.license | safeHTML }}
-    ·
-    {{ end }}
-    {{ i18n "powered_by" }} <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
-    {{ if (and .Site.Params.commit .GitInfo) }}
-      [<a href="{{ .Site.Params.commit }}/{{ .GitInfo.Hash }}" target="_blank" rel="noopener">{{ .GitInfo.AbbreviatedHash }}</a>]
-    {{ end }}
-      <a href="/index.xml">rss</a>
-  </section>
+    <section class="container">
+        ©
+        {{ if (and .Site.Params.since (lt .Site.Params.since now.Year)) }}
+        {{ .Site.Params.since }} -
+        {{ end }}
+        {{ now.Year }}
+        <a href="{{.Site.Params.homepage}}" target="_homepage">{{.Site.Params.author }}</a>
+        {{ with .GitInfo }}
+        last updated <a href="https://github.com/lkwg82/blog/commit/{{ .Hash }}" target="_source" rel="noopener">{{
+        .AbbreviatedHash }}</a> at {{ .CommitDate.Format "2006-01-02" }}
+        {{ end }}
+        <br/>
+        {{ i18n "licensed_under" }} {{ .Site.Params.license | safeHTML }}
+        {{ i18n "powered_by" }} <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a
+            href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>
+        | <a href="/index.xml" title="RSS Feed">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+             aria-hidden="true">
+            <circle cx="6.18" cy="17.82" r="2.18"/>
+            <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+        </svg>
+        RSS
+    </a>
+    </section>
 </footer>

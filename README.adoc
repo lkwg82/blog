@@ -29,3 +29,10 @@ build release
 ./run.sh prod
 ----
 
+publish (includes building and link checking)
+
+[source,bash]
+----
+./publish.sh
+----
+

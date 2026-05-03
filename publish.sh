@@ -7,6 +7,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 cd "$SCRIPT_DIR"
 
+./run.sh prod
+./check-links.sh
+
 dirty=$(git status --porcelain | grep -v '^.. public/' | grep -v '^.. resources/' || true)
 if [[ -n "$dirty" ]]; then
   echo "⚠️  Uncommitted changes outside public/ or resources/ — aborting."
@@ -22,7 +25,6 @@ if [[ -z "$changed" ]]; then
   exit 0
 fi
 
-./check-links.sh
 
 git add public/ resources/
 

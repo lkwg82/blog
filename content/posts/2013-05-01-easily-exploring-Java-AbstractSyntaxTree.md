@@ -24,6 +24,6 @@ I really appreciated this tool a while ago, when I worked on my [thesis](https:/
 
 Alternative tools are:
 
-- [AstExplorer](http://www.ibm.com/developerworks/opensource/library/os-ast/) (tightly coupled with eclipse JDT)
+- [AstExplorer](http://web.archive.org/web/20130904230821/http://www.ibm.com:80/developerworks/opensource/library/os-ast/) (tightly coupled with eclipse JDT)
 - [eclipse plugin](http://eclipseintrospc.sourceforge.net/reference/views_and_editors/dom_ast_explorer_view.html)
 

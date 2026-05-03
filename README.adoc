@@ -19,7 +19,7 @@ run dev locally
 (while running `./run.sh dev` or alone)
 [source,bash]
 ----
-./check-links
+./check-links.sh
 ----
 
 build release

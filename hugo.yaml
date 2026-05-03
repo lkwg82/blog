@@ -1,5 +1,5 @@
 baseURL: 'https://blog.lgohlke.de'
-languageCode : 'de-de'
+locale : 'en-en'
 title : 'Erwähnenswert'
 theme : 'hugo-coder'
 renderer.unsafe: true
